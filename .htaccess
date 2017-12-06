@@ -1,3 +1,4 @@
+RewriteEngine on
 <FilesMatch "\.(ttf|otf|eot|woff|woff2)$">
   <IfModule mod_headers.c>
     Header set Access-Control-Allow-Origin "*"
