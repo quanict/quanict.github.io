@@ -1,11 +1,12 @@
 .bootstrap-tagsinput {
-
-  
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   display: inline-block;
   padding: 4px 6px;
   color: #555;
   vertical-align: middle;
-  
+  border-radius: 4px;
   max-width: 100%;
   line-height: 22px;
   cursor: text;
@@ -51,9 +52,4 @@
 }
 .bootstrap-tagsinput .tag [data-role="remove"]:hover:active {
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-
-.smart-form .label {
-	display: inline-block;
-	margin-bottom: auto;
 }
