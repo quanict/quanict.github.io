@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see license.html or https://sdk.ckeditor.com/license.html.
+-->
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="Autotag Plugin">
+	<meta name="keywords" content="ckeditor, editor, wysiwyg, plugin, plugins, addon, add-on, autotag, autocomplete, sdk, custom, development, tutorial, example, sample">
+	<meta name="sdk-samples" content="Autotag plugin">
+	<title>CKEditor SDK » Samples » Autotag Plugin</title>
+	<link href="../theme/css/fonts.css" rel="stylesheet">
+	<link href="../theme/css/sdk.css" rel="stylesheet">
+	<script src="../vendor/ckeditor/4.10.0/ckeditor.js"></script>
+	<script src="assets/picoModal-2.0.1.min.js"></script>
+	<script src="assets/sample.js"></script>
+	<script src="assets/contentloaded.js"></script>
+	<script src="assets/simplesample.js"></script>
+	<script src="assets/beautify-html.js"></script>
+	<!--[if lt IE 9]>
+	<script src="assets/html5shiv.min.js"></script>
+	<![endif]-->
+	<link rel="icon" href="../theme/img/favicon.ico">
+	<style data-sample="1">
+		ul.cke_autocomplete_panel {
+			width: 300px;
+		}
+		ul.cke_autocomplete_panel > li {
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		.issue-bug::before {
+			content: "🐛 "
+		}
+		.issue-feature::before {
+			content: "⭐ "
+		}
+		.issue-task::before {
+			content: "👷 "
+		}
+	</style>
+<script>
+		if ( location.hostname == 'sdk.ckeditor.com' ) {
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+					m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-271067-15', 'auto');
+			ga('send', 'pageview');
+		}
+	</script><meta name="robots" content="noindex, nofollow"></head>
+<body>
+	<header class="sdk-header">
+		<h1 class="sdk-logo">
+			<a href="../index.html" title="CKEditor SDK - index">CKEditor SDK</a>
+		</h1>
+		<nav class="sdk-top-navigation">
+			<ul>
+				<li><a href="https://ckeditor.com/ckeditor-4/">Project Homepage</a></li>
+				<li><a href="https://github.com/ckeditor/ckeditor-sdk/issues">I found a bug in SDK</a></li>
+				<li><a href="https://github.com/ckeditor/ckeditor-dev">Fork CKEditor on GitHub</a></li>
+			</ul>
+			<ul class="right">
+				<li><a href="https://ckeditor.com/blog/">CKEditor Blog</a></li>
+			</ul>
+		</nav>
+		<nav class="sdk-main-navigation">
+			<ul>
+				<li><a class="active" href="../index.html">Samples</a></li>
+				<li><a href="https://docs.ckeditor.com/ckeditor4/docs/#!/guide">Documentation</a></li>
+				<li><a href="https://docs.ckeditor.com/ckeditor4/docs/#!/api">CKEditor API</a></li>
+			</ul>
+		</nav>
+		<div class="search-container" style="display: none;">
+			<input id="docsearch_input" type="text" name="docsearch" value="" placeholder="Search">
+		</div>
+	</header>
+	<section class="sdk-container">
+		<nav class="sdk-sidebar"><h2>End-user Features</h2><h3>User Interface</h3><ul><li class=""><a href="uicolor.html">UI Color</a></li><li class=""><a href="uilanguages.html">UI Language</a></li></ul><h3>Editor Resizing</h3><ul><li class=""><a href="size.html">Editor Size</a></li><li class=""><a href="autogrow.html">Editor Auto Grow</a></li><li class=""><a href="resize.html">Resizing Customization</a></li></ul><h3>Inserting Images</h3><ul><li class=""><a href="image.html">Default Image Plugin</a></li><li class=""><a href="image2.html">Enhanced Image Plugin</a></li><li class=""><a href="easyimage.html">Easy Image Plugin</a></li></ul><h3>Inserting Content</h3><ul><li class=""><a href="pastefromword.html">Paste from Word</a></li><li class=""><a href="pastefromexcel.html">Paste from Excel</a></li><li class=""><a href="fileupload.html">File Upload</a></li><li class=""><a href="mediaembed.html">Embedding Media Resources</a></li><li class=""><a href="table.html">Tables with Column Resizing</a></li><li class=""><a href="codesnippet.html">Code Snippets</a></li><li class=""><a href="mathjax.html">Mathematical Formulas</a></li><li class=""><a href="placeholder.html">Placeholders</a></li></ul><h3>Authoring Content</h3><ul><li class=""><a href="basicstyles.html">Basic Text Styles</a></li><li class=""><a href="copyformatting.html">Copying Text Formatting</a></li><li class=""><a href="removeformat.html">Removing Text Formatting</a></li><li class=""><a href="styles.html">Styles and Stylesheet Parser</a></li><li class=""><a href="format.html">Text Formats</a></li><li class=""><a href="colorbutton.html">Text and Background Color</a></li><li class=""><a href="language.html">Multilingual Content</a></li></ul><h3>Working with Document</h3><ul><li class=""><a href="spellchecker.html">Spell Checking</a></li><li class=""><a href="mentions.html">Mentions, Tags and Emoji</a></li><li class=""><a href="autocomplete.html">Autocomplete</a></li><li class=""><a href="sourcearea.html">Source Code Editing</a></li><li class=""><a href="magicline.html">Magic Line</a></li></ul><h3>Accessibility Support</h3><ul><li class=""><a href="accessibility.html">Accessibility and Keyboard Shortcuts</a></li><li class=""><a href="accessibilitychecker.html">Accessibility Checker</a></li><li class=""><a href="tabindex.html">&quot;Tab&quot; Key Navigation</a></li></ul><h2>Integration Features</h2><h3>Editor Types</h3><ul><li class=""><a href="classic.html">Classic Editor</a></li><li class=""><a href="inline.html">Inline Editor</a></li></ul><h3>Editor UI</h3><ul><li class=""><a href="fixedui.html">Fixed User Interface</a></li><li class=""><a href="floatingui.html">Floating User Interface</a></li><li class=""><a href="sharedspace.html">Shared User Interface</a></li></ul><h3>Editor Presets</h3><ul><li class=""><a href="basicpreset.html">Basic Preset</a></li><li class=""><a href="standardpreset.html">Standard Preset</a></li><li class=""><a href="fullpreset.html">Full Preset</a></li></ul><h3>Toolbar</h3><ul><li class=""><a href="toolbar.html">Custom Toolbar</a></li><li class=""><a href="balloontoolbar.html">Balloon Toolbar</a></li><li class=""><a href="toolbarlocation.html">Toolbar Location</a></li></ul><h3>Content Filtering</h3><ul><li class=""><a href="acf.html">ACF &ndash; Automatic Mode</a></li><li class=""><a href="acfcustom.html">ACF &ndash; Custom Mode</a></li></ul><h3>Saving Data</h3><ul><li class=""><a href="savetextarea.html">Saving Textarea Data</a></li><li class=""><a href="saveajax.html">Saving in Ajax Applications</a></li></ul><h3>Output Control</h3><ul><li class=""><a href="htmlformatting.html">HTML Output Formatting</a></li><li class=""><a href="fullpage.html">Editing Complete HTML Pages</a></li><li class=""><a href="enterkey.html">Enter Key Configuration</a></li><li class=""><a href="bbcode.html">BBCode Editing</a></li></ul><h3>API Usage</h3><ul><li class=""><a href="api.html">Using CKEditor API</a></li><li class=""><a href="readonly.html">Read-Only Mode</a></li><li class=""><a href="draganddrop.html">Drag and Drop Integration</a></li></ul><h3>Utilities</h3><ul><li class=""><a href="devtools.html">Developer Tools</a></li><li class=""><a href="uicolorpicker.html">UI Color Picker</a></li></ul><h3 class="active">Tutorials</h3><ul><li class=""><a href="timestamp.html">Timestamp Plugin</a></li><li class=""><a href="abbr.html">Abbreviation Plugin</a></li><li class=""><a href="simplebox.html">Custom Widget</a></li><li class="active"><a href="autotag.html">Autotag Plugin</a></li></ul></nav>
+		<section class="sdk-contents">
+			<h1>Autotag Plugin <small>(Creating a Custom Autocomplete Plugin)</small><a class="documentation" href="https://docs.ckeditor.com/ckeditor4/latest/guide/dev_autocomplete.html">Documentation</a></h1>
+
+			<p>
+			This sample demonstrates the <strong>Autotag</strong> plugin that was built in the
+			<a href="https://docs.ckeditor.com/ckeditor4/latest/guide/dev_autocomplete.html">Autocomplete</a> tutorial.
+			</p>
+
+			<p>
+			The custom Autotag plugin created in the tutorial provides the users with the autocompletion functionality for GitHub issues. Every time the user types the <strong>#</strong> character, available autocomplete suggestions are displayed in the dropdown and can be inserted into the content with <kbd>Enter</kbd> or <kbd>Tab</kbd> keys.
+			</p>
+
+			<textarea id="editor1" cols="10" rows="10">
+				<p>
+				Start typing, for instance "#1":
+				</p>
+			</textarea>
+
+			<div class="tip">
+				Autotag is a proof-of-concept plugin that can be
+				<a href="https://github.com/ckeditor/ckeditor-docs-samples/tree/master/tutorial-autotag">downloaded</a>
+				from the repository or created by following the <a href="https://docs.ckeditor.com/ckeditor4/latest/guide/dev_autocomplete.html">step-by-step tutorial</a>.
+			</div>
+
+			<h2>Related Features</h2>
+			<ul>
+				<li><a href="./autocomplete.html">Working with Document &ndash; Autocomplete</a></li>
+				<li><a href="./mentions.html">Working with Document &ndash; Mentions, Tags and Emoji</a></li>
+			</ul>
+
+			<script data-sample="1">
+				CKEDITOR.plugins.addExternal( 'autotag', '../../../samples/assets/ckeditor-docs-samples/tutorial-autotag/autotag/', 'plugin.js' );
+
+				CKEDITOR.replace( 'editor1', {
+					plugins: 'textmatch,toolbar,wysiwygarea,basicstyles,link,undo,autotag',
+					toolbar: [
+						{ name: 'document', items: [ 'Undo', 'Redo' ] },
+						{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline' ] },
+						{ name: 'links', items: [ 'Link', 'Unlink' ] }
+					]
+				} );
+			</script>
+
+		</section>
+	</section>
+
+	<footer class="sdk-footer">
+		<p>
+			CKEditor &ndash; The text editor for the Internet &ndash; <a class="samples" href="https://ckeditor.com/ckeditor-4/">https://ckeditor.com/ckeditor-4/</a>
+		</p>
+		<p class="right">
+			Copyright &copy; 2003-2018, <a class="samples" href="https://cksource.com/">CKSource</a> &ndash; Frederico
+			Knabben. <a href="../license.html">All rights reserved</a>.
+		</p>
+	</footer>
+</body>
+</html>
