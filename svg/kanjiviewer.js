@@ -73,9 +73,18 @@ KanjiViewer = {
                     }
                 }
             }
-
+			console.log("debug 1",path);
+			if( path.length < 1 ){
+				if( typeof kanjiSvgPath !== 'undefined' ){
+					path = kanjiSvgPath;	
+				} else {
+					path+='/svg/kanji';
+				}
+			}
+			console.log("debug 1",path);
+			
             jQuery.ajax({
-                url:path+'/svg/kanji/0' + this.kanji.charCodeAt(0).toString(16) + '.svg',
+                url:path+'/0' + this.kanji.charCodeAt(0).toString(16) + '.svg',
                 dataType:'xml',
                 success:function (results) {
                     parent.fetchNeeded = false;
