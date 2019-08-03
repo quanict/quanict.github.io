@@ -1,7 +1,5 @@
 .idea/
 */*.zip
-sites-template/
-kanji-look-learn/
-ict-article/
+kanji-look-learn
 ict-article
 sites-template
