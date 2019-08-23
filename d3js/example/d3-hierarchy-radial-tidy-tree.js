@@ -1,8 +1,8 @@
-var chart = function(data,width,radius){
+let chart = function(data){
   const root = tree(data);
-  
-  //const svg = d3.create("svg")
-  const svg = d3.select("svg")
+  console.log("debug",data);
+  const svg = d3.create("svg")
+  // const svg = d3.select("svg")
       .style("max-width", "100%")
       .style("height", "auto")
       .style("font", "10px sans-serif")
@@ -30,7 +30,7 @@ var chart = function(data,width,radius){
         rotate(${d.x * 180 / Math.PI - 90})
         translate(${d.y},0)
       `);
-  
+
   node.append("circle")
       .attr("fill", d => d.children ? "#555" : "#999")
       .attr("r", 2.5);
@@ -47,7 +47,7 @@ var chart = function(data,width,radius){
   	//yield svg.node();
 
   svg.attr("viewBox", autoBox);
-}
+};
 
 var tree = data => d3.tree()
     .size([2 * Math.PI, radius])
@@ -64,5 +64,11 @@ function autoBox() {
 //   (d3.hierarchy(data))
 var width = 932,
 	radius = width / 2;
-var data = d3.json("./flare.json");
-chart(data);
+// var data = d3.json("flare.json");
+
+var data = d3.json("https://raw.githubusercontent.com/d3/d3-hierarchy/v1.1.8/test/data/flare.json");
+console.log("call radial tidy tree",data);
+
+/*
+https://observablehq.com/@d3/radial-tidy-tree?collection=@d3/d3-hierarchy
+ */

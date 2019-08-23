@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script lang="javascript">
+        const height = 640;
+        const radius0 = Math.min(width, height) / 2 - 2;
+        const context = DOM.context2d(width, height);
+
+        while (true) {
+            const r = Date.now() / 10000 % 1 * 2 * Math.PI;
+            const k = (Math.sin(r) + 1) / 2;
+
+            const radius1 = radius0 * k;
+            const radius2 = radius0 / 5 * k;
+            const radius3 = radius0 / 5 * (1 - k);
+            const radius4 = radius0 * (1 - k);
+
+            context.save();
+            context.clearRect(0, 0, width, height);
+            context.translate(width / 2, height / 2);
+            context.rotate(r);
+
+            context.beginPath();
+            context.moveTo(radius0, 0);
+            context.arc(0, 0, radius0, 0, 2 * Math.PI);
+            context.stroke();
+
+            context.beginPath();
+            context.moveTo(0, -radius0);
+            context.arc(0, radius1 - radius0, radius1, -Math.PI / 2, Math.PI / 2);
+            context.arc(0, radius1, radius4, -Math.PI / 2, Math.PI / 2, true);
+            context.arc(0, 0, radius0, Math.PI / 2, -Math.PI / 2);
+            context.moveTo(radius2, radius1 - radius0);
+            context.arc(0, radius1 - radius0, radius2, 0, 2 * Math.PI, true);
+            context.moveTo(radius3, radius1);
+            context.arc(0, radius1, radius3, 0, 2 * Math.PI);
+            context.fill("evenodd");
+
+            context.restore();
+            // yield context.canvas;
+        }
+
+        // https://observablehq.com/@mbostock/yin-yang
+
+</script>
+</body>
+</html>
