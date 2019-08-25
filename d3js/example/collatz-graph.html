@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Collatz Graph: All Numbers Lead to One - Jason Davies</title>
+    <link rel="stylesheet" href="jasondavies-style.css">
+    <style>
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+        }
+
+        .node {
+            font: 10px sans-serif;
+        }
+
+        .link {
+            stroke: #ccc;
+            stroke-width: 1.5px;
+        }
+
+        .ui-slider {
+            font-size: 10px;
+            width: 300px;
+            margin-top: 5px;
+        }
+
+        .ui-state-focus {
+            outline: none;
+        }
+
+        #level {
+            width: 300px;
+            display: inline-block;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    </style>
+    <link rel="stylesheet" href="../media/ui-lightness/jquery-ui-1.8rc3.custom.css">
+    <script src="../v3/d3.min.js"></script>
+    <script src="../layouts/d3.layout-jasondavies.min.js"></script>
+    <script src="https://www.jasondavies.com/media/js/underscore-min.js"></script>
+    <script src="https://www.jasondavies.com/media/js/jquery.min.js"></script>
+    <script src="https://www.jasondavies.com/media/js/jquery-ui-1.8rc3.custom.min.js"></script>
+    <meta name="author" content="Jason Davies">
+</head>
+<body>
+<h1>Collatz Graph: All Numbers Lead to One</h1>
+<p>Here is a graph showing the orbits of all numbers under the Collatz map with an orbit length of 19 or less, excluding the <em>1-2-4</em> loop.
+<p><label for="level">Orbit length</label>: <span id="level"></span> <span id="level-val">1</span>
+<p><input type="button" value="Play" id="play">
+<p><input type="button" value="Stop" id="stop" style="display: none">
+<div id="vis">
+    <script>
+
+        /**
+         * https://www.jasondavies.com/collatz-graph/collatz.js
+         */
+        // Generates a graph that shows n levels of the Collatz Conjecture.
+
+        var reverseCollatz = function(r, max) {
+            function compute() {
+                var level = {1: 1},
+                    results = {},
+                    index = {};
+
+                for (var c=1; c<max; c++) {
+                    var newlevel = {};
+                    for (var x in level) {
+                        x = level[x];
+                        // There will only sometimes be an odd multiple of 3 (plus one) above us
+                        // When (x-1) mod 3 is 0, x is an even number half the time
+                        // So we check against (x-4) mod 6 because we don't want to find evens
+                        var odd = (x-4)%6 ? 0 : (x-1)/3;
+                        if (odd > 1) { // We don't want 1 (the root) or 0 (no odd found)
+                            newlevel[odd] = odd;
+                            results[odd] = x;
+                        }
+                        newlevel[x*2] = x*2; // There will always be an even number above us
+                        results[x*2] = x;
+                    }
+                    level = newlevel;
+                }
+                for (var x in results) {
+                    var v = results[x];
+                    if (!index[v]) index[v] = [x];
+                    else index[v].push(x);
+                }
+                return index;
+            }
+
+            function treeChildren(max) {
+                return function(d, i) {
+                    return i < max ? index[d] : null;
+                };
+            }
+
+            var index = compute();
+            tree = d3.layout.tree()
+                .size([360, r - 20])
+                .sort(null)
+                .value(String)
+                .separation(function(a, b) { return a.parent == b.parent ? 6.5 : 5.5; });
+
+            var oldNodes = {};
+
+            function plot(depth, duration) {
+                return function() {
+                    var vis = this,
+                        nodes = tree.children(treeChildren(depth - 1))(1);
+
+                    var link = vis.selectAll("g.link")
+                        .data(nodes, function(d) { return d.data; });
+
+                    var linkEnter = link.enter().append("g")
+                        .attr("class", "link");
+
+                    var line = link.selectAll("line").data(children);
+                    line.enter().append("line")
+                        .attr("x1", function(d) { return xs(d.oldParent); })
+                        .attr("y1", function(d) { return ys(d.oldParent); })
+                        .attr("x2", function(d) { return xs(d.child); })
+                        .attr("y2", function(d) { return ys(d.child); });
+                    line.transition()
+                        .duration(duration)
+                        .attr("x1", function(d) { return xs(d.parent); })
+                        .attr("y1", function(d) { return ys(d.parent); })
+                        .attr("x2", function(d) { return xs(d.child); })
+                        .attr("y2", function(d) { return ys(d.child); });
+                    line.exit().remove();
+                    link.exit().remove();
+
+                    var node = vis.selectAll("g.node")
+                        .data(nodes, function(d) { return d.data; });
+                    var nodeEnter = node.enter().append("g")
+                        .attr("class", "node")
+                        .attr("transform", function(d) {
+                            var p = d; //d.parent || d;
+                            return "translate(" + xs(p) + "," + ys(p) + ")";
+                        });
+                    nodeEnter.append("circle")
+                        .attr("r", 5);
+                    nodeEnter.append("text")
+                        .attr("dy", ".31em");
+                    node.exit().remove();
+
+                    node.transition()
+                        .duration(duration)
+                        .attr("transform", function(d) { return "translate(" + xs(d) + "," + ys(d) + ")"; });
+                    node.select("text")
+                        .attr("text-anchor", function(d) { return d.x <= 270 && d.x >= 90 ? "start" : "end"; })
+                        .attr("transform", function(d) {
+                            var o = oldNodes[d.data] || d;
+                            return "rotate(" + (o.x + (d.x <= 270 && d.x >= 90 ? -180 : 0)) + ")translate(" + toffset(d) + ")";
+                        })
+                        .text(function(d) { return d.data; })
+                        .transition()
+                        .duration(duration)
+                        .attr("transform", function(d) { return "rotate(" + (d.x > 270 || d.x < 90 ? d.x : d.x - 180) + ")translate(" + toffset(d) + ")"; });
+
+                    oldNodes = {};
+                    _.each(nodes, function(node) {
+                        oldNodes[node.data] = node;
+                    });
+                };
+            }
+
+            // Use instead of "dx" for FireFox.
+            function toffset(d) {
+                return d.x <= 270 && d.x >= 90 ? 8 : -8;
+            }
+
+            function getOldParent(d) {
+                var n = d;
+                while (n) {
+                    var old = oldNodes[n.data];
+                    if (old) return old;
+                    n = n.parent;
+                }
+                return d;
+            }
+
+            // Returns parent+child objects for any children of `d`.
+            function children(d, i) {
+                return (d.children || []).map(function(v) {
+                    return {
+                        oldParent: getOldParent(d),
+                        parent: d,
+                        child: v
+                    };
+                });
+            }
+
+            // Radial scales for x and y.
+            function xs(d) { return d.y * Math.cos((d.x - 90) / 180 * Math.PI); }
+            function ys(d) { return d.y * Math.sin((d.x - 90) / 180 * Math.PI); }
+
+            return plot;
+        };
+    </script>
+    <script>
+        /**
+         * https://www.jasondavies.com/collatz-graph/collatz-ui.js
+         */
+        $(function() {
+            var timer = null,
+                level = 1,
+                max = 19,
+                duration = 1000,
+                r = 720 / 2,
+                collatz = reverseCollatz(r, max);
+
+            var vis = d3.select("#vis")
+                .append("svg")
+                .attr("width", r * 2)
+                .attr("height", r * 2)
+                .append("g")
+                .attr("transform", "translate(" + r + "," + r + ")");
+
+            function plotLevel() {
+                if (level <= max) {
+                    $('#level').slider({value: level});
+                    $('#level-val').text(level);
+                    vis.call(collatz(level, duration));
+                    level++;
+                }
+            }
+
+            $('#level').slider({
+                value: level, min: 1, max: max, slide: function(e, ui) {
+                    level = ui.value;
+                    plotLevel();
+                }
+            });
+
+            $('#play').click(function() {
+                if (level > max) level = 1;
+                plotLevel();
+                if (timer) clearInterval(timer);
+                timer = setInterval(function() {
+                    if (level <= max) plotLevel();
+                    else $('#stop').click();
+                }, duration);
+                $(this).hide();
+                $('#stop').show();
+            }).click();
+
+            $('#stop').click(function() {
+                if (timer) clearInterval(timer);
+                $(this).hide();
+                $('#play').show();
+            });
+        });
+    </script>
+</div>
+
+<h2>Background</h2>
+<p>The <a href="http://en.wikipedia.org/wiki/Collatz_conjecture">Collatz conjecture</a> is as follows.
+<ol>
+    <li>Take any natural number, <em>n</em>.
+    <li>If <em>n</em> is even, divide it by <em>2</em>.
+    <li>Otherwise, <em>n</em> is odd.  Multiply it by <em>3</em> and add <em>1</em>
+    <li>Repeat indefinitely.
+</ol>
+<p>The conjecture is that you will always reach <em>1</em>, no matter what number you start with.  At this point, of course, you end up in an endless loop going from <em>1</em> to <em>4</em>, to <em>2</em> and back to <em>1</em>.
+
+<h2>Reverse Collatz</h2>
+<p>Alternatively, we can <a href="http://en.wikipedia.org/wiki/Collatz_conjecture#In_reverse">formulate</a> the conjecture such that <em>1</em> leads to all natural numbers, using an inverse relation (see the link for full details).
+<p>If we exclude the <em>1-2-4</em> loop, the inverse relation should result in a tree, if the conjecture is true.
+
+<h2>Credits</h2>
+<p>Collatz graph generation based on <a href="http://en.wikipedia.org/wiki/File:Collatz-graph-20-iterations.svg">Python code</a> by <a href="http://twitter.com/TerrorBite">@TerrorBite</a>.  Radial node-link tree layout based on an <a href="http://mbostock.github.com/d3/ex/tree.html">example</a> in <a href="http://bost.ocks.org/mike/">Mike Bostock</a>’s amazing <a href="http://mbostock.github.com/d3/">D3</a> library.
+<h2>Further Reading</h2>
+<ul>
+    <li><a href="http://en.wikipedia.org/wiki/Collatz_conjecture#In_reverse">Collatz conjecture (in reverse)</a> on Wikipedia.
+    <li><a href="http://xkcd.com/710/">xkcd #710</a>.
+    <li><a href="http://news.ycombinator.com/item?id=3071892">Hacker News discussion</a>.
+    <li><a href="http://images.math.cnrs.fr/Le-probleme-3n-1-elementaire-mais.html">Le problème 3n+1: élémentaire mais redoutable</a>, <a href="http://images.math.cnrs.fr/Le-probleme-3n-1-cycles-de.html">cycles de longueur 5</a> and <a href="http://images.math.cnrs.fr/Le-probleme-3n-1-y-a-t-il-des.html">y a-t-il des cycles non triviaux?</a> by Shalom Eliahou.
+</ul>
+</body>
+</html>
+<p class="copyright">&copy; <a href="http://www.jasondavies.com/">Jason Davies</a> 2012.

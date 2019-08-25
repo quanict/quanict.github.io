@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Word Tree</title>
+<link rel="stylesheet" href="../media/css/word-tree.css" type="text/css" />
+
+<div id="header">
+    <div class="wrapper">
+        <h1 id="logo"><a href=".">Word Tree</a></h1>
+
+        <form id="form-source">
+            <input type="text" id="source" placeholder="">
+        </form>
+
+        <form id="form">
+            <input type="text" id="keyword" placeholder="Keyword…">
+            <label for="reverse" style="font-size: small"><input id="reverse" type="checkbox"> reverse tree</label>
+            <label for="phrase-line" style="font-size: small"><input id="phrase-line" type="checkbox"> one phrase per line</label>
+        </form>
+    </div>
+</div>
+<div id="help-left">
+    Shift-click to make that word the root.
+</div>
+
+<div id="vis"></div>
+<div id="text"></div>
+<div id="heat"></div>
+
+<div class="clear"></div>
+
+<div id="help-window">
+    <div class="help-wrapper">
+        <div id="examples" class="wrapper">
+            <div class="thumb"><img src="../media/wordtree/1.thumb.png"></div>
+            <div class="thumb"><img src="../media/wordtree/2.thumb.png"></div>
+            <div class="thumb"><img src="../media/wordtree/3.thumb.png"></div>
+            <div class="thumb"><img src="../media/wordtree/4.thumb.png"></div>
+            <div class="thumb"><img src="../media/wordtree/5.thumb.png"></div>
+            <div class="thumb"><img src="../media/wordtree/6.thumb.png"></div>
+            <div class="thumb"><img src="../media/wordtree/7.thumb.png"></div>
+            <div class="thumb"><img src="../media/wordtree/8.thumb.png"></div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div class="help-wrapper grey">
+        <div class="wrapper">
+            <h2>Paste Text</h2>
+            <p><textarea id="paste"></textarea>
+            <p><button id="paste-go" class="first last">Generate WordTree!</button>
+                <label for="paste-save"><input type="checkbox" id="paste-save" checked> Shareable</label>
+                <span style="color: #999; font-style: italic">(saves your text on the server)</span>
+        </div>
+    </div>
+
+    <div class="wrapper">
+        <h2>Bookmarklet</h2>
+        <p style="margin-bottom: 1.5em">Drag this bookmarklet to your Bookmarks Bar and click to instantly turn the current page into a word tree!
+        <p><a href='javascript:location.href="http://www.jasondavies.com/wordtree/?source="+encodeURIComponent(location.href)' style="background: #f60; padding: 10px; border-radius: 8px; color: #fff">Word Tree</a>
+    </div>
+
+    <div class="help-wrapper grey credits">
+        <div class="wrapper">
+            <h2>Credits</h2>
+            <p>The <a href="http://hint.fm/projects/wordtree/">Word Tree visualisation technique</a> was invented by the incredible duo Martin Wattenberg and Fernanda Viégas in 2007.  Read <a href="http://hint.fm/papers/wordtree_final2.pdf">their paper</a> for the full details.
+            <p>Be sure to also check out various text analysis projects by <a href="http://moebio.com/">Santiago Ortiz</a>.
+            <p>Created by <a href="http://www.jasondavies.com/">Jason Davies</a>.  Thanks to <a href="http://bost.ocks.org/mike">Mike Bostock</a> for comments and suggestions.
+        </div>
+    </div>
+</div>
+
+<script src="../v3/d3.min.js"></script>
+<script src="../media/wordtree/wordtree.min.js"></script>
