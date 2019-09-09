@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello, Hanzi Writer</title>
+    <link rel="stylesheet" href="../media/css/com-observablehq.css" type="text/css"/>
+</head>
+<body>
+<div class="container">
+    <h1>Hello, Hanzi Writer</h1>
+    <p>A demo of <a href="https://chanind.github.io/hanzi-writer/">Hanzi Writer</a>. Try editing the textarea below to update the animation.</p>
+    <div class="row">
+            <input type=text value="很爽">
+            <button id="animate-button">Animate</button>
+        <div id="character-target-div"></div>
+    </div>
+</div>
+<script src=" https://cdn.jsdelivr.net/npm/hanzi-writer@2.0.4/dist/hanzi-writer.js"></script>
+
+<script>
+    /**
+     * https://chanind.github.io/hanzi-writer/docs.html
+     */
+    // async function* hanzi(characters, options = {}) {
+    //     const div = html`<div>`;
+    //     options = Object.assign({
+    //         width: 100,
+    //         height: 100,
+    //         padding: 5,
+    //         strokeAnimationSpeed: 1,
+    //         delayBetweenStrokes: 10,
+    //         delayBetweenCharacters: 500,
+    //         delayBetweenLoops: 2000
+    //     }, options);
+    //     const writers = Array.from(characters, c => HanziWriter.create(div, c, options));
+    //     while (true) {
+    //         for (const writer of writers) {
+    //             writer.hideCharacter();
+    //         }
+    //         yield div;
+    //         for (const writer of writers) {
+    //             await Promises.delay(options.delayBetweenCharacters);
+    //             let resolve;
+    //             const promise = new Promise(_ => resolve = _);
+    //             writer.animateCharacter({onComplete: resolve});
+    //             yield div;
+    //             await promise;
+    //         }
+    //         await Promises.delay(options.delayBetweenLoops);
+    //     }
+    // }
+    // hanzi();
+    var writer = HanziWriter.create('character-target-div', '激', {
+        width: 100,
+        height: 100,
+        padding: 5,
+        radicalColor: '#168F16', // green,
+        // radicalColor: '#337ab7' // blue
+        showOutline: true,
+        strokeAnimationSpeed: 5, // 5x normal speed
+        delayBetweenStrokes: 10, // milliseconds
+
+    });
+
+    document.getElementById('animate-button').addEventListener('click', function() {
+        writer.animateCharacter();
+    });
+
+
+</script>
+</body>
+</html>

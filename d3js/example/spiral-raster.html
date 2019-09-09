@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spiral Raster</title>
+</head>
+<body>
+<div class="container">
+    <h1>Spiral Raster</h1>
+    <p>
+        Ref. <a href="http://paperjs.org/examples/spiral-raster/">paperjs.org/examples/spiral-raster/</a>
+    </p>
+    <div class="row">
+        <svg></svg>
+    </div>
+</div>
+<script>
+    /**
+     * https://observablehq.com/@mbostock/spiral-raster
+     */
+    let canvas = ()=>{
+        const height = Math.min(640, width);
+        const context = DOM.context2d(width, height);
+        context.drawImage(image, 0, 0, width, image.naturalHeight / image.naturalWidth * width);
+        const data = context.getImageData(0, 0, width * devicePixelRatio, height * devicePixelRatio);
+        context.clearRect(0, 0, width, height);
+        context.beginPath();
+        context.moveTo(width / 2, height / 2);
+        for (let i = 1; i < 3e4; ++i) {
+            const angle = i / 40;
+            const radius = i / 40;
+            const x = Math.cos(angle) * radius + width / 2;
+            const y = Math.sin(angle) * radius + height / 2;
+            const [r, g, b] = sample(data, x * devicePixelRatio, y * devicePixelRatio);
+            context.lineTo(x, y);
+            context.lineWidth = 5 - (r * 0.2989 + g * 0.5870 + b * 0.1140) / 255 * 5;
+            context.stroke();
+            context.beginPath();
+            context.moveTo(x, y);
+            // if (i % 32 === 0)
+            //     yield context.canvas;
+        }
+    };
+
+    function sample(data, x, y) {
+        x = Math.floor(x);
+        y = Math.floor(y);
+        if (x < 0 || x >= data.width || y < 0 || y >= data.height) return [];
+        const i = (y * data.width + x) * 4;
+        const r = data.data[i + 0];
+        const g = data.data[i + 1];
+        const b = data.data[i + 2];
+        return [r, g, b];
+    }
+
+    let image = new Promise((resolve, reject) => {
+        const image = new Image;
+        image.crossOrigin = "anonymous";
+        image.src = "https://gist.githubusercontent.com/mbostock/9511ae067889eefa5537eedcbbf87dab/raw/944b6e5fe8dd535d6381b93d88bf4a854dac53d4/mona-lisa.jpg";
+        image.style.height = "33px";
+        image.style.display = "block";
+        image.onload = () => resolve(image);
+        image.onerror = reject;
+    })
+</script>
+</body>
+</html>

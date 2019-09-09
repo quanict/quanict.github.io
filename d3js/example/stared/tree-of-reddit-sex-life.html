@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tree of Reddit Sex Life</title>
+</head>
+<body>
+<div class="container">
+    <h1>Tree of Reddit Sex Life</h1>
+    <p>Reddit has plenty of channels dedicated to the human body and sexuality. Let's explore this diverse ecosystem!</p>
+
+    <p>I use data from nsfw_data_source_urls project - a collection of NSFW image URLs for training machine learning models. I have found that while looking for an answer to a question: Does AI have a dirty mind, too?.</p>
+
+    <p>Taxonomy is provided as it is with each subreddit being mentioned only once. This taxonomy seems to be arbitrary (thx to the HN thread I learned it is based on r/NSFW411 wiki). Compare it with other maps, such as Subreddit Map by Commenters by Jacob Silterra; in his write-up he discusses /r/NSFW (porn) and /r/GoneWild (self-posted) clusters. To explore connections between subreddits, see Related subreddits by Anvaka.</p>
+
+    <p>I base this visualization on the ImageNet hierarchy visualization by Mike Bostock, which uses d3.js hierarchy layout. ImageNet is the default dataset for image classification. It was the primary driving for development of Deep Learning algorithms for Computer Vision (AlexNet, VGG16, ResNet, Inception, etc), see State-of-the-art table for Image Classification on ImageNet.</p>
+
+    <p>While human sexuality is a delicate subject, I deeply believe it should be discussed (vide my Dating for Nerds series) rather than shunned as a taboo topic. Some discussion about ethics and implications of using such data were covered in What I learned from building an AI that generates porn by David Mack.</p>
+
+    <p>It was covered:</p>
+    <ul>
+        <li>A discussion thread on the Hacker News</li>
+        <li>This Quantum Physicist Used Machine Learning to Map Reddit’s Sexual Fetishes - Vice Motherbaord</li>
+        <li>Content warning: Explicit names of sexual practices (some are niche/fetish and one can find them distasteful or triggering). Most channels contain sexually explicit images. None of these links is an endorsement.</li>
+    </ul>
+    <p>Subreddits are clickable. Though, think twice before you do so. :)</p>
+    <div class="row" id="content-scripts">
+        <div>
+            <button id="demo-toggle" value="0">Toggle subreddits</button>
+        </div>
+        <div class="col-12"><svg></svg></div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/d3@5.11.0/dist/d3.min.js"></script>
+
+<script>
+    const width = 964;
+    const showSubreddits = document.getElementById('demo-toggle');
+
+    var chart =(data)=> {
+        const root = tree(data, showSubreddits);
+
+        let x0 = Infinity;
+        let x1 = -x0;
+        root.each(d => {
+            if (d.x > x1) x1 = d.x;
+            if (d.x < x0) x0 = d.x;
+        });
+
+        const svg = d3
+            //.select(DOM.svg(width, x1 - x0 + root.dx * 2))
+            .select('svg')
+            .style("width", "100%")
+            .style("height", x1 - x0 + root.dx * 2);
+
+        const g = svg.append("g")
+            .attr("font-family", "sans-serif")
+            .attr("transform", `translate(0,${root.dx - x0})`);
+
+        const link = g.append("g")
+            .attr("fill", "none")
+            .attr("stroke", "#ccc")
+            .attr("stroke-width", 1)
+            .selectAll("path")
+            .data(root.links().filter(d => d.source.depth))
+            .enter().append("path")
+            .attr("d", d => `
+            M${d.target.y},${d.target.x}
+            C${d.source.y + root.dy / 2},${d.target.x}
+             ${d.source.y + root.dy / 2},${d.source.x}
+             ${d.source.y},${d.source.x}
+          `);
+
+        const node = g.append("g")
+            .attr("stroke-linejoin", "round")
+            .selectAll("a")
+            .data(root.descendants().slice(1).reverse())
+            .enter().append("a")
+            .style("cursor", "pointer")
+            .attr("xlink:href", d => d.data.children.length == 0 ? `https://www.reddit.com/${d.data.name}` : "https://github.com/EBazarov/nsfw_data_source_urls")
+            .attr("target", "_blank")
+            .attr("transform", d => `translate(${d.y},${d.x})`);
+
+        node.append("circle")
+            .attr("fill", "steelblue")
+            .attr("r", d => d.children ? 5 : 2.5);
+
+        node.filter(d => d.data.name).append("text")
+            .attr("dy", "0.31em")
+            .attr("x", d => d.children ? -12 : 6)
+            .attr("text-anchor", d => d.children ? "end" : "start")
+            .attr("font-size", d => d.children ? 16 : 8)
+            .text(d => d.data.name)
+            .filter(d => d.children)
+            .clone(true).lower()
+            .attr("stroke", "white")
+            .attr("stroke-width", 3);
+
+        node.append("title")
+            .text(d => `${d.data.id}
+    ${d.data.name}`);
+        return svg.node();
+    };
+
+    var tree = (data, showSubreddits) => {
+
+        function remove_rs(node) {
+            node.children = node.children.filter((x) => x.name.slice(0, 2) !== "r/");
+            node.children.forEach(remove_rs);
+        }
+
+        if (!showSubreddits) {
+            data = JSON.parse(JSON.stringify(data));
+            remove_rs(data);
+        }
+
+        const root = d3.hierarchy(data)
+            .sort((a, b) => b.height - a.height
+                || a.data.name.localeCompare(b.data.name));
+        root.dx = 10;
+        root.dy = width / (root.height + 2);
+        return d3.cluster()
+            .nodeSize([root.dx, root.dy])
+            (root);
+    };
+
+
+    d3.json("https://gist.githubusercontent.com/stared/f7498cbc799f1308029b7ef75b362aa7/raw/a6c53bfdaf3f66dbdfacdf39fd178ec82ddfb5d9/nsfw_subreddits_tree.json").then((data)=>{
+        chart(data);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ImageNet Hierarchy</title>
+</head>
+<body>
+<div class="container">
+    <h1>ImageNet Hierarchy</h1>
+    <p>This diagram shows the hierarchical structure of the 1,000 ImageNet classes included in TensorFlow’s <a href="https://github.com/tensorflow/models/tree/master/research/slim/nets/mobilenet">MobileNetV2</a>; this is a small subset of the full ImageNet hierarchy containing only 2,155 of the 60,942 nodes. Some classes appear multiple times because of overlapping categories. For example, dog appears under both canine and domestic animal.</p>
+    <p>Click any node to browse images that correspond to the associated synset.</p>
+    <div class="row">
+        <svg height="950" width="500"></svg>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/d3@5.11.0/dist/d3.min.js"></script>
+<script>
+    width = 964;
+
+    var chart = (data)=>{
+        console.log('go here',data);
+        const root = tree(data);
+
+        let x0 = Infinity;
+        let x1 = -x0;
+        root.each(d => {
+            if (d.x > x1) x1 = d.x;
+            if (d.x < x0) x0 = d.x;
+        });
+
+        const svg = d3
+            // .select(DOM.svg(width, x1 - x0 + root.dx * 2))
+            .select('svg')
+            .style("width", "100%")
+            .style("height",  x1 - x0 + root.dx * 2);
+
+        const g = svg.append("g")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", 10)
+            .attr("transform", `translate(0,${root.dx - x0})`);
+
+        const link = g.append("g")
+            .attr("fill", "none")
+            .attr("stroke", "#555")
+            .attr("stroke-opacity", 0.4)
+            .attr("stroke-width", 1.5)
+            .selectAll("path")
+            .data(root.links().filter(d => d.source.depth))
+            .enter().append("path")
+            .attr("d", d => `
+            M${d.target.y},${d.target.x}
+            C${d.source.y + root.dy / 2},${d.target.x}
+             ${d.source.y + root.dy / 2},${d.source.x}
+             ${d.source.y},${d.source.x}
+          `);
+
+        const node = g.append("g")
+            .attr("stroke-linejoin", "round")
+            .selectAll("a")
+            .data(root.descendants().slice(1).reverse())
+            .enter().append("a")
+            .style("cursor", "pointer")
+            .attr("xlink:href", d => d.data.sift
+                ? `https://lear.inrialpes.fr/people/gordo/ImageNetResults/sift1000_accuracy/results_sift_${d.data.sift}.htm`
+                : `https://www.google.com/search?tbm=isch&q=${d.data.name}`)
+            .attr("target", "_blank")
+            .attr("transform", d => `translate(${d.y},${d.x})`);
+
+        node.append("circle")
+            .attr("fill", d => d.children ? "#555" : "#999")
+            .attr("r", 2.5);
+
+        node.filter(d => d.data.name).append("text")
+            .attr("dy", "0.31em")
+            .attr("x", d => d.children ? -6 : 6)
+            .attr("text-anchor", d => d.children ? "end" : "start")
+            .text(d => {
+                const name = d.data.name, i = name.indexOf(",");
+                return i > 0 ? name.slice(0, i) : name;
+            })
+            .filter(d => d.children)
+            .clone(true).lower()
+            .attr("stroke", "white")
+            .attr("stroke-width", 3);
+
+        node.append("title")
+            .text(d => `${d.data.id}
+    ${d.data.name}`);
+
+        return svg.node();
+    };
+
+    tree = (data) => {
+        const root = d3.hierarchy(data)
+            .sort((a, b) => b.height - a.height
+                || a.data.name.localeCompare(b.data.name));
+        root.dx = 10;
+        root.dy = width / (root.height + 2);
+        return d3.cluster()
+            .nodeSize([root.dx, root.dy])
+            (root);
+    };
+    d3.json("https://gist.githubusercontent.com/mbostock/535395e279f5b83d732ea6e36932a9eb/raw/62863328f4841fce9452bc7e2f7b5e02b40f8f3d/mobilenet.json").then((data)=>{
+        chart(data);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+body {
+    font-size: 17px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    color: #1b1e23;
+}
+
+h1 {
+    color: #333;
+    font-weight: 600;
+    line-height: 1.15;
+    margin-top: 0;
+    margin-bottom: .25em;
+}
+
+a[href] {
+    color: #3182bd;
+}
+a[href] {
+    text-decoration: none;
+}
+a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: pointer;
+    text-decoration: underline;
+}

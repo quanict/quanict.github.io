@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Swiss Clock</title>
+</head>
+<body>
+<div class="container">
+    <h1>Swiss Clock</h1>
+    <p>A Swiss railway clock in the style of Hans Hilfiker.</p>
+    <div class="row" id="content-scripts">
+
+    </div>
+</div>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script>
+    let html = '<svg width="640" height="640" viewBox="50 50 500 500" style="max-width:100%;height:auto;">\n' +
+        '            <g transform="translate(300,300)">\n' +
+        '                <circle id="face" r="225" stroke-width="20" fill="none" stroke="lightgray"/>\n' +
+        '                ${d3.range(12).map(i => `<g id="tick-major" transform="rotate(${i * 30})">\n' +
+        '                <line y1="-203" y2="-153" stroke="black" stroke-width="14" />\n' +
+        '            </g>`).join("")}\n' +
+        '                ${d3.range(60).map(i => i % 5 ? `<g id="tick-minor" transform="rotate(${i * 6})">\n' +
+        '                <line y1="-203" y2="-188" stroke="black" stroke-width="4" />\n' +
+        '            </g>` : ``).join("")}\n' +
+        '                <g id="hand-hours" transform="rotate(${(now - d3.timeDay(now)) / 864e5 * 720})">\n' +
+        '                    <path d="M-13,47h26l-3,-186h-17z" />\n' +
+        '                </g>\n' +
+        '                <g id="hand-minutes" transform="rotate(${(now - d3.timeHour(now)) / 36e5 * 360})">\n' +
+        '                    <path d="M-13,47h26l-3,-240h-17z" />\n' +
+        '                </g>\n' +
+        '                <g id="hand-seconds" transform="rotate(${(now - d3.timeMinute(now)) / 6e4 * 360})">\n' +
+        '                    <line y1="65" y2="-138" stroke="red" stroke-width="4" />\n' +
+        '                    <circle cy="-138" r="16" fill="red" />\n' +
+        '                    <circle r="7.5" fill="red" />\n' +
+        '                    <circle r="4.5" fill="none" stroke="brown" />\n' +
+        '                </g>\n' +
+        '            </g>\n' +
+        '        </svg>';
+    html.append("content-scripts")
+</script>
+</body>
+</html>
