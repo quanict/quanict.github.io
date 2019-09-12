@@ -38,9 +38,11 @@ function createTagTreeSvg(tagTree) {
         if (d.x > x1) x1 = d.x;
         if (d.x < x0) x0 = d.x;
     });
-    const svg = d3.select(DOM.svg(width, x1 - x0 + root.dx * 2))
-        .style("width", "100%")
-        .style("height", "auto");
+    const svg = d3
+        //.select(DOM.svg(width, x1 - x0 + root.dx * 2))
+        .select('svg')
+        .style("width", width)
+        .style("height", x1 - x0 + root.dx * 2);
 
     const g = svg.append("g")
         .attr("font-family", "sans-serif")
@@ -85,4 +87,11 @@ function createTagTreeSvg(tagTree) {
 
 function downloadTagTreeSvg(fileName, svg) {
     return html `${DOM.download(serialize(svg), `${fileName}.svg`, "Save SVG")}`;
+}
+
+function getRoot(tagTree) {
+    const root = d3.hierarchy(tagTree);
+    root.dx = 10;
+    root.dy = width / (root.height + 1);
+    return d3.tree().nodeSize([root.dx, root.dy])(root);
 }

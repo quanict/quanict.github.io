@@ -1,7 +1,9 @@
 //a helper function to pretty-print output of .out('topk')
-const printList = function () {
+const printList = function (list) {
     const max = 35;
-    return (list) => {
+
+    // return function(list) {
+        console.log("debug printlist",{list});
         let len = list.length;
         list = list.slice(0, max);
         let el = document.createElement("table");
@@ -17,7 +19,7 @@ const printList = function () {
             el.innerHTML += '<b>(of ' + len + ' results)<b>'
         }
         return el
-    }
+    // }
 };
 
 //a helper function to print our nested tags, from a given tag
@@ -42,8 +44,8 @@ const printTags = function () {
 };
 
 //helper function to render a document as colored terms
-function printHtml(doc){
-    let el = DOM.element()
+function printHtml(doc,el){
+    // let el = DOM.element()
     let html = doc.out('html')
     el.innerHTML = html
     //add a hover 'title'

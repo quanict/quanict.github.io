@@ -16,3 +16,45 @@ function printHtml(doc){
     }
     return el
   }
+
+  //a helper function to pretty-print output of .out('topk')
+printList = function(){ 
+  const max = 35
+  return (list) => {
+     let len=list.length
+     list=list.slice(0, max)
+     let el = document.createElement("table");
+     el.innerHTML = list.reduce((str, o)=>{
+       str += '<tr>'
+       str += `<td style="color:#46468B;">${o.normal || o.text || ''}</td>`
+       str += `<td style="color:#7A7A8B;">${o.count || ''}</td>`
+       str += `<td style="color:#B7B7D1;">${o.percent+ '%'}</td>`
+        str += '</tr>'
+       return str
+     },'')
+     if(len>list.length){
+       el.innerHTML+='<b>(of '+len+' results)<b>'
+     }
+     return el
+   } 
+}
+
+//a helper function to print our nested tags, from a given tag
+printTags = function(){ 
+  let tagset = nlp().world().tags;
+  const printTags = (tag, text) => {
+    text += '<ul>' + tag;
+    if (tagset[tag] && tagset[tag].downward) {
+      tagset[tag].downward.forEach((t) => {
+        text = printTags(t, text); //recursive
+      });
+    }
+    return text + '</ul>';
+  };
+  //return a proper html element
+ return (tag)=>{
+   let el = document.createElement("div");
+   el.innerHTML=printTags(tag, '')
+   return el
+ }
+}

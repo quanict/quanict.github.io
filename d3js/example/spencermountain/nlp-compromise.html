@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Compromise</title>
+    <link rel="stylesheet" href="../../media/css/com-observablehq.css" type="text/css"/>
+    <link rel="stylesheet" href="styles.css" type="text/css"/>
+    <script src="../../5.11.0/d3.min.js"></script>
+    <script src="../../../compromise/11.14.3/compromise.min.js"></script>
+    <script src="nlp-compromise.js"></script>
+    <script src="../../../jquery/3.2.1/js/jquery-3.2.1.min.js"></script>
+
+
+</head>
+<body>
+<div class="container">
+    <h1>Compromise</h1>
+    <resource>https://observablehq.com/@spencermountain/nlp-compromise</resource>
+    <p><a href="http://compromise.cool/">compromise</a> is a javascript library that can parse, transform, and help use text in a handy and uncomplicated way.</p>
+
+
+    <script>
+        let text = `What's with these homies, dissing my girl?
+Why do they gotta front?
+What did we ever do to these guys that made them so violent?
+Woo-hoo, but you know I'm yours.
+Woo-hoo, and I know you're mine.
+Woo-hoo, and that's for all time.
+
+Oo-ee-oo I look just like Buddy Holly.
+Oh-oh, and you're Mary Tyler Moore.
+I don't care what they say about us anyway, I don't care bout that.
+
+Don't you ever fear, I'm always near I know that you need help.
+Your tongue is twisted, your eyes are slit, you need a guardian.
+Woo-hoo, and you know I'm yours.
+Woo-hoo, and I know you're mine.
+Woo-hoo, and that's for all time.
+
+Bang, bang a knock on the door.
+Another big bang and you're down on the floor.
+Oh no! What do we do?
+Don't look now but I lost my shoe.
+I can't run and I can't kick.
+What's a matter babe are you feeling sick?
+what's a matter, what's a matter, what's a matter you?
+What's a matter babe, are you feeling blue? oh-oh!
+And that's for all time.`;
+        const doc=nlp(text);
+    </script>
+    <div class="row">
+        <h3>
+            so, this kinda stuff gets a lot easier using compromise:
+        </h3>
+        <select>
+            <option value="weezer/buddyholly">Weezer</option>
+            <option value="rap/freshPrince">Fresh Prince</option>
+            <option value="beatles/drivemycar">Beatles</option>
+            <option value="friends/episode-109">Friends Transcript</option>
+            <option value="sotu/Clinton_1996">State of the Union</option>
+        </select>
+        <h5>part of speech tags:</h5>
+        <p id="demo1"></p>
+        <script>
+            let demo1 = document.getElementById('demo1');
+            printHtml(doc,demo1);
+        </script>
+    </div>
+
+    <div>
+        <h3>Freq-list:</h3>
+        <select id="selector" >
+            <option value="nouns" selected>Nouns</option>
+            <option value="people">People</option>
+            <option value="places">Places</option>
+            <option value="organizations">Organizations</option>
+            <option value="verbs">Verbs</option>
+        </select>
+        <p id="demo2"></p>
+        <script>
+
+            let selector = jQuery("#selector"),
+                type_selected = jQuery(":selected",selector).val();
+
+            selector.change(()=>{
+                let type_selected = jQuery(":selected",selector).val();
+
+                let generate = printList(doc[type_selected]().out('topk'));
+                jQuery('#demo2').html(generate);
+            });
+            let generate = printList(doc[type_selected]().out('topk'));
+            jQuery('#demo2').html(generate);
+        </script>
+    </div>
+</div>
+
+</body>
+</html>

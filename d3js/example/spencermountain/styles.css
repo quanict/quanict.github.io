@@ -1,0 +1,30 @@
+body {
+    font-family: 'avenir next', avenir, sans-serif;
+}
+.big{
+    font-size:1.5rem;
+    color:cornflowerblue;
+}
+.small{
+    color:grey;
+    margin-top:30px;
+}
+
+.term { color:grey; cursor:pointer;}
+.nl-Person { border-bottom:2px solid #6393b9; }
+.nl-Pronoun { border-bottom:2px solid #81acce; }
+.nl-Plural { border-bottom:2px solid steelblue; }
+.nl-Singular { border-bottom:2px solid lightsteelblue; }
+.nl-Verb { border-bottom:2px solid palevioletred; }
+.nl-Adverb { border-bottom:2px solid #f39c73; }
+.nl-Adjective { border-bottom:2px solid #b3d3c6; }
+.nl-Determiner { border-bottom:2px solid #d3c0b3; }
+.nl-Preposition { border-bottom:2px solid #9794a8; }
+.nl-Conjunction { border-bottom:2px solid #c8c9cf; }
+.nl-Value { border-bottom:2px solid palegoldenrod; }
+.nl-QuestionWord { border-bottom:2px solid lavender; }
+.nl-Acronym { border-bottom:2px solid violet; }
+.nl-Possessive { border-bottom:2px solid #7990d6; }
+.nl-Noun { border-bottom:2px solid #7990d6; }
+.nl-Expression { border-bottom:2px solid #b3d3c6; }
+.nl-Negative { border-bottom:2px solid #b4adad; }

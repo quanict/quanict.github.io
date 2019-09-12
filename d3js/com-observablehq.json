@@ -26,8 +26,10 @@
     {"f":"trebor/portfolio"},
     {"f":"johnwalley/d3-tube-map","img":"c65f935aabff795caf493f5272d22861ff40b446639f1d0ebd1504e049351802.jpg"},
     {"f":"bumbeishvili/inchlib","img":"a562a27e03d59546862faa26f68f9ed065fd350b899cd5478198e4d88fedd6c4.jpg"},
-    {"f":"randomfractals/hello-nlp"},
+    {"f":"randomfractals/hello-nlp","img": "7a58c623fc55c148130efdcb1a5ea47acea2ffec969d55d0ab59b10e55dafe67.jpg"},
     {"f":"mbostock/cluster-dendrogram","img":"00de0e51a78233debc8faade2fc398dea2aa1bd880fbfcd3c6e6b8b9ed6d0295.jpg"},
     {"f":"mbostock/radial-tidy-tree","img":"4aac1eed2817e3ea65f1ea6aa9b69b9b14a3654a4c12c447383bdbf9083a0cc4.jpg"},
-    {"f":"_other/a-tree-diagram","img":"image3-7e328b88376cf45fad1d9b49ab55c33c-8cc0b.png"}
+    {"f":"_other/a-tree-diagram","img":"image3-7e328b88376cf45fad1d9b49ab55c33c-8cc0b.png"},
+    {"f": "spencermountain/nlp-compromise.html"},
+    {"f": "randomfractals/nlp-tag-tree"}
 ]
