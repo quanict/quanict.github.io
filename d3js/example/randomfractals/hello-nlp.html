@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Hello, NLP!</title>
+    <link rel="stylesheet" href="../../../bootstrap/4.1.3/css/bootstrap.css" type="text/css" />
+
     <style>
         .scrollable-container {
             max-height: 400px;
@@ -68,8 +70,12 @@
 
     <h3>NLP</h3>
     <script src="../../../compromise/11.14.3/compromise.min.js"></script>
+    <script src="../../d3-cloud/1.2.5/d3.layout.cloud.js"></script>
+    <script src="../spencermountain/nlp-compromise.js"></script>
+    <script src="hello-nlp.js"></script>
     <script>
-        const doc = nlp(lyrics),
+        const width = 800,
+            doc = nlp(lyrics),
             normalizedDoc = nlp(lyrics).normalize({
                 whitespace: true, // remove hyphens, newlines, and force one space between words
                 punctuation: true, // remove commas, semicolons - but keep sentence-ending punctuation
@@ -82,6 +88,9 @@
             terms = doc.terms().data(),
             ngrams = doc.ngrams().data(),
             contractions = doc.contractions().data();
+
+        const d3cloud  = d3.layout.cloud;
+        console.log("debug ",{d3cloud});
     </script>
 
     <h3>Lingo Parts</h3>
@@ -94,11 +103,15 @@
     <script src="nlp-tag-tree.js"></script>
     <script>
         const verbsInfo = normalizedDoc.verbs().out('topk'), // sort by frequency
+            adverbsInfo = doc.adverbs().out('topk'),
+            adverbs = doc.adverbs().data(),
             verbs = doc.verbs().out('array'),
             verbList = toShortList(printList(verbsInfo)),
             nouns = doc.nouns().out('array'),
             nounsInfo = normalizedDoc.nouns().out('topk'), // sort by frequency
-            nounList = toShortList(printList(nounsInfo))
+            nounList = toShortList(printList(nounsInfo)),
+            adjectivesInfo = doc.adjectives().out('topk') // sort by frequency
+
         ;
 
         const words = toWords(nounsInfo)
@@ -109,28 +122,12 @@
 
         wordCloud = createWordCloudSvg(words);
 
-        lingoTree = createTagTreeSvg(tagTree)
+        lingoTree = createTagTreeSvg(tagTree);
         downloadLingoTree = downloadTagTreeSvg('lingo-tree', lingoTree);
 
-        words = toWords(nounsInfo)
-            .concat(toWords(verbsInfo))
-            .concat(toWords(adverbsInfo))
-            .concat(toWords(adjectivesInfo))
-            .sort((a,b) => b.freq - a.freq);
-        doc = nlp(lyrics)
-        normalizedDoc = nlp(lyrics).normalize({
-            whitespace: true, // remove hyphens, newlines, and force one space between words
-            punctuation: true, // remove commas, semicolons - but keep sentence-ending punctuation
-            case: true, // keep only first-word, and 'entity' titlecasing
-            numbers: true, // 'one'  →  '1'
-            plurals: true, // 'eyes'  →  'eye'
-            verbs: true, // 'swtiched' → 'switch'
-        })
 
-        sentences = doc.sentences().data()
-        terms = doc.terms().data()
-        ngrams = doc.ngrams().data()
-        contractions = doc.contractions().data()
+
+
     </script>
 </div>
 

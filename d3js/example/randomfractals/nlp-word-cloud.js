@@ -1,3 +1,17 @@
+const cloudConfig = ({
+        minFontSize: 10,
+        maxFontSize: 80,
+        height: width/2,
+        padding: 1,
+    }),
+    fontFamilies = ['Corben', 'Pacifico', 'impact'],
+    cloudScale = 1
+;
+
+let rotateWord = function () {
+    return ~~(Math.random() * 4) * 45 - 45;
+}
+;
 function downloadWordCloudSvg(fileName, svg) {
     return html `${DOM.download(serialize(svg), `${fileName}.svg`, "Save SVG")}`;
 }
@@ -43,3 +57,4 @@ function toWords (terms) {
         freq: term.percent/100
     }));
 }
+

@@ -92,5 +92,5 @@ Oblivion, yeah, yeah
 `;
 
 function toShortList(list) {
-    return html `<div class="scrollable-container short-list">${list}</div>`;
+    return `<div class="scrollable-container short-list">${list}</div>`;
 }
