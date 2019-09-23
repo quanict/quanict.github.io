@@ -26,7 +26,11 @@ function createWordCloudSvg(words) {
         .fontSize(fontSize)
         .on('word', addWord);
 
-    const svg = DOM.svg(layout.size()[0], layout.size()[1]); // width, height
+    //const svg = DOM.svg(layout.size()[0], layout.size()[1]); // width, height
+    const svg =  document.getElementById('svg-chart');
+    svg.style.width = layout.size()[0];
+    svg.style.height = layout.size()[1];
+    console.warn("debug svg",{svg,words});
     const group = d3.select(svg).append('g');
     //.attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
 
@@ -58,3 +62,31 @@ function toWords (terms) {
     }));
 }
 
+const wordColors = d3.scaleSequential(d3.interpolateRainbow);
+
+const baseFont = function (d) {
+    return fontFamilies[~~(Math.random() * fontFamilies.length)]
+};
+
+const frequencyToSize = function (frequency) {
+    return Math.sqrt(frequency);
+};
+
+const fontSize = ()=>{
+    let totalArea = 0;
+let minSize = frequencyToSize(words[words.length-1].freq);
+let maxSize = frequencyToSize(words[0].freq);
+for (let w of words) {
+    let size = frequencyToSize(w.freq);
+    let fontSize = cloudConfig.minFontSize +
+        (cloudConfig.maxFontSize - cloudConfig.minFontSize) * ((size-minSize) / (maxSize-minSize));
+    totalArea += (w.text.length * 0.6 + cloudConfig.padding * 2) * fontSize * (fontSize + cloudConfig.padding * 2);
+}
+let s = Math.sqrt(width * cloudConfig.height/totalArea);
+let cloudScale = s;
+return function (w) {
+    return s * (cloudConfig.minFontSize +
+        (cloudConfig.maxFontSize - cloudConfig.minFontSize) * ((frequencyToSize(w.freq) - minSize) / (maxSize - minSize))
+    );
+}
+}
