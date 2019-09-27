@@ -7,7 +7,7 @@ const cloudConfig = ({
     fontFamilies = ['Corben', 'Pacifico', 'impact'],
     cloudScale = 1
 ;
-
+console.warn({cloudConfig});
 let rotateWord = function () {
     return ~~(Math.random() * 4) * 45 - 45;
 }
@@ -17,6 +17,7 @@ function downloadWordCloudSvg(fileName, svg) {
 }
 
 function createWordCloudSvg(words) {
+    console.log("set size",width);
     var layout = d3cloud()
         .size([width, width * 9/16])
         .words(words)
@@ -74,19 +75,20 @@ const frequencyToSize = function (frequency) {
 
 const fontSize = ()=>{
     let totalArea = 0;
-let minSize = frequencyToSize(words[words.length-1].freq);
-let maxSize = frequencyToSize(words[0].freq);
-for (let w of words) {
-    let size = frequencyToSize(w.freq);
-    let fontSize = cloudConfig.minFontSize +
-        (cloudConfig.maxFontSize - cloudConfig.minFontSize) * ((size-minSize) / (maxSize-minSize));
-    totalArea += (w.text.length * 0.6 + cloudConfig.padding * 2) * fontSize * (fontSize + cloudConfig.padding * 2);
-}
-let s = Math.sqrt(width * cloudConfig.height/totalArea);
-let cloudScale = s;
-return function (w) {
-    return s * (cloudConfig.minFontSize +
-        (cloudConfig.maxFontSize - cloudConfig.minFontSize) * ((frequencyToSize(w.freq) - minSize) / (maxSize - minSize))
-    );
-}
-}
+    let minSize = frequencyToSize(words[words.length-1].freq);
+    let maxSize = frequencyToSize(words[0].freq);
+    for (let w of words) {
+        let size = frequencyToSize(w.freq);
+        let fontSize = cloudConfig.minFontSize +
+            (cloudConfig.maxFontSize - cloudConfig.minFontSize) * ((size-minSize) / (maxSize-minSize));
+
+        totalArea += (w.text.length * 0.6 + cloudConfig.padding * 2) * fontSize * (fontSize + cloudConfig.padding * 2);
+    }
+    let s = Math.sqrt(width * cloudConfig.height/totalArea);
+    let cloudScale = s;
+    return function (w) {
+        return s * (cloudConfig.minFontSize +
+            (cloudConfig.maxFontSize - cloudConfig.minFontSize) * ((frequencyToSize(w.freq) - minSize) / (maxSize - minSize))
+        );
+    }
+};

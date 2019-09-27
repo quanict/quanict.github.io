@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../../media/css/com-observablehq.css" type="text/css"/>
     <link rel="stylesheet" href="../../../bootstrap/4.1.3/css/bootstrap.css" type="text/css" />
     <script src="../../5.11.0/d3.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Pacifico|Corben" rel="stylesheet">
 
 </head>
 <body>
@@ -179,6 +180,12 @@ Be a king? Think not, why be a king when you can be a God?
 </textarea>
         </div>
     </div>
+
+    <h2>Styles</h2>
+
+    <br />
+    <p style="font-family:Pacifico;">Pacifico</p>
+    <p style="font-family:Corben;">Corben</p>
 </div>
 <script src="../../../jquery/3.2.1/js/jquery-3.2.1.min.js"></script>
 <script src="../../../compromise/11.14.3/compromise.min.js"></script>
@@ -186,6 +193,7 @@ Be a king? Think not, why be a king when you can be a God?
 
 <script>
     const width = document.documentElement.offsetWidth;
+
     const nlp = window.nlp;
     const d3cloud  = d3.layout.cloud;
 
@@ -202,40 +210,14 @@ Be a king? Think not, why be a king when you can be a God?
 <script src="nlp-word-cloud.js"></script>
 <script>
 
-    var words = toWords(doc.nouns().out('topk')) // sort by frequency
+    const words = toWords(doc.nouns().out('topk')) // sort by frequency
         .concat(toWords(doc.verbs().out('topk')))
         .concat(toWords(doc.adverbs().out('topk')))
         .concat(toWords(doc.adjectives().out('topk')))
-        .sort((a,b) => b.freq - a.freq),
+        .sort((a,b) => b.freq - a.freq)
+    ;
+    console.log("deub",{width,doc,words});
 
-
-        wordColors = d3.scaleSequential(d3.interpolateRainbow),
-
-        baseFont = function (d) {
-            return fontFamilies[~~(Math.random() * fontFamilies.length)]
-        },
-        frequencyToSize = function (frequency) {
-            return Math.sqrt(frequency);
-        },
-
-        fontSize = function(){
-            let totalArea = 0;
-    let minSize = frequencyToSize(words[words.length-1].freq);
-    let maxSize = frequencyToSize(words[0].freq);
-    for (let w of words) {
-        let size = frequencyToSize(w.freq);
-        let fontSize = cloudConfig.minFontSize +
-            (cloudConfig.maxFontSize - cloudConfig.minFontSize) * ((size-minSize) / (maxSize-minSize));
-        totalArea += (w.text.length * 0.6 + cloudConfig.padding * 2) * fontSize * (fontSize + cloudConfig.padding * 2);
-    }
-    let s = Math.sqrt(width * cloudConfig.height/totalArea);
-    //mutable cloudScale = s;
-    return function (w) {
-        return s * (cloudConfig.minFontSize +
-            (cloudConfig.maxFontSize - cloudConfig.minFontSize) * ((frequencyToSize(w.freq) - minSize) / (maxSize - minSize))
-        );
-    }
-    }
     var wordCloud = createWordCloudSvg(words);
 </script>
 </body>
