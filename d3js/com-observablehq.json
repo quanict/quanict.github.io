@@ -27,7 +27,9 @@
     {"f":"johnwalley/d3-tube-map","img":"c65f935aabff795caf493f5272d22861ff40b446639f1d0ebd1504e049351802.jpg"},
     {"f":"bumbeishvili/inchlib","img":"a562a27e03d59546862faa26f68f9ed065fd350b899cd5478198e4d88fedd6c4.jpg"},
 
-    {"f": "randomfractals/nlp-word-cloud"},
+    {"f": "randomfractals/nlp-word-cloud",
+        "img": "9dd4d8f12df6e2630d9ce1b7aba5bfcd0e0847f9d2a47f308d6aec5d9805c25d.jpg"
+    },
     {"f":"randomfractals/hello-nlp","img": "7a58c623fc55c148130efdcb1a5ea47acea2ffec969d55d0ab59b10e55dafe67.jpg"},
 
     {"f":"mbostock/cluster-dendrogram","img":"00de0e51a78233debc8faade2fc398dea2aa1bd880fbfcd3c6e6b8b9ed6d0295.jpg"},
