@@ -1,0 +1,140 @@
+{
+ "name": "Student Accounts",
+ "size": 15,
+ "type": "black",
+ "level": "bisque",
+ "children": [
+   {
+     "name": "SALT","size": 10,"type": "black","level": "red",
+     "children": [
+       {
+         "name": "SP18: Registered/Active","size": 4,"type": "black","level": "red",
+         "children": [
+           {
+             "name": "FA18: Unregistered/Active","size": 4,"type": "black","level": "red",
+             "children": [
+               {
+                 "name": "WI19: (Week 7) NRS/Suspended","size": 4,"type": "black","level": "red",
+                 "children": [
+                   {
+                     "name": "SP19: NRS/Suspended","size": 4,"type": "black","level": "red",
+                     "children": [
+                       {
+                        "name": "FA19: Deleted","size": 4,"type": "black","level": "red",
+                         "children": [
+                           {
+                            "name": "WI20: NULL","size": 4,"type": "black","level": "red"
+                           } 
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+    "name": "AD","size": 10,"type": "black","level": "darkviolet",
+     "children": [
+       {
+         "name": "SP18: Registered/Active","size": 4,"type": "black","level": "darkviolet",
+         "children": [
+           {
+             "name": "FA18: Unregistered/Active","size": 4,"type": "black","level": "darkviolet",
+             "children": [
+               {
+                 "name": "WI19: Unregistered/Active","size": 4,"type": "black","level": "darkviolet",
+                 "children": [
+                   {
+                     "name": "SP19: Unregistered/Active","size": 4,"type": "black","level": "darkviolet",
+                     "children": [
+                       {
+                        "name": "FA19: Limbo/Disabled","size": 4,"type": "black","level": "darkviolet",
+                         "children": [
+                           {
+                            "name": "WI20: Disabled/Deleted","size": 4,"type": "black","level": "darkviolet"
+                           } 
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+  {
+    "name": "ALEN","size": 10,"type": "black","level": "deepskyblue",
+     "children": [
+       {
+         "name": "SP18: Registered/Active","size": 4,"type": "black","level": "deepskyblue",
+         "children": [
+           {
+             "name": "FA18: Unregistered/Active","size": 4,"type": "black","level": "deepskyblue",
+             "children": [
+               {
+                 "name": "WI19: Unregistered/Active","size": 4,"type": "black","level": "deepskyblue",
+                 "children": [
+                   {
+                     "name": "SP19: Unregistered/Active","size": 4,"type": "black","level": "deepskyblue",
+                     "children": [
+                       {
+                        "name": "FA19: Hold/Inactive","size": 4,"type": "black","level": "deepskyblue",
+                         "children": [
+                           {
+                            "name": "WI20: Hold/Expired","size": 4,"type": "black","level": "deepskyblue"
+                           } 
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+  {
+    "name": "TritonLink","size": 10,"type": "black","level": "limegreen",
+     "children": [
+       {
+         "name": "SP18: Registered/Active","size": 4,"type": "black","level": "limegreen",
+         "children": [
+           {
+             "name": "FA18: Unregistered/Active","size": 4,"type": "black","level": "limegreen",
+             "children": [
+               {
+                 "name": "WI19: Unregistered/Active","size": 4,"type": "black","level": "limegreen",
+                 "children": [
+                   {
+                     "name": "SP19: Unregistered/Active","size": 4,"type": "black","level": "limegreen",
+                     "children": [
+                       {
+                        "name": "FA19: Unregistered/Active","size": 4,"type": "black","level": "limegreen",
+                         "children": [
+                           {
+                            "name": "WI20: Unregistered/Active","size": 4,"type": "black","level": "limegreen"
+                           } 
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }  
+  ]
+}

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Hello, NLP!</title>
     <link rel="stylesheet" href="../../../bootstrap/4.1.3/css/bootstrap.css" type="text/css" />
+    <script src="../../../jquery/3.2.1/js/jquery-3.2.1.min.js"></script>
 
     <style>
         .scrollable-container {
@@ -56,25 +57,124 @@
     </div>
 
     <h3>Mac Miller - <a href="https://www.youtube.com/watch?v=SsKT0s5J8ko">Self Care (video)</a></h3>
+
     <div class="row">
+        <div class="col-12">
+            <svg id="svg-chart"></svg>
+        </div>
     </div>
 
 
-    <h3>Mac Miller - <a href="https://www.youtube.com/watch?v=SsKT0s5J8ko">Self Care (video)</a></h3>
-    downloadWordCloud = downloadWordCloudSvg('word-cloud', wordCloud)
+    <div class="row">
+        <h3 class="col-12">Lyrics</h3>
+        <form class="col-12">
+            <div class="form-group">
+            <textarea class="form-control" cols="25" id="lyrics">
+Yeah, yeah, yeah, yeah
+Yeah, yeah, yeah
 
-    <h3>Tagged NLP Lyrics</h3>
-    <div class="scrollable-container">
-        ${printHtml(normalizedDoc)}
+I switched the time zone, but what do I know?
+Spending nights hitchhikin', where will I go?
+I could fly home with my eyes closed
+But it be kinda hard to see, that's no surprise though
+You can find me, I ain't hiding
+I don't move my feet when I be gliding
+I just slide in and then I roll out
+
+Yeah, well, climbing over that wall
+I remember, yes, I remember, yes, I remember it all
+Swear the height be too tall so like September I fall
+Down below, now I know that the medicine be on call, yeah
+It's feeling like you hot enough to melt, yeah
+Can't trust no one, can't even trust yourself yeah
+And I love you, I don't love nobody else, yeah
+Tell them they can take that bullshit elsewhere
+Self care, I'm treatin' me right
+Hell yea, we're gonna be alright
+(We gon' be alright)
+
+I switched the time zone, but what do I know?
+Spending nights hitchhikin', where will I go?
+I could fly home with my eyes closed
+But it be kinda hard to see, that's no surprise though
+You can find me, I ain't hiding
+I don't move my feet when I be gliding
+I just slide in and then I roll out
+
+Been on the road
+I don't see it
+Out on the road
+I don't see it
+
+Yeah, I been reading them signs
+I been losin' my, I been losin' my, I been losin' my mind, yeah
+Get the fuck out the way, must be this high to play
+It must be nice up above the lights, and what a lovely life that I made
+I know that feelin' like it's in my family tree, yeah
+That Mercedes drove me crazy, I was speedin'
+Somebody save me from myself, yeah
+Tell them they can take that bullshit elsewhere
+Self care, we gonna be good
+Hell yeah, they lettin' me go
+
+I switched the time zone, but what do I know?
+Spending nights hitchhikin', where will I go?
+I could fly home with my eyes closed
+But it be kinda hard to see, that's no surprise though
+You can find me, I ain't hiding
+I don't move my feet when I be gliding
+I just slide in and then I roll out
+
+And I didn't know, I didn't know
+I didn't know, I didn't know, hey
+Well, didn't know what I was missing, now it see a lil' different
+I was thinking too much
+Got stuck in oblivion, yeah, yeah
+Oblivion, yeah, yeah
+Oblivion, yeah, yeah
+I got all the time in the world so for now, I'm just chilling
+Plus I know it's a, it's a beautiful feeling
+In oblivion, yeah, yeah
+Oblivion, yeah, yeah
+Oblivion, yeah, yeah
+Yeah, ok I ride around my city when I come home
+The sun set quickly then get up slow
+My disc connect and upload
+Watch it spin around, we just spinnin' round
+Let's go and travel through the unknown
+We play it cool we know we fucked up, yeah
+You keep on sayin' you in love, so
+Tell me are you really down?
+Are you really down? Yeah
+Let's go back to my crib and play some 45's
+It's safer there, I know there's still a war outside
+We spend our nights all liquored up, our mornings high
+Can you feel it now?
+
+Oblivion, yeah, yeah
+Oblivion, yeah, yeah, yeah, yeah, yeah, yeah, yeah, yeah
+Oblivion, yeah, yeah
+I got all the time in the world, so for now I'm just chilling
+Plus, I know it's a
+It's a beautiful feeling
+In oblivion, yeah, yeah
+Oblivion yeah, yeah
+Oblivion, yeah, yeah
+            </textarea>
+            </div>
+        </form>
     </div>
 
-    <h3>NLP</h3>
+    <script src="../../5.11.0/d3.min.js"></script>
     <script src="../../../compromise/11.14.3/compromise.min.js"></script>
     <script src="../../d3-cloud/1.2.5/d3.layout.cloud.js"></script>
+
     <script src="../spencermountain/nlp-compromise.js"></script>
-    <script src="hello-nlp.js"></script>
+
     <script>
-        const width = 800,
+        let lyrics = document.getElementById('lyrics').value;
+
+        const nlp = window.nlp,
             doc = nlp(lyrics),
             normalizedDoc = nlp(lyrics).normalize({
                 whitespace: true, // remove hyphens, newlines, and force one space between words
@@ -84,54 +184,107 @@
                 plurals: true, // 'eyes'  →  'eye'
                 verbs: true, // 'swtiched' → 'switch'
             }),
-            sentences = doc.sentences().data(),
-            terms = doc.terms().data(),
-            ngrams = doc.ngrams().data(),
-            contractions = doc.contractions().data();
 
-        const d3cloud  = d3.layout.cloud;
-        console.log("debug ",{d3cloud});
+            width = window.innerWidth;
+
+        $.fn.toShortList = function(data) {
+            this.html(data);
+            this.addClass("scrollable-container short-list");
+        };
     </script>
-
-    <h3>Lingo Parts</h3>
-
-    <h3>Boring Code Parts</h3>
-    <h5>Word Cloud</h5>
-
+    <!--<script src="hello-nlp.js"></script>-->
     <script src="nlp-word-cloud.js"></script>
     <script src="nlp-text-tags.js"></script>
     <script src="nlp-tag-tree.js"></script>
+    <!--<script src="../spencermountain/nlp-compromise.js"></script>-->
+
+    <div class="row">
+        <h3 class="col-12">Tagged NLP Lyrics</h3>
+        <div class="scrollable-container col-12" id="tagged"></div>
+        <div class="col-12" id="tag-legends"></div>
+    </div>
     <script>
-        const verbsInfo = normalizedDoc.verbs().out('topk'), // sort by frequency
-            adverbsInfo = doc.adverbs().out('topk'),
-            adverbs = doc.adverbs().data(),
-            verbs = doc.verbs().out('array'),
-            verbList = toShortList(printList(verbsInfo)),
-            nouns = doc.nouns().out('array'),
-            nounsInfo = normalizedDoc.nouns().out('topk'), // sort by frequency
-            nounList = toShortList(printList(nounsInfo)),
-            adjectivesInfo = doc.adjectives().out('topk') // sort by frequency
-
-        ;
-
-        const words = toWords(nounsInfo)
-            .concat(toWords(verbsInfo))
-            .concat(toWords(adverbsInfo))
-            .concat(toWords(adjectivesInfo))
-            .sort((a,b) => b.freq - a.freq);
-
-        wordCloud = createWordCloudSvg(words);
-
-        lingoTree = createTagTreeSvg(tagTree);
-        downloadLingoTree = downloadTagTreeSvg('lingo-tree', lingoTree);
-
-
-
-
+        printHtml(normalizedDoc,document.getElementById('tagged'));
+        $("#tag-legends").html(tagLegends);
     </script>
+    <div class="row">
+        <div class="col-12">
+            <h3>Lingo Parts</h3>
+        </div>
+        <div class="col-12">
+            <svg id="tag-tree"></svg>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12"><h3>NLP</h3></div>
+
+        <div class="col-12"><h4>Adjectives</h4></div>
+        <div class="col-12" id="adjectives" ></div>
+
+        <div class="col-12"><h4>Adverbs</h4></div>
+        <div class="col-12" id="adverbs" ></div>
+
+        <div class="col-12"><h4>Nouns</h4></div>
+        <div class="col-12" id="nouns" ></div>
+
+        <div class="col-12"><h4>Verbs</h4></div>
+        <div class="col-12" id="verbs" ></div>
+        <script>
+            // let verbs = doc.adverbs().out('array');
+            let adjectivesInfo = normalizedDoc.adjectives().out('topk'); // sort by frequency
+            $("#adjectives").toShortList(printList(adjectivesInfo));
+
+            // let verbs = doc.adverbs().out('array');
+            let adverbsInfo = normalizedDoc.adverbs().out('topk'); // sort by frequency
+            $("#adverbs").toShortList(printList(adverbsInfo));
+
+            // let verbs = doc.verbs().out('array');
+            let verbsInfo = normalizedDoc.verbs().out('topk'); // sort by frequency
+            $("#verbs").toShortList(printList(verbsInfo));
+
+            // let nouns = doc.nouns().out('array');
+            let nounsInfo = normalizedDoc.nouns().out('topk'); // sort by frequency
+            $("#nouns").toShortList(printList(nounsInfo));
+        </script>
+    </div>
+
+    <div class="row">
+        <h3 class="col-12">References</h3>
+        <ul>
+            <li><a href="https://beta.observablehq.com/@spencermountain/nlp-compromise">Compromise NLP Ingro</a></li>
+            <li><a href="https://beta.observablehq.com/@spencermountain/compromise-normalization">Compromise NLP Normalize</a></li>
+            <li><a href="https://github.com/jasondavies/d3-cloud">d3 Word Cloud Layout</a></li>
+            <li><a href="https://beta.observablehq.com/@mbostock/d3-tidy-tree">d3 Tidy Tree</a></li>
+        </ul>
+    </div>
 </div>
 
+
 <script>
+
+    let sentences = doc.sentences().data(),
+        terms = doc.terms().data(),
+        ngrams = doc.ngrams().data();
+    let tags = doc.out('tags'),
+        uniqueTags = getUniqueTags(tags),
+        tagTree = createTagTree(uniqueTags);
+
+    let words = toWords(nounsInfo)
+        .concat(toWords(verbsInfo))
+        .concat(toWords(adverbsInfo))
+        .concat(toWords(adjectivesInfo))
+        .sort((a,b) => b.freq - a.freq);
+
+    let tagTreeSvg = document.getElementById('tag-tree');
+    let lingoTree = createTagTreeSvg(tagTree,tagTreeSvg);
+
+    const d3cloud  = d3.layout.cloud;
+
+    wordCloud = createWordCloudSvg(words);
+
 </script>
+
+
 </body>
 </html>

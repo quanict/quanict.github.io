@@ -39,5 +39,9 @@
     {"f": "spencermountain/nlp-compromise.html"},
     {"f": "randomfractals/nlp-tag-tree"},
 
-    {"f": "jacksonhenry3/phylogenetic-tree"}
+    {"f": "jacksonhenry3/phylogenetic-tree"},
+
+    {"f": "tylerreaganucsd/ucsd-student-account-timeline",
+        "img": "9ec4639e1b4e84de744950fdc55af6e0974a0acc871b9e4c1209d7554ad24982.jpg"
+    }
 ]

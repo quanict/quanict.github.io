@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UCSD Student Account Timeline</title>
+    <link rel="stylesheet" href="../../media/css/com-observablehq.css" type="text/css"/>
+    <link rel="stylesheet" href="../../../bootstrap/4.1.3/css/bootstrap.css" type="text/css" />
+
+</head>
+<body>
+<div class="container">
+    <h1>UCSD Student Account Timeline</h1>
+    <resource>https://observablehq.com/@tylerreaganucsd/ucsd-student-account-timeline</resource>
+    <p>This figure represents the lifecycle of a student's account who was last registered during Spring Quarter of 2018. The figure has four separate timelines, one for each system relevant to a student's account.</p>
+
+    <style>
+
+        .node {
+            cursor: pointer;
+        }
+
+        .node circle {
+            fill: #fff;
+        }
+
+        .text
+        {
+        }
+
+        .node text {
+            font: 16px times;
+        }
+
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 1.5px;
+        }
+    </style>
+    <div class="row">
+        <div class="col-12" id="svg-chart">
+        </div>
+    </div>
+</div>
+<script src="../../../jquery/3.2.1/js/jquery-3.2.1.min.js"></script>
+<script src="../../v3/d3.min.js"></script>
+
+<script>
+    url = "StuAccTimeline.json"
+
+    data = async function() {
+        return await fetch(url).json()
+    };
+    focus = [];
+
+    chart = function(){
+
+        var margin = {top: 0, right: 0, bottom: 0, left: 0},
+        width = 3000 - margin.right - margin.left,
+        height = 800 - margin.top - margin.bottom;
+
+        var i = 0,
+            duration = 750,
+            root;
+
+        var tree = d3.layout.tree()
+            .size([height, width]);
+
+        var diagonal = d3.svg.diagonal()
+            .projection(function(d) { return [d.y, d.x]; });
+
+        const div = d3.select('#svg-chart')
+            .style('overflow-x', 'auto');
+
+        const svg2 = div.append('svg')
+            .style("width", width)
+            .style("height", height);
+
+        const g = svg2.append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+        d3.json(url, function(error, tree) {
+            if (error) throw error;
+
+            root = tree;
+            for (i=0; i<focus.length; i++) {
+                root = root['children'][focus[i] - 1]
+            }
+            root.x0 = height / 2;
+            root.y0 = 0;
+
+            function collapse(d) {
+                if (d.children) {
+                    d._children = d.children;
+                    d._children.forEach(collapse);
+                    d.children = null;
+                }
+            }
+
+            root.children.forEach(collapse);
+            update(root);
+        });
+
+        d3.select(svg2.frameElement).style("height", "800px");
+
+        function update(source) {
+
+            // Compute the new tree layout.
+            var nodes = tree.nodes(root).reverse(),
+                links = tree.links(nodes);
+
+
+
+            // Normalize for fixed-depth.
+            nodes.forEach(function(d) { d.y = d.depth * 230 + 120 ; });
+
+            // Update the nodes
+            var node = svg2.selectAll("g.node")
+                .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+            // Enter any new nodes at the parent's previous position.
+            var nodeEnter = node.enter().append("g")
+                .attr("class", "node")
+                .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+                .on("click", click)
+                .on("mouseover", function(d) {
+                    var g = d3.select(this); // The node
+                    // The class is used to remove the additional text later
+                    var info = g.append('text')
+                        .classed('info', true)
+                        .attr('x', 20)
+                        .attr('y', 10)
+                        .text(d.name);
+                })
+                .on("mouseout", function() {
+                    // Remove the info text on mouse out.
+                    d3.select(this).select('text.info').remove()
+                });
+
+            nodeEnter.append("circle")
+                .attr("r", function(d) { return d.size; })
+                .style("stroke", function(d) { return d.type; })
+                .style("fill", function(d) { return d.level; });
+
+            nodeEnter.append("text")
+                .attr("x", function(d) { return d.children || d._children ? (d.size) * -1 : d.size + 4 })
+                .attr("y", function(d) { return (d.size + 10) * -1 })
+                .attr("dy", ".35em")
+                .attr("text-anchor", "middle")
+                .style('font-weight', function(d) { if (d.monarch == true) return "bold" })
+                .text(function(d) { if (d.count > 0) var num = " (" + d.count + ")"; else num = "";
+                    if (d.name.length > 25) var name = d.name.slice(0, 25) + "..."; else var name = d.name
+                    return name + num; })
+                .attr("fill", function(d) {if (d.gender == "male") return "DarkBlue"; if (d.gender == "female") return "HotPink"} );
+
+            // Transition nodes to their new position.
+            var nodeUpdate = node.transition()
+                .duration(duration)
+                .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+
+            nodeUpdate.select("circle")
+                .attr("r", function(d) { return d.size; })
+                .style("stroke", function(d) { return d.type; })
+                .style("fill", function(d) { return d.children || d._children ? d.level : "white"; })
+
+            nodeUpdate.select("text")
+                .style("fill-opacity", 1);
+            // Transition exiting nodes to the parent's new position.
+            var nodeExit = node.exit().transition()
+                .duration(duration)
+                .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+                .remove();
+
+            nodeExit.select("circle")
+                .attr("r", 1e-6);
+
+            nodeExit.select("text")
+                .style("fill-opacity", 1e-6);
+
+
+    // Update the links…
+            var link = svg2.selectAll("path.link")
+                .data(links, function(d) { return d.target.id; });
+
+            // Enter any new links at the parent's previous position.
+            link.enter().append("path")
+                .attr("class", "link")
+                .style("stroke", function(d) { return d.target.level; })
+                .attr("d", function(d) {
+                    var o = {x: source.x0, y: source.y0};
+                    return diagonal({source: o, target: o});
+                })
+            ;
+
+            // Transition links to their new position.
+            link.transition()
+                .duration(duration)
+                .attr("d", diagonal);
+
+            // Transition exiting nodes to the parent's new position.
+            link.exit().transition()
+                .duration(duration)
+                .attr("d", function(d) {
+                    var o = {x: source.x, y: source.y};
+                    return diagonal({source: o, target: o});
+                })
+                .remove();
+            // Stash the old positions for transition.
+            nodes.forEach(function(d) {
+                d.x0 = d.x;
+                d.y0 = d.y;
+            });
+
+
+            svg2.selectAll("g.node").moveToFront();
+
+        }
+
+        // Toggle children on click.
+        function click(d) {
+            if (d.children) {
+                d._children = d.children;
+                d.children = null;
+            } else {
+                d.children = d._children;
+                d._children = null;
+            }
+            update(d);
+        }
+
+        d3.selection.prototype.moveToFront = function() {
+            return this.each(function(){
+                this.parentNode.appendChild(this);
+            });
+        };
+
+        // return div.node();
+    }
+    chart();
+</script>
+</body>
+</html>

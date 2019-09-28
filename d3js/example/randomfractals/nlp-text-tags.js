@@ -23,5 +23,11 @@ tagTypes = [
     'Determiner',
     'QuestionWord',
     'Value',
-]
-;
+];
+
+const tagLegends = ()=>{
+    return `<p class="term">
+      ${tagTypes.map(type => `<span class="nl-${type}" title="${type}">${type}</span> `)
+            .reduce((html, tag) => html + tag)}
+    </p>`
+};

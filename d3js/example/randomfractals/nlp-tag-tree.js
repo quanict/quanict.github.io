@@ -30,7 +30,7 @@ function getUniqueTags(tags) {
     return {name: 'tags', children: [...map.values()]};
 }
 
-function createTagTreeSvg(tagTree) {
+function createTagTreeSvg(tagTree,chart) {
     const root = getRoot(tagTree);
     let x0 = Infinity;
     let x1 = -x0;
@@ -38,9 +38,12 @@ function createTagTreeSvg(tagTree) {
         if (d.x > x1) x1 = d.x;
         if (d.x < x0) x0 = d.x;
     });
+    if( typeof chart === 'undefined'){
+        chart = 'svg';
+    }
     const svg = d3
         //.select(DOM.svg(width, x1 - x0 + root.dx * 2))
-        .select('svg')
+        .select(chart)
         .style("width", width)
         .style("height", x1 - x0 + root.dx * 2);
 
