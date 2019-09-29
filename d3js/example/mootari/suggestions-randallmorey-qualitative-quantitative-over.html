@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Qualitative & Quantitative Overlays</title>
+    <link rel="stylesheet" href="../../media/css/com-observablehq.css" type="text/css"/>
+    <link rel="stylesheet" href="../../../bootstrap/4.1.3/css/bootstrap.css" type="text/css" />
+    <script src="../../../jquery/3.2.1/js/jquery-3.2.1.min.js"></script>
+    <script src="../../5.11.0/d3.min.js"></script>
+    <script src="../observablehq-dom.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Qualitative & Quantitative Overlays</h1>
+    <resource>https://observablehq.com/@mootari/suggestions-randallmorey-qualitative-quantitative-over</resource>
+    <p>Hover over nodes to view notifications. Click the “show overlay” button to view quantitative data.
+
+    </p>
+    <div class="row">
+        <button id="graph-toggle">Show Overlay</button>
+
+        <div class="col-12" id="chart">
+            <svg></svg>
+        </div>
+    </div>
+</div>
+
+<style>
+    .node {
+        fill: #BBB;
+        stroke: #666;
+        stroke-width: 0.5; }
+    .node:hover {
+        fill: #59F;
+        stroke: blue;
+        stroke-width: 1; }
+    .node polygon {
+        opacity: 0.85; }
+    .notifications circle {
+        fill: #0A0;
+        stroke: #FFF;
+        stroke-width: 2.5; }
+    .notifications.danger circle {
+        fill: #C00; }
+    .notifications.warning circle {
+        fill: #DA0; }
+    .notifications > text {
+        fill: #FFF;
+        stroke: none;
+        font-weight: bold; }
+    .notifications .message {
+        fill: #000;
+        display: none; }
+    .node:hover .message {
+        display: block; }
+    .notifications .message-text {
+        stroke: none; }
+    .links {
+        stroke: #333;
+        stroke-width: 2; }
+    .bar {
+        opacity: 0.7;
+        stroke-width: 1; }
+    .bar:hover {
+        opacity: 0.9; }
+    .grid {
+        stroke: #999;
+        stroke-width: 0.25; }
+    #marker-arrow {
+        fill: #333; }
+    #marker-arrow polygon {
+        transform: skewX(30deg); }
+    text {
+        font-family: helvetica, sans-serif;
+        font-weight: 700; }
+    .shadow {
+        color: #FFF;
+        stroke: #FFF;
+        stroke-width: 10;
+        stroke-linejoin: round; }
+    .grid, .links { fill: none; }
+
+    button { font-size: 1.5em; border-radius: 0.5em; border: 1px solid green; background: green; color: white; }
+</style>
+
+<script src="../../isometryjs/isometry.js"></script>
+
+<script>
+    const isometryjs = window._randallmorey_isometryjs;
+    const draw = ()=>{
+// config
+        const width = 1200;
+        const height = 700;
+        const cellCountX = 12;
+        const cellCountY = 12;
+        const cellSize = 50;
+
+// data
+        const tree = data => {
+            const root = d3.hierarchy(data);
+            root.dx = 1;
+            root.dy = 4;
+            return d3.tree().nodeSize([root.dx + 1, root.dy])(root);
+        };
+
+// transforms
+        const isoPointTransform = (x, y, z=0) => {
+            return isometryjs.standardIsometricTransform(x * cellSize, y * cellSize, z * cellSize);
+        };
+        const flipY = (x, y, z) => {
+            return [x, cellCountY - y - 2, z];
+        };
+        const centerX = (x, y, z) => {
+            return [x + (cellCountX / 2), y, z];
+        };
+
+// functions
+        const createMarkers = (svg) => {
+            const defs = svg.append('defs');
+            defs.append('marker')
+                .attr('id', 'marker-square')
+                .attr('refX', 3)
+                .attr('refY', 3)
+                .attr('markerWidth', 6)
+                .attr('markerHeight', 6)
+                .append('rect')
+                .attr('x', 0)
+                .attr('y', 0)
+                .attr('width', 6)
+                .attr('height', 6);
+            defs.append('marker')
+                .attr('id', 'marker-arrow')
+                .attr('refX', 4)
+                .attr('refY', 4)
+                .attr('markerWidth', 10)
+                .attr('markerHeight', 10)
+                .attr('orient', 'auto')
+                .append('polygon')
+                .attr('points', '0,0 0,7 7,3');
+            return defs.selectAll('marker');
+        };
+
+        const createStage = (svg, cellSize, cellCountX, cellCountY) => {
+            const stage = svg.append('g');
+            stage.classed('stage');
+            svg
+                .attr('width', width)
+                .attr('height', height)
+                .attr('viewBox', [
+                    -cellSize * (cellCountX + 1), 0,
+                    cellSize * cellCountY * 2, cellSize * cellCountX
+                ].join(' '));
+            return stage;
+        };
+
+        const drawPolygon = (points, selection, pointTransform) => {
+            pointTransform = pointTransform || ((...c) => c);
+            return selection.append('polygon')
+                .attr(
+                    'points',
+                    (d) => {
+                        return points.map(p => {
+                            const [x, y] = pointTransform(...p);
+                            return [x, y].join();
+                        }).join(' ')
+                    }
+                );
+        };
+
+// Takes a list of points and draws a "3D" polygon for each point pair
+        const drawExtrusion = (points, selection, pointTransform, z=1) => {
+            const extrusion = selection.append('g')
+                .attr('class', 'extrusion')
+                .each((d) => {
+                    let x1, x2, y1, y2;
+                    for (let i = 1; i < points.length; i++) {
+                        x1 = points[i - 1][0];
+                        y1 = points[i - 1][1];
+                        x2 = points[i][0];
+                        y2 = points[i][1];
+                        drawPolygon([
+                            [x1,      y1,      z],
+                            [x1,      y1,      0],
+                            [x2,      y2,      0],
+                            [x2,      y2,      z],
+                        ], selection.selectAll('.extrusion'), pointTransform);
+                    }
+                });
+            return extrusion;
+        };
+
+        const drawSquare = (origin, selection, pointTransform) => {
+            const [x, y, z] = origin;
+            return drawPolygon([
+                [x,      y,      z],
+                [x + 1,  y,      z],
+                [x + 1,  y + 1,  z],
+                [x,      y + 1,  z]
+            ], selection, pointTransform);
+        };
+
+        const drawGrid = (selection, cellCountX, cellCountY, pointTransform) => {
+            const grid = selection.append('g').attr('class', 'grid');
+            for (let x = 0; x < cellCountX; x++) {
+                for (let y = 0; y < cellCountY; y++) {
+                    drawSquare([x, y], grid, pointTransform);
+                }
+            }
+            return grid;
+        };
+
+        const drawNodes = (root, selection, pointTransform) => {
+            const nodes = selection.append('g');
+            nodes.attr('class', 'nodes');
+
+            const node = nodes.selectAll("g")
+                .data(root.descendants().reverse())
+                .enter()
+                .append('g')
+                .attr('class', 'node')
+                .attr('transform', d => {
+                    const coords = [
+                        d.x,
+                        d.y
+                    ];
+                    const isoCoords = pointTransform(...centerX(...flipY(...coords)));
+                    return `translate(${isoCoords[0]},${isoCoords[1]})`;
+                })
+                .each(function (d) {
+                    const shape = d.data.shape || 'square';
+                    let z;
+                    switch (shape) {
+                        case 'pyramid':
+                            z = 2;
+                            drawSquare([0, 0, 0], d3.select(this), pointTransform);
+                            drawPolygon([
+                                [1/2, 1/2, z],
+                                [1, 0, 0],
+                                [1, 1, 0],
+                            ], d3.select(this), pointTransform);
+                            drawPolygon([
+                                [1/2, 1/2, z],
+                                [1, 1, 0],
+                                [0, 1, 0],
+                            ], d3.select(this), pointTransform);
+                            break;
+                        case 'cross':
+                            z  = 1/4;
+                            drawExtrusion([
+                                [2/3, 0, z],
+                                [2/3, 1/3, z],
+                            ], d3.select(this), pointTransform, z);
+                            drawExtrusion([
+                                [1/3, 2/3, z],
+                                [0, 2/3, z],
+                            ], d3.select(this), pointTransform, z);
+                            drawExtrusion([
+                                [2/3, 1, z],
+                                [1/3, 1, z],
+                            ], d3.select(this), pointTransform, z);
+                            drawExtrusion([
+                                [2/3, 2/3, z],
+                                [2/3, 1, z],
+                            ], d3.select(this), pointTransform, z);
+                            drawExtrusion([
+                                [1, 2/3, z],
+                                [2/3, 2/3, z],
+                            ], d3.select(this), pointTransform, z);
+                            drawExtrusion([
+                                [1, 1/3, z],
+                                [1, 2/3, z],
+                            ], d3.select(this), pointTransform, z);
+                            drawPolygon([
+                                [1/3, 0, z],
+                                [2/3, 0, z],
+                                [2/3, 1/3, z],
+                                [1, 1/3, z],
+                                [1, 2/3, z],
+                                [2/3, 2/3, z],
+                                [2/3, 1, z],
+                                [1/3, 1, z],
+                                [1/3, 2/3, z],
+                                [0, 2/3, z],
+                                [0, 1/3, z],
+                                [1/3, 1/3, z],
+                            ], d3.select(this), pointTransform);
+                            break;
+                        case 'hexagon':
+                            z = 1/3;
+                            drawPolygon([
+                                [1/4, 0, z],
+                                [3/4, 0, z],
+                                [1, 1/2, z],
+                                [3/4, 1, z],
+                                [1/4, 1, z],
+                                [0, 1/2, z],
+                            ], d3.select(this), pointTransform);
+                            drawExtrusion([
+                                [3/4, 0, z],
+                                [1, 1/2, z],
+                                [3/4, 1, z],
+                                [1/4, 1, z],
+                            ], d3.select(this), pointTransform, z);
+                            break;
+                        case 'octagon':
+                            z = 1/2;
+                            drawPolygon([
+                                [1/3, 0, z],
+                                [2/3, 0, z],
+                                [1, 1/3, z],
+                                [1, 2/3, z],
+                                [2/3, 1, z],
+                                [1/3, 1, z],
+                                [0, 2/3, z],
+                                [0, 1/3, z],
+                            ], d3.select(this), pointTransform);
+                            drawExtrusion([
+                                [1, 1/3],
+                                [1, 2/3],
+                                [2/3, 1],
+                                [1/3, 1],
+                            ], d3.select(this), pointTransform, z);
+                            break;
+                        default:
+                            drawSquare([0, 0, 1], d3.select(this), pointTransform);
+                            drawExtrusion([
+                                [1,  0],
+                                [1,  1],
+                                [0,  1]
+                            ], d3.select(this), pointTransform);
+                            break;
+                    }
+
+                });
+
+            nodes.selectAll('.node').append('g')
+            //.attr('class', 'notifications')
+                .attr('class', (d) => `notifications ${d.data.status}`)
+                .attr('transform', d => {
+                    const coords = [1, 0.5, 0.15];
+                    const isoCoords = pointTransform(...coords);
+                    return `translate(${isoCoords[0]},${isoCoords[1]})`;
+                })
+                .each(function (d) {
+                    if (d.data.notification) {
+                        d3.select(this)
+                            .append('circle')
+                            .attr('r', 12.5);
+                        d3.select(this)
+                            .append("text")
+                            .attr('dy', () => cellSize * 0.12)
+                            .attr("text-anchor", 'middle')
+                            .text('!');
+                        const message = d3.select(this)
+                            .append('g')
+                            .attr('class', 'message');
+                        message
+                            .append("text")
+                            .attr('class', 'shadow')
+                            .attr("text-anchor", 'left')
+                            .attr('dy', () => cellSize * 0.12)
+                            .attr('dx', () => cellSize * 0.35)
+                            .text((d) => d.data.notification);
+                        message
+                            .append("text")
+                            .attr('class', 'message-text')
+                            .attr("text-anchor", 'left')
+                            .attr('dy', () => cellSize * 0.12)
+                            .attr('dx', () => cellSize * 0.35)
+                            .text((d) => d.data.notification);
+                    }
+                });
+
+            return nodes;
+        };
+
+        const drawLinks = (root, selection, pointTransform) => {
+            pointTransform = pointTransform || (c => c);
+            const lines = selection
+                .append('g')
+                .attr('class', 'links')
+                .selectAll('polyline').data(root.links());
+            lines.exit().remove();
+            lines.enter().append('polyline')
+                .attr('stroke-width', 1.25)
+                .attr('stroke-linecap', 'round')
+                //.attr('marker-start', 'url(#marker-square)')
+                .attr('marker-end', 'url(#marker-arrow)')
+                .merge(lines)
+                .attr('points', d => {
+                    const halfCell = cellSize / 2;
+                    const from = [
+                        d.source.x + 1/2,
+                        d.source.y
+                    ];
+                    const to = [
+                        d.target.x + 1/2,
+                        d.target.y - 1
+                    ];
+                    const dX = Math.abs(from[0] - to[0]);
+                    const dY = Math.abs(from[1] - to[1]);
+                    const sign = (from[1] < to[1]) ? -1 : 1
+                    const [x1, y1] = pointTransform(...centerX(...flipY(...from)));
+                    const [x2, y2] = pointTransform(...centerX(...flipY(...[to[0], to[1] + sign * (dY / 2)])));
+                    const [x3, y3] = pointTransform(...centerX(...flipY(...[to[0], to[1] - 0.25])));
+                    return [
+                        [x1, y1].join(','),
+                        [x2, y2].join(','),
+                        [x3, y3].join(',')
+                    ].join(' ');
+                });
+            return selection.selectAll('polyline');
+        };
+
+        const drawLabels = (root, selection, pointTransform) => {
+            const nodes = selection.append('g');
+            nodes.attr('class', 'labels');
+
+            const node = nodes.selectAll("g")
+                .data(root.descendants().reverse())
+                .enter()
+                .append('g')
+                .attr('class', 'label')
+                .attr('transform', d => {
+                    const coords = [
+                        d.x,
+                        d.y
+                    ];
+                    const isoCoords = pointTransform(...centerX(...flipY(...coords)));
+                    return `translate(${isoCoords[0]},${isoCoords[1]})`;
+                });
+
+            node.append("text")
+                .attr('class', 'shadow')
+                .attr("text-anchor", 'middle')
+                .attr('dx', d => cellSize * -0.5)
+                .attr('dy', d => cellSize * 1.25)
+                .attr('style', d => {
+                    return 'transform: rotate(-30deg) skewX(30deg);';
+                })
+                .text(d => d.data.name);
+
+            node.append("text")
+                .attr("text-anchor", 'middle')
+                .attr('dx', d => cellSize * -0.5)
+                .attr('dy', d => cellSize * 1.25)
+                .attr('style', d => {
+                    return 'transform: rotate(-30deg) skewX(30deg);';
+                })
+                .text(d => d.data.name);
+
+            return nodes;
+        };
+
+        const drawBarGraph = (root, selection, pointTransform) => {
+            const nodes = selection.append('g');
+            nodes.attr('class', 'graph');
+            const colorInterpolator = d3.interpolate('white', 'red');
+            const heightInterpolator = d3.interpolate(0, 3);
+            const node = nodes.selectAll("g")
+                .data(root.descendants().reverse())
+                .enter()
+                .append('g')
+                .attr('class', 'bar')
+                .attr('transform', d => {
+                    const coords = [d.x, d.y];
+                    const isoCoords = pointTransform(...centerX(...flipY(...coords)));
+                    return `translate(${isoCoords[0]},${isoCoords[1]})`;
+                })
+                .attr('fill', (d) => colorInterpolator(d.value / 10))
+                .attr('stroke', (d) => d3.color(colorInterpolator(d.value / 10)).darker())
+                .each(function (d) {
+                    const z = heightInterpolator(d.value / 10);
+                    drawPolygon([
+                        [1/4, 1/4, 0],
+                        [0.75, 1/4, 0],
+                        [0.75, 0.75, 0],
+                        [1/4, 0.75, 0],
+                    ], d3.select(this), pointTransform)
+                        .attr('class', 'cap');
+                    drawPolygon([
+                        [3/4, 1/4, 0],
+                        [3/4, 1/4, 0],
+                        [3/4, 3/4, 0],
+                        [3/4, 3/4, 0],
+                    ], d3.select(this), pointTransform)
+                        .attr('class', 'face-1');
+                    drawPolygon([
+                        [1/4, 3/4, 0],
+                        [1/4, 3/4, 0],
+                        [3/4, 3/4, 0],
+                        [3/4, 3/4, 0],
+                    ], d3.select(this), pointTransform)
+                        .attr('class', 'face-2');
+
+                    d3.select(this).selectAll('.cap')
+                        .transition()
+                        .attr('points', (d) => {
+                            const points = [
+                                [1/4, 1/4, z],
+                                [0.75, 1/4, z],
+                                [0.75, 0.75, z],
+                                [1/4, 0.75, z]
+                            ];
+                            return points.map(p => {
+                                const [x, y] = pointTransform(...p);
+                                return [x, y].join();
+                            }).join(' ');
+                        })
+                        .duration(1000);
+
+                    d3.select(this).selectAll('.face-1')
+                        .transition()
+                        .attr('points', (d) => {
+                            const points = [
+                                [3/4, 1/4, z],
+                                [3/4, 1/4, 0],
+                                [3/4, 3/4, 0],
+                                [3/4, 3/4, z],
+                            ];
+                            return points.map(p => {
+                                const [x, y] = pointTransform(...p);
+                                return [x, y].join();
+                            }).join(' ');
+                        })
+                        .duration(1000);
+
+                    d3.select(this).selectAll('.face-2')
+                        .transition()
+                        .attr('points', (d) => {
+                            const points = [
+                                [1/4, 3/4, z],
+                                [1/4, 3/4, 0],
+                                [3/4, 3/4, 0],
+                                [3/4, 3/4, z],
+                            ];
+                            return points.map(p => {
+                                const [x, y] = pointTransform(...p);
+                                return [x, y].join();
+                            }).join(' ');
+                        })
+                        .duration(1000);
+                });
+
+            return nodes;
+        };
+
+        // let chart = DOM.svg(width, height);
+        // chart = $("#chart svg");
+        const svg = d3
+            //.select(DOM.svg(width, height))
+            .select('svg')
+            .style("width", "100%")
+            .style("height", "auto")
+            .style("min-height", "200px");
+        const markers = createMarkers(svg);
+        const stage = createStage(svg, cellSize, cellCountX, cellCountY);
+        const grid = drawGrid(stage, cellCountX, cellCountY, isoPointTransform);
+        const root = tree(data);
+        const links = drawLinks(root, stage, isoPointTransform);
+        const labels = drawLabels(root, stage, isoPointTransform);
+        const nodes = drawNodes(root, stage, isoPointTransform);
+
+        d3.select('#graph-toggle').on('click', () => {
+            const graph = drawBarGraph(root, stage, isoPointTransform);
+        });
+
+        // return svg.node();
+    };
+
+    const data = ({
+        name: 'Globular Cluster',
+        value: 5,
+        status: 'warning',
+        notification: 'Some nodes in this cluster may be in danger.',
+        children: [
+            {
+                name: 'Thirsk',
+                value: 7,
+                children: [
+                    {
+                        name: 'DB',
+                        shape: 'octagon',
+                        value: 9,
+                        status: 'danger',
+                        notification: 'At capacity.'
+                    },
+                    {
+                        name: 'OS X',
+                        shape: 'pyramid',
+                        value: 2
+                    }
+                ]
+            },
+            {
+                name: 'London',
+                shape: 'octagon',
+                value: 3,
+                status: 'danger',
+                notification: 'Node is unresponsive.'
+            },
+            {
+                name: 'Hereford',
+                value: 4,
+                children: [
+                    {
+                        name: 'Linux',
+                        shape: 'cross',
+                        value: 6
+                    },
+                    {
+                        name: 'Alpine',
+                        shape: 'hexagon',
+                        value: 1,
+                        notification: 'Very low usage.'
+                    }
+                ]
+            },
+            {
+                name: 'Stratford-upon-Avon',
+                value: 2
+            }
+        ]
+    });
+
+    let chart = draw();
+    // $("#chart").append(chart);
+</script>
+</body>
+</html>

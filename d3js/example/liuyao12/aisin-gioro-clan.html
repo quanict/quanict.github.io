@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aisin Gioro clan</title>
+    <link rel="stylesheet" href="../../media/css/com-observablehq.css" type="text/css"/>
+    <link rel="stylesheet" href="../../../bootstrap/4.1.3/css/bootstrap.css" type="text/css" />
+    <script src="../../../jquery/3.2.1/js/jquery-3.2.1.min.js"></script>
+    <script src="../../3.5.17/d3.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Aisin Gioro clan 愛新覺羅氏</h1>
+    <resource>https://observablehq.com/@liuyao12/aisin-gioro-clan</resource>
+    <p>
+        Horizontal collapsible tree of (a proper subset of) male-line descendants of Giocangga (d. 1582). Thanks to <a href="https://beta.observablehq.com/@martajx">@martajx</a>,
+        from whose notebook this is forked, and of course to <a href="https://beta.observablehq.com/@mbostock">@mbostock</a>, for implementing the Reingold-Tilford algorithm in D3, which is where all the magic actually happens.
+    </p>
+    <p>Ideally, I would like to be able to retrieve data from <a href="https://www.geni.com/">Geni.com</a> in real time, instead of saving and storing the data beforehand.
+
+    </p>
+    <p>You may change the root: (e.g., Root = [4,4,1] for Nurhaci)
+
+    </p>
+    <div class="row">
+        <div id="svg-chart">
+        </div>
+    </div>
+
+    <div class="row">
+        <h3 class="col-12">Steps done to create this graphic
+        </h3>
+        <h5 class="col-12">Obtaining the dataset
+        </h5>
+        <div class="col-12">
+        <p>I have been entering, in no systematic way, the names and the connections of various historical figures into Geni.com. For the sole purpose of making this visualization in Observable, I pulled the data using a script via Geni API, and put it in the format that D3 recognizes. The dataset is stored at GitHub Gist. (See this if you want to host your own dataset.)
+        </p>
+        </div>
+        <div class="col-12">
+        <h5>Creating the visualization
+        </h5>
+        <ul>
+            <li>The source graphic is the <a href="https://bl.ocks.org/mbostock/4339083">Collapsible tree by Mike Bostock</a></li>
+            <li>
+                Got some ideas of how to change the colours of the dots and the labels from <a href="http://www.d3noob.org/2014/01/tree-diagrams-in-d3js_11.html">Tree diagrams in d3.js</a></li>
+        </ul>
+        </div>
+    </div>
+</div>
+<style>
+
+    .node {
+        cursor: pointer;
+    }
+
+    .node circle {
+        fill: #fff;
+    }
+
+    .text
+    {
+    }
+
+    .node text {
+        font: 15px sans-serif;
+    }
+
+    .link {
+        fill: none;
+        stroke: #ccc;
+        stroke-width: 1.5px;
+    }
+</style>
+<script>
+    Root = [];
+    const url = "AisinGioro2.json";
+    // const data = async function f() {
+    //     return (await fetch(url)).json()
+    // };
+
+    // chart = function () {
+
+        var margin = {top: 0, right: 0, bottom: 0, left: 0},
+        width = 3800 - margin.right - margin.left,
+        height = 1000 - margin.top - margin.bottom;
+
+    var i = 0,
+        duration = 750,
+        root;
+
+    var tree = d3.layout.tree()
+        .size([height, width]);
+
+    var diagonal = d3.svg.diagonal()
+        .projection(function(d) { return [d.y, d.x]; });
+
+    const div = d3
+        // .select(DOM.element('div'))
+        .select('#svg-chart')
+        .style('overflow-x', 'auto');
+
+    const svg2 = div.append('svg')
+        .style("width", width)
+        .style("height", height);
+
+    const g = svg2.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    d3.json(url, function(error, tree) {
+        if (error) throw error;
+
+        root = tree;
+        for (i=0; i<Root.length; i++) {
+            root = root['children'][Root[i] - 1]
+        }
+        root.x0 = height / 2;
+        root.y0 = 0;
+
+        function collapse(d) {
+            if (d.children) {
+                d._children = d.children;
+                d._children.forEach(collapse);
+                d.children = null;
+            }
+        }
+
+        root.children.forEach(collapse);
+        update(root);
+    });
+
+    d3.select(svg2.frameElement).style("height", "800px");
+
+    function update(source) {
+        // Compute the new tree layout.
+        var nodes = tree.nodes(root).reverse(),
+            links = tree.links(nodes);
+
+        // Normalize for fixed-depth.
+        nodes.forEach(function(d) { d.y = d.depth * 220 + 120; });
+
+        // Update the nodes
+        var node = svg2.selectAll("g.node")
+            .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+        // Enter any new nodes at the parent's previous position.
+        var nodeEnter = node.enter().append("g")
+            .attr("class", "node")
+            .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+            .on("click", click);
+
+        nodeEnter.append("circle")
+            .attr("r", 1e-6)
+            .attr("fill", "white")
+
+        nodeEnter.append("text")
+            .attr("x", 0)
+            .attr("y", -12)
+            .attr("dy", ".35em")
+            .attr("text-anchor", "middle")
+            .text(function(d) { if (d.count == 0) return d.name; else return d.name + " (" + d.count + ")"; })
+            .attr("fill", function(d) {if (d.name.indexOf("皇帝") != -1) return "red"; if (d.name.indexOf("親王") != -1) return "green"; 				return "black"; });
+
+        // Transition nodes to their new position.
+        var nodeUpdate = node.transition()
+            .duration(duration)
+            .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+
+        nodeUpdate.select("circle")
+            .attr("r", 4)
+            .style("stroke", "grey")
+            .style("fill", function(d) { return d.children || d._children ? "grey" : "white"; })
+
+        nodeUpdate.select("text")
+            .style("fill-opacity", 1);
+        // Transition exiting nodes to the parent's new position.
+        var nodeExit = node.exit().transition()
+            .duration(duration)
+            .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+            .remove();
+
+        nodeExit.select("circle")
+            .attr("r", 1e-6);
+
+        nodeExit.select("text")
+            .style("fill-opacity", 1e-6);
+
+
+        // Update the links…
+        var link = svg2.selectAll("path.link")
+            .data(links, function(d) { return d.target.id; });
+
+        // Enter any new links at the parent's previous position.
+        link.enter().append("path")
+            .attr("class", "link")
+            .attr("d", function(d) {
+                var o = {x: source.x0, y: source.y0};
+                return diagonal({source: o, target: o});
+            });
+
+        // Transition links to their new position.
+        link.transition()
+            .duration(duration)
+            .attr("d", diagonal);
+
+        // Transition exiting nodes to the parent's new position.
+        link.exit().transition()
+            .duration(duration)
+            .attr("d", function(d) {
+                var o = {x: source.x, y: source.y};
+                return diagonal({source: o, target: o});
+            })
+            .remove();
+        // Stash the old positions for transition.
+        nodes.forEach(function(d) {
+            d.x0 = d.x;
+            d.y0 = d.y;
+        });
+
+
+        svg2.selectAll("g.node").moveToFront();
+
+    }
+
+    // Toggle children on click.
+    function click(d) {
+        if (d.children) {
+            d._children = d.children;
+            d.children = null;
+        } else {
+            d.children = d._children;
+            d._children = null;
+        }
+        update(d);
+    }
+
+    d3.selection.prototype.moveToFront = function() {
+        return this.each(function(){
+            this.parentNode.appendChild(this);
+        });
+    };
+
+    // return div.node();
+    //
+    // }
+</script>
+</body>
+</html>

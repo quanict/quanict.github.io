@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HOTPO</title>
+    <link rel="stylesheet" href="../../media/css/com-observablehq.css" type="text/css"/>
+    <link rel="stylesheet" href="../../../bootstrap/4.1.3/css/bootstrap.css" type="text/css" />
+    <script src="../../../jquery/3.2.1/js/jquery-3.2.1.min.js"></script>
+    <script src="../../5.11.0/d3.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>HOTPO</h1>
+    <resource>https://observablehq.com/@spenceryue/hotpo</resource>
+    <p></p>
+    <div class="row">
+        <div class="col-12">
+            <input name="base" type="range" min="0.0014419741739063218" max="7" step="0.0013997116051652186" value="4.00041803013093">
+        </div>
+        <div class="col-12">
+            <svg id="chart"></svg>
+        </div>
+    </div>
+</div>
+<script>
+    const base = $("input[name=base]").val();
+    class Node {
+        constructor(name, ...children) {
+            this.v = (+name || 0);
+            this._2 = this.v.toString(2);
+            // this._2clip = clipTailPattern(this._2);
+            this._3 = this.v.toString(3);
+            this._4 = this.v.toString(4);
+            // this._3clip = parseInt(this._2clip, 2).toString(3);
+            // this.i = (this._2.length - this._2clip.length)/2;
+            this.ring = this._2.length
+            this.phase_2 = (Math.log2(this.v) - Math.floor(Math.log2(this.v))) * 2 * Math.PI;
+            this.phase_3 = (Math.log(this.v)/LN3 - Math.floor(Math.log(this.v)/LN3)) * 2 * Math.PI;
+            this.phase_12 = (Math.log(this.v)/LN12 - Math.floor(Math.log(this.v)/LN12)) * 2 * Math.PI;
+            this.discretePhase = ((this.v % 2**(this.ring-1)) / 2**(this.ring-1)) * 2 * Math.PI;
+            this.phase = (Math.log(this.v)/Math.log(base) - Math.floor(Math.log(this.v)/Math.log(base))) * 2 * Math.PI
+            // this.name = `${this.v}/${(this._2.length - clipTailPattern(this._2).length)/2}/${clipTailPattern(this._2)}`;
+            this.name = `${this.v}`;
+            // this.name = this.phase.toFixed(1);
+            this.children = children;
+            this._depth = 0;
+        }
+
+        addChild(n) {
+            n.depth = this._depth+1;
+            this.children.push(n);
+            return this;
+        }
+
+        get depth() {return this._depth}
+
+        set depth(d) {this._depth = d; this.children.forEach(n => n.depth = d + 1);}
+
+        descend(leftDepth=1, rightDepth=leftDepth) {
+            if (this.children.length)
+            {
+                if (this.children[0].isLeftChildOf(this))
+                {
+                    this.children[0].descend(leftDepth, rightDepth);
+                }
+                else if (leftDepth)
+                {
+                    const left = new Node(this.v * 4 + 1);
+                    left.depth = this._depth+1;
+                    this.children.unshift(left);
+                    left.descend(leftDepth-1, rightDepth);
+                }
+
+                if (this.children[0].isRightChildOf(this))
+                {
+                    this.children[0].descend(leftDepth, rightDepth);
+                }
+                else if (this.children[1])
+                {
+                    this.children[1].descend(leftDepth, rightDepth);
+                }
+                else if (rightDepth && this.v % 3 !== 0 && this.v !== 1)
+                {
+                    const right = this.nextRightChild();
+                    this.addChild(right);
+                    right.descend(leftDepth, rightDepth-1);
+                }
+
+                return this;
+            }
+
+            if (leftDepth)
+            {
+                const left = new Node(this.v * 4 + 1);
+                this.addChild(left);
+                left.descend(leftDepth-1, rightDepth);
+            }
+
+            if (rightDepth && this.v % 3 !== 0 && this.v !== 1)
+            {
+                const right = this.nextRightChild();
+                this.addChild(right);
+                right.descend(leftDepth, rightDepth-1);
+            }
+
+            return this;
+        }
+
+        nextRightChild() {
+            return new Node(this.v % 3 == 1 ? (this.v * 4 - 1)/3 : (this.v * 2 - 1)/3);
+        }
+
+        stripEvens(v) {
+            return v % 2 !== 0 ? v : this.stripEvens(v/2);
+        }
+
+        parent() {
+            return new Node(this.stripEvens(this.v * 3 + 1));
+        }
+
+        getRightChain() {
+            return this.v%3 !== 0 ? [this, ...this.nextRightChild().getRightChain()] : [this];
+        }
+
+        getHomeChain() {
+            return this.v !== 1 ? [...this.parent().getHomeChain(), this] : [this];
+        }
+
+        getHomeEvens() {
+            return this.v !== 1 ? this.v % 2 === 0 ? [...new Node(this.v/2).getHomeEvens(), this] : [...new Node(this.v * 3 + 1).getHomeEvens(), this] : [this];
+        }
+
+        max() {
+            return Math.max(this.v, ...this.children.map(n=>n.max()))
+        }
+
+        length() {
+            return 1 + this.children.reduce((a,x)=>a+x.length(),0)
+        }
+
+        isLeftChildOf(parent) {
+            return parent.v * 4 + 1 === this.v;
+        }
+
+        isRightChildOf(parent) {
+            return parent.nextRightChild().v === this.v;
+        }
+    }
+    const LN3 = Math.log(3),
+        LN12 = LN3 + 2 * Math.LN2;
+
+    const dataDefine = function(){
+        const root = new Node(1).descend(5,21); // length: 198
+        // root.descend(1,11); // length: 597
+        // root.descend(4,1)
+        // root.descend(1,13); // length: 1783
+        return root;
+    };
+  const  data= dataDefine(),
+        length = data.length(), // nodes explored in hotpo graph
+        width = 600, // viewbox, not pixels
+        opts = ({
+            min:Math.log2(1.001),
+            max:Math.log2(128), value: Math.log2(2),
+            get step() {
+                return (this.max - this.min)/5000
+            },
+            getValue: input => 2**(input.valueAsNumber)
+        })
+    ;
+
+    const clipTailPattern = ()=>{
+        const clip = (str, end=str.length) => str.slice(end-3, end) === '101' ? clip(str, end-2) : str.slice(0, end);
+        return clip
+    };
+
+
+    const radius = width / 2;
+    const tree = d3.cluster().size([2 * Math.PI, radius - 100]);
+    // const width = window.innerWidth;
+
+    const chart = ()=>{
+        const root = tree(d3.hierarchy(data)
+            .sort((a, b) => (a.height - b.height) || a.data.name.localeCompare(b.data.name)));
+
+        const svg = d3
+            //.select(DOM.svg(width, width))
+            .select('svg#chart')
+            .style("width", "100%")
+            .style("height", "550px")
+            .style("padding", "10px")
+            .style("box-sizing", "border-box")
+            .style("font", "10px sans-serif")
+            .style('border', '1px solid black')
+            .style('position', 'relative')
+            .style('left', '50%')
+            .style('transform', 'translateX(-50%)')
+
+        const g = svg.append("g");
+
+        const maxRing = Math.log(data.max())/Math.log(base);
+        const length = data.length();
+
+        const scaleDown = 1;
+        const radius = v => (Math.log(v)/Math.log(base) / (maxRing*scaleDown)) * width/2
+        window.r = radius;
+        const straightLine = d3.lineRadial()
+            .curve(d3.curveCardinal.tension(1))
+            // .curve(d3.curveBundle.beta(.85))
+            .angle(d => d.data.phase)
+            .radius(d => radius(d.data.v));
+        window.s = straightLine;
+        const bundleLine = d3.lineRadial()
+        // .curve(d3.curveCardinal.tension(1))
+            .curve(d3.curveBundle.beta(.85))
+            .angle(d => d.data.phase)
+            .radius(d => radius(d.data.v));
+
+        const outlineBase = base;
+        const outlinePoints = (scale=1) =>
+            [...Array(3*length)]
+                .map((_,i,a,f=(i/(a.length-1)),n=f*maxRing) =>
+                    [(n - Math.floor(n))*2*Math.PI, radius(outlineBase**n)*scale])
+
+        const outline = g.append('path')
+            .attr('d', d3.lineRadial()
+                .curve(d3.curveCatmullRom.alpha(.5))(outlinePoints()))
+            .attr('fill','none')
+            .attr('stroke','#2226')
+
+        // http://bl.ocks.org/d3noob/5141278
+        svg.append("svg:defs").selectAll("marker")
+            .data(['blueStart', 'redStart'])      // Different link/path types can be defined here
+            .enter().append("svg:marker")    // This section adds in the arrows
+            .attr("id", String)
+            .attr("viewBox", "0 -5 10 10")
+            .attr("refX", -4.5)
+            .attr("markerWidth", 6)
+            .attr("markerHeight", 6)
+            .attr("orient", "auto")
+            .append("svg:path")
+            .attr("d", "M0,-5L10,0L0,5L5,0")
+            .attr('transform', 'translate(5,0) rotate(180) translate(-5,0)')
+            .attr('fill', d=>d.replace('Start',''))
+            .attr('opacity', .25);
+
+        svg.append("svg:defs").selectAll("marker")
+            .data(['blueEnd', 'redEnd'])      // Different link/path types can be defined here
+            .enter().append("svg:marker")    // This section adds in the arrows
+            .attr("id", String)
+            .attr("viewBox", "0 -5 10 10")
+            .attr("refX", 13.5)
+            .attr("markerWidth", 6)
+            .attr("markerHeight", 6)
+            .attr("orient", "auto" )
+            .append("svg:path")
+            .attr("d", "M0,-5L10,0L0,5L5,0")
+            .attr('fill', d=>d.replace('End',''))
+            .attr('opacity', .25);
+
+        const linkPhase = (s,t) => Math.atan2(radius(t.data.v) * Math.sin(t.data.phase) - radius(s.data.v) * Math.sin(s.data.phase), radius(t.data.v) * Math.cos(t.data.phase) - radius(s.data.v) * Math.cos(s.data.phase)) / (2*Math.PI)
+        window.l = linkPhase
+        window.Node = Node
+
+        // const colorPicker = d3.interpolateHslLong('red', 'purple');
+        // const colorPicker = d3.interpolateSpectral;
+        // const colorPicker = d3.interpolateViridis;
+        // const colorPicker = d3.interpolateWarm;
+        // const colorPicker = d3.interpolatePlasma;
+        // const colorPicker = d3.interpolateRainbow;
+        const colorPicker = d3.interpolateSinebow;
+
+        const link = g.append("g")
+            .attr("fill", "none")
+            .attr("stroke", "#555")
+            .attr("stroke-opacity", 0.4)
+            .attr("stroke-width", 1.5)
+            .selectAll("path")
+            .data(root.links())
+            .enter().append("path")
+            .attr("d", ({source:s, target:t}) => t.data.isLeftChildOf(s.data)||true ? straightLine([s,t]) : bundleLine([s, root, t]))
+            .attr('stroke', ({source:s, target:t}) => t.data.isLeftChildOf(s.data) ? '#0006' : colorPicker(s.data.phase/(2*Math.PI)))
+            // .attr('stroke', ({source:s, target:t}) => t.data.isLeftChildOf(s.data) ? 'black' : colorPicker(linkPhase(s,t)))
+            .attr("stroke-opacity", ({source:s, target:t}) => t.data.isLeftChildOf(s.data) ? 0.8 : 0.4)
+            .attr('marker-end', ({source:s, target:t}) => t.data.isLeftChildOf(s.data) ? 'url(#blueEnd)' : 'url(#redEnd)')
+        // .attr('marker-start', ({source:s, target:t}) => t.data.isLeftChildOf(s.data) ? 'url(#blueStart)' : 'url(#redStart)')
+
+        const node = g.append("g")
+            .attr("stroke-linejoin", "round")
+            .attr("stroke-width", 3)
+            .selectAll("g")
+            .data(root.descendants().reverse())
+            .enter().append("g")
+            .attr("transform", d => `
+    rotate(${d.data.phase * 180 / Math.PI - 90})
+    translate(${radius(d.data.v)},0)
+    `);
+
+        node.append("circle")
+            .attr("fill", d => d.data.v % 3 === 0 ? '#f006' : '#00b6')
+            .attr("r", 2.5);
+
+        // node.append("text")
+        // .attr("dy", "0.31em")
+        // .attr("x", d => d.x < Math.PI === !d.children ? 6 : -6)
+        // .attr("text-anchor", d => d.x < Math.PI === !d.children ? "start" : "end")
+        // .attr("transform", d => `rotate(${- d.data.phase * 180 / Math.PI + 90})`)
+        // .text(d => d.data.name)
+        // .clone(true).lower()
+        // .attr("stroke", "#fff")
+        // .attr("stroke-width", 1.5);
+
+        const label = node.selectAll('text');
+
+        document.body.appendChild(svg.node());
+
+        const zoom = d3.zoom().on('zoom', (t=d3.event.transform)=>{
+            g.attr('transform',`translate(${t.x} ${t.y})`);
+            straightLine.radius(d => radius(d.data.v) * t.k);
+            bundleLine.radius(d => radius(d.data.v) * t.k);
+            link.attr("d", ({source:s, target:t}) => t.data.isLeftChildOf(s.data)||true ? straightLine([s,t]) : bundleLine([s, root, t]));
+            outline.attr('d', d3.lineRadial().curve(d3.curveCatmullRom.alpha(.5))(outlinePoints(t.k)))
+            node.attr("transform", d => `
+    rotate(${d.data.phase * 180 / Math.PI - 90})
+    translate(${radius(d.data.v) * t.k},0)
+    `);
+            // label.attr("transform", d => `rotate(${- d.data.phase * 180 / Math.PI + 90})`).attr('dy', `${.31 /t.k}em`)
+        });
+
+
+        const coordsFor = (r, a) => [r * Math.cos(a), r * Math.sin(a)];
+        window.c = coordsFor
+        const dist = (a,b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
+
+        const closest = 0;
+        const highlight = (p) => {
+            const T = d3.zoomTransform(svg.node());
+            const tp = T.invert(p);
+            const R = Math.hypot(...tp);
+            const tpn = tp.map(x=>x/R);
+
+            link.attr("stroke-opacity", ({source:s, target:t}) => t.data.isLeftChildOf(s.data) ? 0.8 : Math.min(1,1.5**(-dist(coordsFor(1,s.data.phase-Math.PI/2),tp.map(x=>x/R))/(.5 * Math.max(0,(1 - R / (width/2)))))))
+    //     link.attr("stroke-opacity", ({source:s, target:t}) => {
+    //       if (t.data.isLeftChildOf(s.data)) return 0.8;
+    //       const d = dist(coordsFor(1,s.data.phase-Math.PI/2),tpn);
+    //       const dd = dist(coordsFor(radius(s.data.v)*T.k, s.data.phase-Math.PI/2),tpn);
+
+    //       return Math.min(1, 1.5**(-d/(.5 * Math.max(0, dd / (width/2*T.k)))));
+    //     })
+        }
+
+        const resetHighlight = () => link.attr("stroke-opacity", ({source:s, target:t}) => t.data.isLeftChildOf(s.data) ? 0.8 : 0.4);
+
+        let paused = false;
+        const highlighting = () => {
+            if (paused) return;
+            const T = 5000;
+            const t = Date.now() % T;
+            const Z = d3.zoomTransform(svg.node())
+            const p = coordsFor(width/2*.9 * Z.k, t/T * 2 * Math.PI)
+            // console.log(p)
+            highlight(p);
+        }
+
+        svg.call(zoom)
+            .on('mouseenter', ()=>paused=true)
+            .on('mousemove', ()=>highlight(d3.mouse(svg.node())))
+            .on('mouseleave', ()=>{paused=false;resetHighlight();})
+            .on('dblclick.zoom', () => svg.transition()
+                .duration(500)
+                .call(zoom.transform, d3.zoomIdentity)
+            );
+
+        const box = g.node().getBBox();
+
+        svg
+            // .remove()
+            .attr("width", box.width)
+            .attr("height", box.height)
+            .attr("viewBox", `${box.x} ${box.y} ${box.width} ${box.height}`);
+
+        // while (true) {
+            highlighting();
+            // yield Promises.tick(1000/20, svg.node());
+            // Promises.tick(1000/20, svg.node());
+        // }
+    }
+
+    chart();
+
+</script>
+</body>
+</html>

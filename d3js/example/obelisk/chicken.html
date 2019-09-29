@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../media/css/com-observablehq.css" type="text/css"/>
+    <link rel="stylesheet" href="../../../bootstrap/4.1.3/css/bootstrap.css" type="text/css" />
+    <script src="../../../jquery/3.2.1/js/jquery-3.2.1.min.js"></script>
+    <script src="../../5.11.0/d3.min.js"></script>
+    <script src="../../../obelisk.js/build/obelisk.min.js"></script>
+
+    <style>
+        body{
+            /*background-color: #111;*/
+        }
+        canvas {
+            background-color: #222;
+            /*position: absolute;*/
+            /*top: 46%;*/
+            /*left: 50%;*/
+            /*transform: translate(-50%, -50%);*/
+            width: 400px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1></h1>
+    <resource></resource>
+    <p></p>
+    <style>
+        #canvas08 {
+            background-color: #75b7ff;
+        }
+    </style>
+    <div class="row">
+        <h3>Step 8: Make something pretty</h3>
+        <div class="col-12">
+            <canvas id="canvas08" width="400" height="400"></canvas>
+        </div>
+        <script>
+            // Not any chicken, no sir, we only render the finest digital chickens here
+            // in this case the famous crossy road chicken, what a beut.
+
+            // Canvas & Scene Init:
+            var canvas = document.getElementById("canvas08");
+            var point = new obelisk.Point(210, 180);
+            var pixelView = new obelisk.PixelView(canvas, point);
+
+            // COLORS:
+            // Use this for picking Hex colors or google hex colors
+            // https://www.colorcodehex.com/html-color-picker.html
+
+            var bodyColor = new obelisk.CubeColor().getByHorizontalColor(0xFFFFFF);
+            var fleshyColor = new obelisk.CubeColor().getByHorizontalColor(0xfc5d9a);
+            var beakFootColor = new obelisk.CubeColor().getByHorizontalColor(0xed8734);
+            var eyeColor = new obelisk.SideColor(0x313638,0x313638);
+            var shadowColor = new obelisk.SideColor(0x60666666,0x60666666);
+            // Grid:
+            gridMaker(20, 10, 10, 0, 0x40FFFFFF);
+
+            // Shadow Brick
+
+            var shadowDimension = new obelisk.BrickDimension(60, 76);
+            var shadow = new obelisk.Brick(shadowDimension, shadowColor);
+            pixelView.renderObject(shadow, new obelisk.Point3D(80, 60, 0));
+
+            // CHICKEN ANATOMY:
+
+            // Start Foot : Stable  Chicken = good chicken
+            //  Foot Left
+
+            var footDimension =
+                new obelisk.CubeDimension(20, 20, 10);
+            var footL1 = new obelisk.Cube(footDimension, beakFootColor);
+            pixelView.renderObject(footL1, new obelisk.Point3D(80, 90, 0));
+
+            // clawsLeft :
+            var clawDimension =
+                new obelisk.CubeDimension(8, 20, 10);
+            var claw1L = new obelisk.Cube(clawDimension, beakFootColor);
+            pixelView.renderObject(claw1L, new obelisk.Point3D(80, 110, 0));
+            var claw2L = new obelisk.Cube(clawDimension, beakFootColor);
+            pixelView.renderObject(claw2L, new obelisk.Point3D(92, 110, 0));
+
+            // Foot Right
+
+            var foot1 = new obelisk.Cube(footDimension, beakFootColor);
+            pixelView.renderObject(foot1, new obelisk.Point3D(110, 90, 0));
+
+            // < End Feet
+
+            //Shanks :
+            var shankDimension =
+                new obelisk.CubeDimension(10, 10, 24);
+            var shank1 = new obelisk.Cube(shankDimension, beakFootColor);
+            pixelView.renderObject(shank1, new obelisk.Point3D(114, 94, 10));
+
+            // clawS Right :
+            var claw1 = new obelisk.Cube(clawDimension, beakFootColor);
+            pixelView.renderObject(claw1, new obelisk.Point3D(110, 110, 0));
+            var claw2 = new obelisk.Cube(clawDimension, beakFootColor);
+            pixelView.renderObject(claw2, new obelisk.Point3D(122, 110, 0));
+
+
+            // Tail : for shaking it.
+            var tailDimension =
+                new obelisk.CubeDimension(34, 10, 50);
+            var tail = new obelisk.Cube(tailDimension, bodyColor);
+            pixelView.renderObject(tail, new obelisk.Point3D(80, 50, 30));
+
+            // Chicken Butt
+            var buttDimension =
+                new obelisk.CubeDimension(40, 20, 50);
+            var butt = new obelisk.Cube(buttDimension, bodyColor);
+            pixelView.renderObject(butt, new obelisk.Point3D(80, 60, 30));
+
+            // Body; a fine body.
+            var bodyDimension = new obelisk.CubeDimension(40, 50, 100);
+            var body = new obelisk.Cube(bodyDimension, bodyColor);
+            pixelView.renderObject(body, new obelisk.Point3D(80, 80, 30));
+
+            // Comb : The fleshy thing on top.
+            var combDimension =
+                new obelisk.CubeDimension(20, 28, 20);
+            var comb = new obelisk.Cube(combDimension, fleshyColor);
+            pixelView.renderObject(comb, new obelisk.Point3D(90, 90, 130));
+
+            // Wing : for winging it.
+            var wingDimension =
+                new obelisk.CubeDimension(18, 40, 0);
+            var wing = new obelisk.Cube(wingDimension, bodyColor);
+            pixelView.renderObject(wing, new obelisk.Point3D(140, 90, 60));
+
+            // Wattle: The flesy hanging thing under the beak.
+            var wattleDimension =
+                new obelisk.CubeDimension(16, 16, 16);
+            var wattle = new obelisk.Cube(wattleDimension, fleshyColor);
+            pixelView.renderObject(wattle, new obelisk.Point3D(90, 130, 80));
+
+            // Beak : For general pecking.
+            var beakDimension =
+                new obelisk.CubeDimension(16, 24, 16);
+            var beak = new obelisk.Cube(beakDimension, beakFootColor);
+            pixelView.renderObject(beak, new obelisk.Point3D(90, 130, 96));
+
+            // Eye... of the Tiger.
+            var sideDimensionY = new obelisk.SideYDimension(10, 10);
+            var sideY = new obelisk.SideY(sideDimensionY, eyeColor);
+            pixelView.renderObject(sideY, new obelisk.Point3D(120, 110, 106));
+
+
+
+            // Helper for grid making and merry making
+
+            function gridMaker(units, xSize, ySize, zHeight, gridColor) {
+                var lineColor = new obelisk.LineColor(gridColor);
+                var dimensionX = new obelisk.LineXDimension(xSize * units);
+                var dimensionY = new obelisk.LineYDimension(ySize * units);
+                var lineX = new obelisk.LineX(dimensionX, lineColor);
+                var lineY = new obelisk.LineY(dimensionY, lineColor);
+                for (x = 0; x < xSize + 1; x++) {
+                    pixelView.renderObject(lineX, new obelisk.Point3D(0, x * units, zHeight * units));
+                }
+                for (y = 0; y < ySize + 1; y++) {
+                    pixelView.renderObject(lineY, new obelisk.Point3D(y * units, 0, zHeight * units));
+                }
+            }
+        </script>
+    </div>
+</div>
+
+<script>
+    var text = $("textarea");
+</script>
+</body>
+</html>

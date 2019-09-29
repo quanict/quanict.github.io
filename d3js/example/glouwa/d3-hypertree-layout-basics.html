@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>d3-hypertree layout basics</title>
+    <link rel="stylesheet" href="../../media/css/com-observablehq.css" type="text/css"/>
+    <link rel="stylesheet" href="../../../bootstrap/4.1.3/css/bootstrap.css" type="text/css" />
+    <script src="../../../jquery/3.2.1/js/jquery-3.2.1.min.js"></script>
+    <script src="../../5.11.0/d3.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>d3-hypertree layout basics</h1>
+    <resource>https://observablehq.com/@glouwa/d3-hypertree-layout-basics</resource>
+    <p>Shows how to configure layout basics like root wedge orientation and angle.
+
+    </p>
+    <div class="row">
+        <div class="col-12">
+            <div id="chart" style="height:50em;touch-action:none;font-family:Roboto"></div>
+        </div>
+    </div>
+</div>
+<link href="https://cdn.jsdelivr.net/npm/d3-hypertree@1.1.2/dist/d3-hypertree-light.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+<script src="../../hypertree/1.1.2/d3-hypertree.js"></script>
+<script>
+    let theme = "d3-hypertree-light.css";
+    const view = document.getElementById('chart');
+    const mytree = new hyt.Hypertree(
+        {
+            parent: view
+        },
+        {
+            dataloader: hyt.loaders.generators.nT1,
+            layout: {
+                rootWedge: {
+                    orientation:    0,
+                    angle:          Math.PI*1.99999
+                }
+            },
+            geometry: {
+                layerOptions: {
+                    'stem-arc': { invisible: true, hideOnDrag: true }
+                }
+            },
+            interaction: {
+                λbounds: [.25, .6]
+            }
+        }
+    );
+
+    const backgroundGradient = theme === 'd3-hypertree-dark.css'
+        ? 'linear-gradient(to right, #1a1a1a, #111, #1a1a1a)'
+        : 'linear-gradient(to right, #f5f5f5, #fff, #fafafa)';
+
+
+    $(view).css({'background-image':backgroundGradient});
+
+</script>
+</body>
+</html>

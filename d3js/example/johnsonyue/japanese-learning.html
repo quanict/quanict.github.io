@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Japanese learning</title>
+    <link rel="stylesheet" href="../../media/css/com-observablehq.css" type="text/css"/>
+    <link rel="stylesheet" href="../../../bootstrap/4.1.3/css/bootstrap.css" type="text/css" />
+    <script src="../../../jquery/3.2.1/js/jquery-3.2.1.min.js"></script>
+    <script src="../../5.11.0/d3.min.js"></script>
+    <!--<script src=" https://cdn.jsdelivr.net/npm/hanzi-writer@2.0.4/dist/hanzi-writer.js"></script>-->
+    <script src="../../../hanzi-writer/0.11.0/hanzi-writer.js"></script>
+    <script>
+        const hanzi = hanziWriter;
+    </script>
+</head>
+<body>
+<div class="container-fluid">
+    <h1>Japanese learning</h1>
+    <resource>https://observablehq.com/@johnsonyue/japanese-learning</resource>
+
+    <div class="row">
+        <div class="col-12">
+            <h2>1. Kana basics</h2>
+            <h4>1.1 kana reading</h4>
+            <p>"kana" (仮名) are syllabic Japanese scripts</p>
+
+            <h5>1.1.1 gojuon (50 sounds)</h5>
+            <div>
+                <ul>
+                    <li>
+                        "gojuon" (五十音) or "50 sounds" is a Japanese ordering of kana.
+                        <ul>
+                            <li>They can be displayed as "the Gojūon Table"
+                            </li>
+                            <li>Note how limited Japanese is in number of phonemes comparing to "the pinyin phonetics table"
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        The gojuon Table
+                        <ul>
+                            <li>the table read from right-to-left if using "vertical system of Japanese writing", and left-to-right if otherwise.
+                            </li>
+                            <li>The rows are referred to as "dan" (段), and the columns as "gyō" (行) which are named for their first entry
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <h5>1.1.2 dakuon</h5>
+
+            <h5>1.1.3 youon</h5>
+
+            <h4>1.2 Read</h4>
+
+            <h4>1.3 Kana writing</h4>
+            <div>
+                <div class="card" id="card-1-3">
+                    <div class='card-header form-inline'>
+                        <input id='char' class='form-control' type='text' maxlength=1 />
+                        &nbsp;
+                        <button id='update' class="btn btn-outline-success">update</button>
+                        <button id='animate' class="btn btn-outline-success">animate</button>
+                        &nbsp;
+                        <button id='outline' class="btn btn-outline-primary">toggle outline</button>
+                    </div>
+                    <div class="card-body align-items-center d-flex justify-content-center">
+                        <div class="row align-items-end">
+                            <div class='d-inline-block' id='character'>a</div>
+                            <div class='d-inline-block' id='info'><table class='table table-bordered'></table></div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                    </div>
+                </div>
+
+                <script>
+                    const card = document.getElementById('card-1-3');
+                    const width = 300,
+                        height = 300;
+                    async function getKana () {
+                        let data = JSON.parse(await($.ajax('https://gist.githubusercontent.com/johnsonyue/5880b7e269b26e9332f7a1fe7da4a161/raw/5f32f4402766946863f81309bc50d3f0abf7783a/kana.json')));
+
+                        console.log("debug ajas",data);
+                    }
+
+                    const uc2all = function () {
+
+                        var dic = {};
+                        ['goju','daku','you'].forEach( (k)=>{
+                            d[k].data.reduce( (a,b) => a.concat(Object.keys(b).filter(x=>x).map(k=>b[k])), [] ).forEach(x => {
+                                if (x.hira) { var t = {roma: x.roma, hira: x.hira, kata: x.kata}; dic[x.hira] = t; dic[x.kata] = t; }
+                            });
+                        });
+                        return dic;
+                    };
+                    function updateInfo(c){
+                        const $info = $(card).find('#info table'); $info.empty();
+                        $info.append('<tr><td>Hiragana</td><td>'+uc2all[c].hira+'</td></tr>');
+                        $info.append('<tr><td>Katakana</td><td>'+uc2all[c].kata+'</td></tr>');
+                        $info.append('<tr><td>Romanization</td><td>'+uc2all[c].roma+'</td></tr>');
+                    }
+
+
+                    function newChar(c){
+                        // if (writer) writer.cancelQuiz();
+                        $(card).find('#character').empty();
+                        let character = $(card).find('#character').get(0)
+                        return new hanzi(character, '', {
+                            width: width,
+                            height: height,
+                            strokeAnimationSpeed: 1, // 5x normal speed
+                            delayBetweenStrokes: 10, // milliseconds
+                            charDataLoader: function(char, onComplete) {
+                                onComplete(kana[c]);
+                            }
+                        });
+                    }
+
+
+
+                    function draw() {
+
+                        $(card).find('#character').css('width',width);
+                        $(card).find('#character').css('height',height);
+                        $(card).find('#info').css('width',width);
+                        $(card).find('#info').css('height',height);
+                        var outline = false;
+                        var writer = newChar('あ');
+                        updateInfo('あ');
+
+                        $(card).find('#update').on('click', function(){
+                            var c = $(card).find('#char').val();
+                            if (c) writer = newChar(c);
+                            updateInfo(c);
+                        });
+                        $(card).find('#animate').on('click', ()=> writer.animateCharacter());
+                        $(card).find('#outline').on('click', function(){
+                            if (!outline) writer.showOutline();
+                            else writer.hideOutline();
+                            outline = !outline;
+                        });
+                    }
+
+                    const kana = getKana().then(()=>{
+                        draw();
+                    });
+
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
