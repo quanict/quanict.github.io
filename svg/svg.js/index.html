@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text" value="Dragon----- - - - ->" placeholder="Type text here...">
+<div id="drawing"></div>
+
+
+<script src="./2.4.0/svg.min.js"></script>
+<script>
+    const input = document.querySelector('input[type=text]');
+    const svg = SVG('drawing');
+
+    console.log("dd",svg);
+    var draw = SVG('drawing').viewbox(0, 0, 300, 140);
+    var text = draw.text(function(add) {
+        add.tspan( input.value )
+    });
+
+    text
+        .path('M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80')
+        .animate(1000, '<>')
+        .plot('M10 80 C 40 150, 65 150, 95 80 S 150 10, 180 80')
+        .loop(true, true);
+
+    input.addEventListener('keyup', updateText(text));
+
+    function updateText(textPath) {
+        return function() {
+            textPath.tspan(this.value)
+        }
+    }
+</script>
+</body>
+</html>
