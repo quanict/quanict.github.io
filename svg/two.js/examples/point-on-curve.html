@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Two.js: Get Point On Curve</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="image_src" href="../images/logo.gif" />
+    <link rel="shortcut icon" type="image/gif" href="../images/favicon.gif">
+    <script src="../third-party/url.js"></script>
+    <script src="../third-party/jquery.js"></script>
+    <script src="../third-party/two.js"></script>
+  </head>
+  <body style="background: rgb(0, 191, 168);">
+    <div class="scripts">
+      <script>
+
+        $(function() {
+
+          var type = /(canvas|webgl)/.test(url.type) ? url.type : 'svg';
+          var two = new Two({
+            type: Two.Types[type],
+            fullscreen: true,
+            autostart: true
+          }).appendTo(document.body);
+
+          var amt = 64;
+
+          var path = two.makeCurve(
+            _.map(_.range(amt), function(i) {
+              var pct = i / (amt - 1);
+              var theta = pct * Math.PI * 8;
+              var r = pct * Math.min(two.height, two.width);
+              var x = r * Math.cos(theta);
+              var y = r * Math.sin(theta);
+              return new Two.Anchor(x, y);
+            }),
+            true
+          );
+
+          path.noFill().linewidth = 25;
+          path.cap = path.join = 'round';
+          path.stroke = 'white';
+
+          var cursor = two.makeCircle(0, 0, 25);
+          cursor.fill = cursor.stroke = 'rgb(255, 100, 100)';
+          cursor.linewidth = 10;
+          cursor.cap = cursor.join = 'round';
+
+          var pct = 0, projection = new Two.Vector();
+
+          var drag = function(e) {
+
+            pct = e.clientX / two.width;
+
+            path.getPointAt(pct, cursor.translation);
+
+            cursor.translation.addSelf(path.translation);
+
+          };
+
+          var touchDrag = function(e) {
+            e.preventDefault();
+            var touch = e.originalEvent.changedTouches[0];
+            drag({
+              clientX: touch.pageX,
+              clientY: touch.pageY
+            });
+            return false;
+          };
+
+          var rotating = false;
+
+          $(window)
+            .bind('click', function() {
+
+              rotating = !rotating;
+
+            })
+            .bind('mousemove', drag)
+            .bind('touchmove', touchDrag);
+
+          two.scene.translation.set(two.width / 2, two.height / 2);
+
+          two
+            .bind('update', function() {
+
+              if (rotating) {
+                two.scene.rotation += Math.PI / 64;
+              }
+
+            })
+            .bind('resize', function() {
+
+              two.scene.translation.set(two.width / 2, two.height / 2);
+
+            });
+
+          // Start the cursor at the beginning of the curve.
+          drag({ clientX: 0 });
+
+        });
+
+      </script>
+    </div>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-40550435-1', 'github.com');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>

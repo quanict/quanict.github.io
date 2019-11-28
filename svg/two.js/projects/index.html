@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=400">
+    <meta name="description" content="A two-dimensional drawing api geared towards modern web browsers. It is renderer agnostic enabling the same api to draw in multiple contexts: svg, canvas, and webgl.">
+    <meta name="keywords" content="two.js, twojs, javascript, library, graphics, rendering, context, web, motiongraphics, html5">
+    <meta name="author" content="jonobr1">
+    <link rel="image_src" href="../images/logo.gif" />
+    <title>Two.js: Projects</title>
+    <!-- @font-face -->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu+Mono:400,400italic">
+    <script type="text/javascript" src="//use.typekit.net/edp1hux.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="../styles/main.css">
+    <link rel="shortcut icon" type="image/gif" href="../images/favicon.gif">
+    <!-- Third Party -->
+    <script src="../third-party/jquery.js"></script>
+    <script src="../third-party/tween.js"></script>
+    <script src="../third-party/two.js"></script>
+    <script>
+
+      $(function() {
+
+        var totalColors = 5;
+        var chosen = [];
+        var colors = [
+          'red',
+          'orange',
+          'green',
+          'blue',
+          'purple'
+        ];
+
+        var $projects = $('.projects');
+
+        $.getJSON('../data/projects.json', function(resp) {
+
+          var html = resp.template;
+
+          $projects.html(
+            _.map(resp.items, function(data, i) {
+              data.img = '../' + data.img;
+              return _.template(html)(data);
+            }).join('\n')
+          );
+
+          $projects.children().each(function(i, child) {
+            var index = Math.floor(Math.random() * colors.length);
+            var color = colors.splice(index, 1);
+            child.className = color;
+            chosen.push(color);
+            if (chosen.length >= totalColors) {
+              colors = chosen.slice(0);
+              chosen.length = 0;
+            }
+          });
+
+        });
+
+      });
+
+    </script>
+  </head>
+  <body>
+    <div id="content">
+      <div id="introduction">
+        <script src="../src/signum.js"></script>
+      </div>
+      <p>
+        <strong>Two.js</strong> is a two-dimensional drawing api geared towards modern web browsers. It is renderer agnostic enabling the same api to draw in multiple contexts: <code>svg</code>, <code>canvas</code>, and <code>webgl</code>.
+      </p>
+      <div class="horizon"></div>
+      <ul id="toc">
+        <li><a href="../#introduction">Introduction</a></li>
+        <li><a href="../#download">Download</a></li>
+        <li><a href="../#overview">Overview</a></li>
+        <li><a href="../#basic-usage">Basic Usage</a></li>
+        <li><a href="../examples">Examples</a></li>
+        <li><a href="./">Projects</a></li>
+        <li><a href="../#documentation">Documentation</a></li>
+        <li><a href="http://github.com/jonobr1/two.js" target="_blank">Source</a></li>
+        <li><a href="../donate/">Donate</a></li>
+        <li><a href="../#credits">Credits</a></li>
+      </ul>
+      <div class="horizon"></div>
+      <ul class="projects"></ul>
+      <p>
+        Don&apos;t see your project? Post an <a href="https://github.com/jonobr1/two.js/issues/new" target="_blank"><strong>issue</strong></a> over on the <a href="https://github.com/jonobr1/two.js/issues" target="_blank">github page</a> and we can sort it out.
+      </p>
+    </div>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-40550435-1', 'github.com');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>

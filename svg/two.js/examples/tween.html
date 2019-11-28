@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Two.js: Third Party Animation</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="image_src" href="../images/logo.gif" />
+    <link rel="shortcut icon" type="image/gif" href="../images/favicon.gif">
+    <script src="../third-party/url.js"></script>
+    <script src="../third-party/jquery.js"></script>
+    <script src="../third-party/two.js"></script>
+    <script src="../third-party/tween.js"></script>
+  </head>
+  <body>
+    <div class="scripts">
+      <script>
+
+        $(function() {
+
+          var type = /(canvas|webgl)/.test(url.type) ? url.type : 'svg';
+          var two = new Two({
+            type: Two.Types[type],
+            fullscreen: true
+          }).appendTo(document.body);
+
+          var cross = makeCross(two);
+          cross.fill = 'rgba(0, 191, 168, 0.33)';
+          cross.stroke = 'rgb(0, 191, 168)';
+          cross.linewidth = 5;
+          cross.translation.set(- two.width / 2, two.height / 2);
+          cross.shell.translation.copy(cross.translation);
+
+          var t1 = new TWEEN.Tween(cross.translation)
+            .to({
+              x: two.width / 2
+            }, 750)
+            .delay(500)
+            .easing(TWEEN.Easing.Bounce.Out)
+            .onUpdate(function(t) {
+              cross.rotation = Math.PI * 2 * t;
+              cross.shell.translation.copy(cross.translation);
+            })
+            .onComplete(function() {
+              t2.start();
+            })
+            .start();
+          var t2 = new TWEEN.Tween(cross.translation)
+            .to({
+              x: two.width * 1.5
+            }, 750)
+            .delay(500)
+            .easing(TWEEN.Easing.Elastic.In)
+            .onUpdate(function(t) {
+              cross.rotation = Math.PI * 2 * t;
+              cross.shell.translation.copy(cross.translation);
+            })
+            .onComplete(function() {
+              cross.translation.x = - two.width / 2;
+              t1.start();
+            })
+
+          two.bind('update', function() {
+
+            TWEEN.update();
+
+          }).play();
+
+        });
+
+        function makeCross(two) {
+
+          var longer = two.width > two.height;
+
+          var width = (longer ? two.height : two.width) / 8;
+          var height = (longer ? two.width : two.height) / 3;
+
+          var a = two.makeRectangle(0, 0, width, height);
+          var b = a.clone();
+          b.rotation = Math.PI / 2;
+
+          var shadow = two.makeRectangle(0, height / 2 + 2.5, height, 5);
+          shadow.fill = '#efefef';
+          shadow.noStroke();
+
+          var shell = two.makeGroup(shadow);
+
+          var group = two.makeGroup(a, b);
+          group.shell = shell;
+
+          return group;
+
+        }
+
+      </script>
+    </div>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-40550435-1', 'github.com');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Two.js: Morph Vertices</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="image_src" href="../images/logo.gif" />
+    <link rel="shortcut icon" type="image/gif" href="../images/favicon.gif">
+    <script src="../third-party/url.js"></script>
+    <script src="../third-party/jquery.js"></script>
+    <script src="../third-party/two.js"></script>
+    <style>
+      body {
+        background: rgb(153, 102, 255);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="scripts">
+      <script>
+
+        $(function() {
+
+          var squished = false;
+
+          var type = /(canvas|webgl)/.test(url.type) ? url.type : 'svg';
+          var two = new Two({
+            type: Two.Types[type],
+            fullscreen: true
+          }).appendTo(document.body);
+
+          Two.Resolution = 32;
+
+          var blob = two.makeCircle(two.width / 2, two.height / 2, two.height / 3);
+          blob.fill = 'white';
+          blob.noStroke();
+
+          reset();
+
+          two
+            .bind('update', function() {
+
+              if (!squished) {
+
+                for (var i = 0; i < blob.vertices.length; i++) {
+                  var v = blob.vertices[i];
+                  var d = v.destination;
+
+                  if (v.equals(d)) {
+                    squished = true;
+                    break;
+                  }
+
+                  v.x += (d.x - v.x) * 0.125;
+                  v.y += (d.y - v.y) * 0.125;
+                }
+
+                return;
+              }
+
+              var outside = true;
+
+              for (var i = 0; i < blob.vertices.length; i++) {
+                var v = blob.vertices[i];
+                v.y += v.step;
+                v.step *= 1.125;
+                if (v.y < two.height) {
+                  outside = false;
+                }
+              }
+
+              if (outside) {
+                reset();
+              }
+
+            }).play();
+
+          function reset() {
+
+            blob.translation.set(two.width / 2, two.height / 2);
+
+            squished = false;
+
+            for (var i = 0; i < blob.vertices.length; i++) {
+              var v = blob.vertices[i];
+              var pct = (i + 1) / blob.vertices.length;
+              var theta = pct * Math.PI * 2;
+              var radius = Math.random() * two.height / 3 + two.height / 6;
+              var x = radius * Math.cos(theta);
+              var y = radius * Math.sin(theta);
+              v.set(two.height / 3 * Math.cos(theta), two.height / 3 * Math.sin(theta));
+              v.destination = new Two.Vector(x, y);
+              v.step = Math.sqrt(Math.random()) + 2;
+            }
+
+          }
+
+        });
+
+      </script>
+    </div>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-40550435-1', 'github.com');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>

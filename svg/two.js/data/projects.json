@@ -1,0 +1,150 @@
+{
+  "template": "<li><a href=\"<%= href %>\" target=\"_blank\"><img width=\"143\" height=\"100\" src=\"<%= img %>\" alt=\"\"><h3><p><%= title %></p></h3></a></li>",
+  "items": [
+    {
+      "title": "Generative Designs",
+      "href": "https://generative-design.surge.sh/",
+      "img": "images/projects/generative-designs.gif"
+    },
+    {
+      "title": "Land on the Moon",
+      "href": "https://luniland.halabe.com/",
+      "img": "images/projects/land-on-the-moon.gif"
+    },
+    {
+      "title": "Apple Heart Study",
+      "href": "https://www.apple.com/watch/apple-heart-study/",
+      "img": "images/projects/apple-heart-study.gif"
+    },
+    {
+      "title": "Wonderland",
+      "href": "http://2017.wonderlandindustry.com/",
+      "img": "images/projects/wonderland.gif"
+    },
+    {
+      "title": "Kimbra: Primal Heart",
+      "href": "http://www.kimbraprimalheart.com/",
+      "img": "images/projects/kimbra.gif"
+    },
+    {
+      "title": "Still: Miranda Joan",
+      "href": "https://www.mirandajoan.com/",
+      "img": "images/projects/still-miranda-joan.gif"
+    },
+    {
+      "title": "Futurefabric: Play",
+      "href": "https://www.futurefabric.co.uk/play",
+      "img": "images/projects/futurefabric-play.gif"
+    },
+    {
+      "title": "Campfire",
+      "href": "https://dreamingincodezh.github.io/particle-system-campfire/",
+      "img": "images/projects/campfire.gif"
+    },
+    {
+      "title": "Collisions",
+      "href": "https://dreamingincodezh.github.io/collision-detection-bubbles/",
+      "img": "images/projects/collisions.gif"
+    },
+    {
+      "title": "Chris Delbuck",
+      "href": "http://chrisdelbuck.com",
+      "img": "images/projects/chris-delbuck.gif"
+    },
+    {
+      "title": "typatone",
+      "href": "http://typatone.com",
+      "img": "images/projects/typatone.gif"
+    },
+    {
+      "title": "Lærepenger",
+      "href": "http://event.larepenger.no/",
+      "img": "images/projects/larepenger.gif"
+    },
+    {
+      "title": "JavaScreen",
+      "href": "http://javascreen.tristanbagot.com/",
+      "img": "images/projects/javascreen.gif"
+    },
+    {
+      "title": "C-01",
+      "href": "http://c-01.mnmly.com/",
+      "img": "images/projects/c-01.gif"
+    },
+    {
+      "title": "Boom Boom Boom",
+      "href": "http://www.bbboooooommm.com/",
+      "img": "images/projects/boomboomboom.gif"
+    },
+    {
+      "title": "Cardboard Demo",
+      "href": "http://vr.chromeexperiments.com/",
+      "img": "images/projects/collector.gif"
+    },
+    {
+      "title": "Impossible Experiments",
+      "href": "http://impossibleexperiments.tumblr.com/",
+      "img": "images/projects/imanol.gif"
+    },
+    {
+      "title": "Gray Area Theater",
+      "href": "https://grayarea.org/theater/overview/",
+      "img": "images/projects/grayarea.gif"
+    },
+    {
+      "title": "Tether",
+      "href": "http://tether.plaid.co.uk",
+      "img": "images/projects/tether.gif"
+    },
+    {
+      "title": "Patatap",
+      "href": "http://patatap.com",
+      "img": "images/projects/neuronal-synchrony.gif"
+    },
+    {
+      "title": "Unnumbered Sparks",
+      "href": "http://unnumberedsparks.com",
+      "img": "images/projects/unnumbered-sparks.gif"
+    },
+    {
+      "title": "IDEOGRAM",
+      "href": "http://lab.johnwai.co.uk/ideogram/",
+      "img": "images/projects/ideogram.gif"
+    },
+    {
+      "title": "Super Flying Tokyo",
+      "href": "http://www.rhizomatiks.com/event/superflyingtokyo/makingshapesmove/#/about",
+      "img": "images/projects/super-flying-tokyo.gif"
+    },
+    {
+      "title": "loadr",
+      "href": "http://jonathanbobrow.com/loadr/loadr_mult.html",
+      "img": "images/projects/loadr.gif"
+    },
+    {
+      "title": "Anitype",
+      "href": "http://anitype.com/",
+      "img": "images/projects/anitype.gif"
+    },
+    {
+      "title": "Decibel Festival",
+      "href": "https://vimeo.com/77623506",
+      "img": "images/projects/decibel.gif"
+    },
+    {
+      "title": "Put Me in the YTMA&apos;s",
+      "href": "https://codepen.io/jonobr1/pen/WXPEgJ",
+      "img": "images/projects/youtube.gif"
+    },
+    {
+      "title": "Just A Reflektor",
+      "href": "http://justareflektor.com/tech",
+      "img": "images/projects/reflektor.gif"
+    },
+    {
+      "title": "Choc",
+      "href": "http://www.fullstack.io/choc/",
+      "img": "images/projects/choc.gif"
+    }
+  ]
+}

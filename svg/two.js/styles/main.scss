@@ -1,0 +1,348 @@
+@import 'bourbon/bourbon';
+@import 'mirror';
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: $font-stack;
+  font-size: $font-size;
+  line-height: $line-height;
+  word-spacing: em(3);
+  color: $black;
+  @media screen and (max-width: $min-screen-width) {
+    background: $grey;
+  }
+  padding: 25px;
+  vertical-align: top;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'proxima-nova', helvetica, sans-serif;
+  vertical-align: top;
+  color: tint($black, 20%);
+}
+
+h2 {
+  font-size: $font-size * 2;
+  margin-bottom: $line-height / 2;
+  @media screen and (max-width: $min-screen-width),
+  screen and (max-device-width: $min-device-width) {
+    text-align: center;
+  }
+}
+
+code {
+  font-family: 'Ubuntu Mono', monospace;
+  // color: $black;
+}
+
+p {
+  max-width: $max-content-width;
+  @media screen and (device-aspect-ratio: 2/3),
+  screen and (device-aspect-ratio: 40/71) {
+    max-width: 100%;
+  }
+}
+
+p + p {
+  margin-top: $line-height;
+}
+
+a {
+  text-decoration: none;
+  &:link {
+    color: $green;
+    border-bottom: em(2) solid tint($green, 45%);
+  }
+  &:visited {
+    color: $orange;
+    border-bottom: em(2) solid tint($orange, 30%);
+  }
+  &:hover, &:active {
+    color: $red;
+    border-bottom: em(2) solid tint($red, 40%);
+  }
+}
+
+ul, ol {
+  @media screen and (max-width: $min-screen-width) {
+    list-style: none;
+  }
+  li {
+    &:not(:first-child) {
+      margin-top: $line-height;
+    }
+  }
+}
+
+sup {
+  font-size: 85%;
+  line-height: 85%;
+}
+
+#content {
+  padding: 25px 25px 50px 25px;
+  background: $white;
+}
+
+div.center {
+  text-align: center;
+}
+
+.horizon {
+  list-style: none;
+  height: 0;
+  margin: $line-height 0;
+  border-bottom: em(2) solid $grey;
+}
+
+li.horizon {
+  margin: 1.5em 0 !important;
+}
+
+#toc, #documentation-toc {
+  @include inline-block;
+  margin-top: -8px;
+  list-style: none;
+  clear: both;
+  font-size: em(18);
+  max-width: none;
+  @media screen and (max-width: $min-screen-width),
+  screen and (max-device-width: $min-device-width) {
+    text-align: center;
+  }
+  li {
+    margin-top: 0;
+    @include inline-block;
+    float: left;
+    @media screen and (max-width: $min-screen-width),
+    screen and (max-device-width: $min-device-width) {
+      float: none;
+    }
+    a {
+      display: block;
+      margin: 8px 8px 0;
+      border-width: em(2.5);
+    }
+  }
+}
+
+#documentation-toc {
+  max-width: $max-content-width;
+}
+
+#introduction {
+  height: 80px;
+  margin-bottom: $line-height;
+}
+
+p.download {
+  @media screen and (max-width: $min-screen-width),
+  screen and (max-device-width: $min-device-width) {
+    text-align: center;
+  }
+}
+
+.basic-usage {
+  svg {
+    border: 1px solid shade($grey, 10%);
+  }
+  .two-container {
+    margin-top: $line-height;
+  }
+}
+
+.basic-usage + .basic-usage {
+  margin-top: $line-height;
+}
+
+#draw-shapes > .CodeMirror {
+  height: 504px;
+}
+#draw-group > .CodeMirror {
+  height: 528px;
+}
+
+.examples,
+.projects,
+.donations {
+  list-style: none;
+  max-width: $max-content-width;
+  @media screen and (max-width: $min-screen-width),
+  screen and (max-device-width: $min-device-width) {
+    text-align: center;
+  }
+  li {
+    @include inline-block;
+    position: relative;
+    width: $thumbnail-width;
+    height: $thumbnail-height;
+    overflow: hidden;
+    border: 1px solid shade($grey, 10%);
+    margin-top: 0 !important;
+    text-align: left;
+    $o: 0.8;
+    &.red {
+      h3 {
+        background: rgba($red, $o);
+      }
+    }
+    &.green {
+      h3 {
+        background: rgba($green, $o);
+      }
+    }
+    &.blue {
+      h3 {
+        background: rgba($blue, $o);
+      }
+    }
+    &.orange {
+      h3 {
+        background: rgba($orange, $o);
+      }
+    }
+    &.purple {
+      h3 {
+        background: rgba($purple, $o);
+      }
+    }
+    &.yellow {
+      h3 {
+        background: rgba($yellow, $o);
+      }
+    }
+    a {
+      display: block;
+      border-width: 0;
+      &:hover, &:active {
+        h3 {
+          display: block;
+        }
+      }
+    }
+    h3 {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      p {
+        position: absolute;
+        top: 50%;
+        margin-top: - $line-height;
+        color: $white;
+        padding: 0 8px;
+      }
+    }
+  }
+}
+
+.nota-bene {
+  &:before {
+    content: 'N.B:';
+    font-weight: 700;
+  }
+  font-size: 75%;
+  word-spacing: em(3 * .75);
+  // font-style: italic;
+}
+
+ul {
+  max-width: $max-content-width;
+}
+ul.documentation {
+
+  list-style: none;
+
+  li.description {
+    margin-top: 0;
+  }
+
+  ul {
+    margin-top: $line-height;
+    list-style: none;
+    margin-left: $line-height;
+    font-size: 80%;
+    line-height: $line-height;
+    li {
+      &:not(:first-child) {
+        margin-top: $line-height * 0.75;
+      }
+      p {
+        margin-top: 0;
+      }
+    }
+  }
+
+}
+ul.additional {
+  li {
+    margin-top: $line-height / 4;
+  }
+}
+
+p.property, p.method, p.construction {
+  $border-width: 4px;
+  border-left-width: $border-width;
+  border-left-style: solid;
+  margin-left: - $border-width * 4;
+  padding-left: $border-width * 3;
+}
+
+p.construction {
+  border-left-color: $yellow;
+}
+
+p.boolean {
+  border-left-color: $blue;
+}
+
+p.number {
+  border-left-color: $red;
+}
+
+p.string {
+  border-left-color: $orange;
+}
+
+p.function {
+  border-left-color: $purple;
+}
+
+p.object, p.array {
+  border-left-color: $green;
+}
+
+p.description {
+  margin-top: $line-height / 4;
+}
+
+p.detail {
+  margin-top: $line-height / 4;
+  padding-left: $line-height / 2;
+  margin-left: 3px;
+  border-left: 3px solid shade($grey, 10%);
+}
+
+.credits {
+  margin-top: $line-height / 2;
+  li:not(:first-child) {
+    margin-top: 0;
+  }
+}
+
+p.static, p.static + p {
+  color: tint($black, 33%);
+}
+
+::selection {
+  background: tint($yellow, 25%); /* Safari */
+}
+::-moz-selection {
+  background: tint($yellow, 25%); /* Firefox */
+}
