@@ -14,7 +14,7 @@
     const defaults = {
         ajax: null
     }
-    let columnDefs = $('input[name=columnDefs').val();
+    let columnDefs = $('input[name=columnDefs]').val();
 
     const render = {
         'settings': function (data, type, row, meta) { 
@@ -72,7 +72,7 @@
     }
 
     const datatableRun = async function (table, options) {
-        var settings = $.extend({}, defaults, options);
+        let settings = $.extend({}, defaults, options);
         
         if ( $('thead th', table).length < 1 && columnDefs.length > 0) {
             settings = await headerInit(table, settings);
@@ -80,7 +80,8 @@
 
         let ajax = table.dataset.ajax;
         if (typeof ajax === 'undefined' || ajax.length < 6) {
-            settings.ajax = `${window.location.href}.json`;
+            //settings.ajax = `${window.location.href}.json`;
+            return;
         }
 
         if (settings.ajax) {
@@ -88,13 +89,10 @@
             settings.serverSide = true;
         }
 
-        //console.log(`================== debug datatable`, settings)
         $(table).DataTable(settings);
     }
 
     $.fn.datatables = function (options) {
-        const elms = this;
-        
         this.each(function (i, table) {
             datatableRun(table, options);
         });
