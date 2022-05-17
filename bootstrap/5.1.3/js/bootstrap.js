@@ -1017,7 +1017,7 @@
   const NODE_TEXT = 3;
   const SelectorEngine = {
     find(selector, element = document.documentElement) {
-      console.log(`==== debug `,{element, selector, Element})
+      //console.log(`==== debug `,{element, selector, Element})
       return [].concat(...Element.prototype.querySelectorAll.call(element, selector));
     },
 
