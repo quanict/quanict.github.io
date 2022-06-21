@@ -3291,6 +3291,7 @@
                 return this;
             },
     };
+    
     const editorToolbarHandlers = {
         toolbarHandlers : {
             undo : function() {
@@ -3937,6 +3938,7 @@
         
         return this;
     }
+    
     const qKeyMap = {
         /**
          * 添加 CodeMirror 键盘快捷键
@@ -4048,6 +4050,7 @@
             return this;
         },
     };
+    
     const qLoader = {
         /**
          * 所需组件加载队列
@@ -4347,6 +4350,7 @@
     
         return this;
     }
+    
     class EditorRenderer { 
     
         constructor(options) {
@@ -4561,6 +4565,7 @@
             return out;
         }
     }
+    
     ;(function(factory) {
         "use strict";
     

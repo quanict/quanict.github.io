@@ -3925,7 +3925,7 @@
         if (saveTo.length < 1)
         {
             div.append("<textarea></textarea>");
-            saveTo = div.find("textarea");
+            saveTo        = div.find("textarea");
         }        
         
         var markdownDoc   = (settings.markdown === "") ? saveTo.val() : settings.markdown; 
