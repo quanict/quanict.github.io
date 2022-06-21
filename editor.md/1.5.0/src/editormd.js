@@ -43,6 +43,45 @@
         return new editormd.fn.init(id, options);
     };
 
+    var mdUtil = {
+        // extend: function(ctor, superCtor)
+        // {
+        // 	var f = function() {};
+        // 	f.prototype = superCtor.prototype;
+
+        // 	ctor.prototype = new f();
+        // 	ctor.prototype.constructor = ctor;
+        // },
+
+        cloneMethod: (obj, superObj) => {
+            return Object.assign({}, obj, superObj);
+        },
+
+        appendMethod: function (ojb) {
+            Object.keys(ojb).forEach((f) => {
+                this[f] = ojb[f];
+            });
+        },
+
+        appendPrototype: function (obj, superObj) {
+            let source = superObj.prototype;
+            let old = obj.prototype;
+            console.log(`====`, { obj, source, old })
+            obj.prototype = { ...obj.prototype, ...superObj.prototype };
+        },
+
+        /**
+         * Get a random integer in the specified interval
+         *
+         * @return {Int} int Returns a randomly generated integer
+         */
+        rand: function (n, m) {
+            var c = m - n + 1;
+
+            return Math.floor(Math.random() * c + n);
+        }
+    };
+
     editormd.title = editormd.$name = "Editor.md";
     editormd.version = "1.5.0";
     editormd.homePage = "https://pandao.github.io/editor.md/";
@@ -352,9 +391,19 @@
             var classPrefix = this.classPrefix = editormd.classPrefix;
             var settings = this.settings = $.extend(true, editormd.defaults, options);
 
-            id = (typeof id === "object") ? settings.id : id;
+            //id = (typeof id === "object") ? settings.id : id;
 
-            var editor = this.editor = $("#" + id);
+            let editor;
+
+            if (id instanceof HTMLElement) {
+                let element = id;
+                editor = this.editor = $(element);
+                id = element.id.length > 0 ? element.id : settings.id;
+            } else {
+                id = (typeof id === "object") ? settings.id : id;
+                editor = this.editor = $("#" + id);
+            }
+
 
             this.id = id;
             this.lang = settings.lang;
@@ -390,6 +439,7 @@
                 markdownTextarea = this.markdownTextarea = editor.children("textarea");
             }
 
+            console.log(`==== dd init`, { markdownTextarea, editor, id })
             markdownTextarea.addClass(classNames.textarea.markdown).attr("placeholder", settings.placeholder);
 
             if (typeof markdownTextarea.attr("name") === "undefined" || markdownTextarea.attr("name") === "") {
@@ -3198,6 +3248,7 @@
         path: "http://twemoji.maxcdn.com/36x36/",
         ext: ".png"
     };
+    editormd.appendMethod = mdUtil.appendMethod;
 
     /**
      * 自定义marked的解析器
@@ -4241,119 +4292,43 @@
         return eventType;
     };
 
-    /**
-     * 日期时间的格式化方法
-     * Datetime format method
-     * 
-     * @param   {String}   [format=""]  日期时间的格式，类似PHP的格式
-     * @returns {String}   datefmt      返回格式化后的日期时间字符串
-     */
 
-    editormd.dateFormat = function (format) {
-        format = format || "";
+    editormd.appendMethod(editorDate);
 
-        var addZero = function (d) {
-            return (d < 10) ? "0" + d : d;
-        };
-
-        var date = new Date();
-        var year = date.getFullYear();
-        var year2 = year.toString().slice(2, 4);
-        var month = addZero(date.getMonth() + 1);
-        var day = addZero(date.getDate());
-        var weekDay = date.getDay();
-        var hour = addZero(date.getHours());
-        var min = addZero(date.getMinutes());
-        var second = addZero(date.getSeconds());
-        var ms = addZero(date.getMilliseconds());
-        var datefmt = "";
-
-        var ymd = year2 + "-" + month + "-" + day;
-        var fymd = year + "-" + month + "-" + day;
-        var hms = hour + ":" + min + ":" + second;
-
-        switch (format) {
-            case "UNIX Time":
-                datefmt = date.getTime();
-                break;
-
-            case "UTC":
-                datefmt = date.toUTCString();
-                break;
-
-            case "yy":
-                datefmt = year2;
-                break;
-
-            case "year":
-            case "yyyy":
-                datefmt = year;
-                break;
-
-            case "month":
-            case "mm":
-                datefmt = month;
-                break;
-
-            case "cn-week-day":
-            case "cn-wd":
-                var cnWeekDays = ["日", "一", "二", "三", "四", "五", "六"];
-                datefmt = "星期" + cnWeekDays[weekDay];
-                break;
-
-            case "week-day":
-            case "wd":
-                var weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-                datefmt = weekDays[weekDay];
-                break;
-
-            case "day":
-            case "dd":
-                datefmt = day;
-                break;
-
-            case "hour":
-            case "hh":
-                datefmt = hour;
-                break;
-
-            case "min":
-            case "ii":
-                datefmt = min;
-                break;
-
-            case "second":
-            case "ss":
-                datefmt = second;
-                break;
-
-            case "ms":
-                datefmt = ms;
-                break;
-
-            case "yy-mm-dd":
-                datefmt = ymd;
-                break;
-
-            case "yyyy-mm-dd":
-                datefmt = fymd;
-                break;
-
-            case "yyyy-mm-dd h:i:s ms":
-            case "full + ms":
-                datefmt = fymd + " " + hms + " " + ms;
-                break;
-
-            case "full":
-            case "yyyy-mm-dd h:i:s":
-            default:
-                datefmt = fymd + " " + hms;
-                break;
-        }
-
-        return datefmt;
-    };
 
     return editormd;
 
 }));
+
+jQuery(document).ready(function () {
+    jQuery('textarea[data-role="editor-md"]').each(function (index, elm) {
+        console.log(`===== dddd`, { index, input });
+
+        const editor = editormd(input, {
+            // width  : "100%",
+            // height : "100%",
+            //path: '//quanict.github.local/editor.md/1.5.0/lib/',
+            autoHeight: true,
+            flowChart: false, // conflict bootrap.js
+            toolbar: false,
+            autoFocus: false,
+            imgPath: input.dataset.imgPath ?? '/ict-rs1',
+            // onpreviewing : function() {
+            //     console.log('onpreviewing', this);
+            // },
+            // onpreviewed:()=>{
+            //     console.warn("on onpreviewed")
+            // },
+            // onwatch : function() {
+            //     console.log("onwatch =>", this, this.id, this.settings);
+            // },
+            // onload : function() {
+            //     jQuery('img',this.preview).updateImageStoragePath();
+            //
+            // },
+            // onchange : function() {
+            //     jQuery('img',this.preview).updateImageStoragePath();
+            // }
+        });
+    });
+});

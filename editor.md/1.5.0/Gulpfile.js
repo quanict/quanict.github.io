@@ -77,7 +77,11 @@ gulp.task("scss3", function () {
 });
 
 gulp.task("js", function () {
-    return gulp.src("./src/editormd.js")
+    const files = [
+        "./src/editormd.js",
+        "./src/methods/dateFormat.js"
+    ];
+    return gulp.src(files)
         .pipe(jshint("./.jshintrc"))
         .pipe(jshint.reporter("default"))
         .pipe(header(headerComment, {
@@ -96,6 +100,7 @@ gulp.task("js", function () {
                 return name[1].replace(/[\\\/]?/, "");
             }
         }))
+        .pipe(concat(`editormd.min.js`))
         .pipe(gulp.dest("./js"))
     //.pipe(notify({ message: "editormd.js task complete" }));
 });
