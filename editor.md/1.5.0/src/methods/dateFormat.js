@@ -1,4 +1,3 @@
-"use strict";
 /**
  * 日期时间的格式化方法
  * Datetime format method
@@ -7,10 +6,9 @@
  * @returns {String}   datefmt      返回格式化后的日期时间字符串
  */
 
-var editorDate = {
+const editorDate = {
     dateFormat: function (format) {
         format = format || "";
-
         var addZero = function (d) {
             return (d < 10) ? "0" + d : d;
         };
@@ -112,4 +110,4 @@ var editorDate = {
 
         return datefmt;
     }
-}
+};

@@ -78,8 +78,11 @@ gulp.task("scss3", function () {
 
 gulp.task("js", function () {
     const files = [
+        "./src/util/*.js",
+        "./src/loader/*.js",
+        "./src/methods/*.js",
+
         "./src/editormd.js",
-        "./src/methods/dateFormat.js"
     ];
     return gulp.src(files)
         .pipe(jshint("./.jshintrc"))
@@ -90,8 +93,8 @@ gulp.task("js", function () {
                 return name[1].replace(/[\\\/]?/, "");
             }
         }))
-        .pipe(gulp.dest("./"))
-        .pipe(rename({ suffix: ".min" }))
+        //.pipe(gulp.dest("./"))
+        //.pipe(rename({ suffix: ".min" }))
         //.pipe(uglify())  // {outSourceMap: true, sourceRoot: './'}
         .pipe(gulp.dest("./"))
         .pipe(header(headerMiniComment, {
@@ -100,7 +103,8 @@ gulp.task("js", function () {
                 return name[1].replace(/[\\\/]?/, "");
             }
         }))
-        .pipe(concat(`editormd.min.js`))
+        .pipe(concat(`editormd.js`))
+        .pipe(rename({ suffix: ".min" }))
         .pipe(gulp.dest("./js"))
     //.pipe(notify({ message: "editormd.js task complete" }));
 });
@@ -346,10 +350,17 @@ gulp.task("jsdoc2md", function() {
 });
 */
 gulp.task("watch", function () {
-    gulp.watch("scss/editormd.scss", ["scss"]);
-    gulp.watch("scss/editormd.preview.scss", ["scss", "scss2"]);
-    gulp.watch("scss/editormd.logo.scss", ["scss", "scss3"]);
-    gulp.watch("src/editormd.js", ["js", "amd"]);
+    //gulp.watch("scss/editormd.scss", ["scss"]);
+    //gulp.watch("scss/editormd.preview.scss", ["scss", "scss2"]);
+    //gulp.watch("scss/editormd.logo.scss", ["scss", "scss3"]);
+    //gulp.watch("src/editormd.js", ["js", "amd"]);
+    const files = [
+        "src/editormd.js",
+        "src/util/*.js",
+        "src/methods/*.js",
+    ];
+    gulp.watch(files, gulp.series('js'));
+
 });
 
 gulp.task("default", function () {
