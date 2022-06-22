@@ -55,8 +55,7 @@ const resizeProto = {
         if (settings.autoHeight && !state.fullscreen && !state.preview) {
             editor.css("height", "auto");
             codeMirror.css("height", "auto");
-        }
-        else {
+        } else {
             if (height) {
                 editor.css("height", (typeof height === "number") ? height + "px" : height);
             }
@@ -77,10 +76,12 @@ const resizeProto = {
             codeMirror.width(editor.width() / 2);
             preview.width((!state.preview) ? editor.width() / 2 : editor.width());
 
-            this.previewContainer.css("padding", settings.autoHeight ? "20px 20px 50px 40px" : "20px");
+            this.previewContainer.css("padding", settings.autoHeight ? "10px 20px 20px 20px" : "20px");
 
             if (settings.toolbar && !settings.readOnly) {
                 preview.css("top", toolbar.height() + 1);
+                codeMirror.css("top", toolbar.height() + -34);
+
             }
             else {
                 preview.css("top", 0);

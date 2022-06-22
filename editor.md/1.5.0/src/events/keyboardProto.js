@@ -110,10 +110,9 @@ const keyboardProto = {
     registerKeyMaps: function (keyMap) {
 
         var _this = this;
-        var cm = this.cm;
-        var settings = this.settings;
-        var toolbarHandlers = editormd.toolbarHandlers;
-        var disabledKeyMaps = settings.disabledKeyMaps;
+        const { cm, settings } = this;
+        const { toolbarHandlers } = editormd;
+        const { disabledKeyMaps } = settings;
 
         keyMap = keyMap || null;
 
@@ -126,8 +125,7 @@ const keyboardProto = {
                     cm.addKeyMap(keyMap);
                 }
             }
-        }
-        else {
+        } else {
             for (var k in editormd.keyMaps) {
                 var _keyMap = editormd.keyMaps[k];
                 var handle = (typeof _keyMap === "string") ? $.proxy(toolbarHandlers[_keyMap], _this) : $.proxy(_keyMap, _this);
@@ -142,28 +140,30 @@ const keyboardProto = {
 
             $(window).keydown(function (event) {
 
-                var keymaps = {
+                const keymaps = {
                     "120": "F9",
                     "121": "F10",
-                    "122": "F11"
+                    "122": "F11",
+                    "192": "code"
                 };
+                const { keyCode } = event;
 
-                if ($.inArray(keymaps[event.keyCode], disabledKeyMaps) < 0) {
-                    switch (event.keyCode) {
+                if ($.inArray(keymaps[keyCode], disabledKeyMaps) < 0) {
+                    switch (keyCode) {
                         case 120:
                             $.proxy(toolbarHandlers["watch"], _this)();
                             return false;
-                            break;
 
                         case 121:
                             $.proxy(toolbarHandlers["preview"], _this)();
                             return false;
-                            break;
 
                         case 122:
                             $.proxy(toolbarHandlers["fullscreen"], _this)();
                             return false;
-                            break;
+                        case 192:
+                            $.proxy(toolbarHandlers["code"], _this)();
+                            return false;
 
                         default:
                             break;
