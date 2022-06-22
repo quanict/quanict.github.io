@@ -1,4 +1,3 @@
-/*! Editor.md v1.5.0 | mdUtil.js | Open source online markdown editor. | MIT License | By: Pandao | https://github.com/pandao/editor.md | 2022-06-22 */
 /*
  * Editor.md
  *
@@ -48,7 +47,6 @@ const mdUtil = {
         return Math.floor(Math.random() * c + n);
     }
 };
-/*! Editor.md v1.5.0 | trim.js | Open source online markdown editor. | MIT License | By: Pandao | https://github.com/pandao/editor.md | 2022-06-22 */
 /*
  * Editor.md
  *
@@ -72,7 +70,6 @@ const mdUtil = {
 const trim = function (str) {
     return (!String.prototype.trim) ? str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "") : str.trim();
 };
-/*! Editor.md v1.5.0 | ucfirst.js | Open source online markdown editor. | MIT License | By: Pandao | https://github.com/pandao/editor.md | 2022-06-22 */
 /*
  * Editor.md
  *
@@ -100,7 +97,6 @@ var firstUpperCase = function (str) {
 };
 
 var ucfirst = firstUpperCase;
-/*! Editor.md v1.5.0 | ucwords.js | Open source online markdown editor. | MIT License | By: Pandao | https://github.com/pandao/editor.md | 2022-06-22 */
 /*
  * Editor.md
  *
@@ -126,7 +122,6 @@ var ucwords = function (str) {
         return $1.toUpperCase();
     });
 };
-/*! Editor.md v1.5.0 | loadCSS.js | Open source online markdown editor. | MIT License | By: Pandao | https://github.com/pandao/editor.md | 2022-06-22 */
 /*
  * Editor.md
  *
@@ -168,7 +163,6 @@ const loadCSS = function (fileName, callback, into) {
         document.body.appendChild(css);
     }
 };
-/*! Editor.md v1.5.0 | loadPlugin.js | Open source online markdown editor. | MIT License | By: Pandao | https://github.com/pandao/editor.md | 2022-06-22 */
 /*
  * Editor.md
  *
@@ -198,7 +192,6 @@ const loadPlugin = function (fileName, callback, into) {
         callback();
     }, into);
 };
-/*! Editor.md v1.5.0 | loadScript.js | Open source online markdown editor. | MIT License | By: Pandao | https://github.com/pandao/editor.md | 2022-06-22 */
 /*
  * Editor.md
  *
@@ -255,7 +248,6 @@ const loadScript = function (fileName, callback, into) {
         document.body.appendChild(script);
     }
 };
-/*! Editor.md v1.5.0 | createDialog.js | Open source online markdown editor. | MIT License | By: Pandao | https://github.com/pandao/editor.md | 2022-06-22 */
 /*
  * Editor.md
  *
@@ -504,7 +496,6 @@ const createDialog = function (options) {
 
     return dialog;
 };
-/*! Editor.md v1.5.0 | dateFormat.js | Open source online markdown editor. | MIT License | By: Pandao | https://github.com/pandao/editor.md | 2022-06-22 */
 /*
  * Editor.md
  *
@@ -631,7 +622,6 @@ const editorDate = {
     }
 };
 
-/*! Editor.md v1.5.0 | filterHTMLTags.js | Open source online markdown editor. | MIT License | By: Pandao | https://github.com/pandao/editor.md | 2022-06-22 */
 /*
  * Editor.md
  *
@@ -722,7 +712,6 @@ const filterHTMLTags = function (html, filters) {
 
     return html;
 };
-/*! Editor.md v1.5.0 | markdownToCRenderer.js | Open source online markdown editor. | MIT License | By: Pandao | https://github.com/pandao/editor.md | 2022-06-22 */
 /*
  * Editor.md
  *
@@ -796,7 +785,6 @@ const markdownToCRenderer = function (toc, container, tocDropdown, startLevel) {
 
     return tocContainer;
 };
-/*! Editor.md v1.5.0 | markdownToHTML.js | Open source online markdown editor. | MIT License | By: Pandao | https://github.com/pandao/editor.md | 2022-06-22 */
 /*
  * Editor.md
  *
@@ -956,7 +944,6 @@ const markdownToHTML = function (id, options) {
 
     return div;
 };
-/*! Editor.md v1.5.0 | markedRenderer.js | Open source online markdown editor. | MIT License | By: Pandao | https://github.com/pandao/editor.md | 2022-06-22 */
 /*
  * Editor.md
  *
@@ -1257,7 +1244,6 @@ const markedRenderer = function (markdownToC, options) {
 
     return markedRenderer;
 };
-/*! Editor.md v1.5.0 | mouseOrTouch.js | Open source online markdown editor. | MIT License | By: Pandao | https://github.com/pandao/editor.md | 2022-06-22 */
 /*
  * Editor.md
  *
@@ -1291,7 +1277,6 @@ const mouseOrTouch = function (mouseEventType, touchEventType) {
 
     return eventType;
 };
-/*! Editor.md v1.5.0 | tocDropdownMenu.js | Open source online markdown editor. | MIT License | By: Pandao | https://github.com/pandao/editor.md | 2022-06-22 */
 /*
  * Editor.md
  *
@@ -1366,7 +1351,6 @@ const tocDropdownMenu = function (container, tocTitle) {
 
     return tocMenus;
 };
-/*! Editor.md v1.5.0 | editormd.js | Open source online markdown editor. | MIT License | By: Pandao | https://github.com/pandao/editor.md | 2022-06-22 */
 /*
  * Editor.md
  *

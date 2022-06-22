@@ -96,16 +96,18 @@ gulp.task("js", function () {
         //.pipe(gulp.dest("./"))
         //.pipe(rename({ suffix: ".min" }))
         //.pipe(uglify())  // {outSourceMap: true, sourceRoot: './'}
-        .pipe(gulp.dest("./"))
+        //.pipe(gulp.dest("./"))
+        .pipe(concat(`editormd.js`))
+        .pipe(gulp.dest("./js"))
         .pipe(header(headerMiniComment, {
             pkg: pkg, fileName: function (file) {
                 var name = file.path.split(file.base + ((os.platform() === "win32") ? "\\" : "/"));
                 return name[1].replace(/[\\\/]?/, "");
             }
         }))
-        .pipe(concat(`editormd.js`))
+
         .pipe(rename({ suffix: ".min" }))
-        .pipe(gulp.dest("./js"))
+
     //.pipe(notify({ message: "editormd.js task complete" }));
 });
 
