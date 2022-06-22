@@ -78,10 +78,7 @@ gulp.task("scss3", function () {
 
 gulp.task("js", function () {
     const files = [
-        "./src/util/*.js",
-        "./src/loader/*.js",
-        "./src/methods/*.js",
-
+        "./src/*/*.js",
         "./src/editormd.js",
     ];
     return gulp.src(files)
@@ -107,6 +104,7 @@ gulp.task("js", function () {
         }))
 
         .pipe(rename({ suffix: ".min" }))
+        .pipe(gulp.dest("./js"))
 
     //.pipe(notify({ message: "editormd.js task complete" }));
 });
@@ -357,9 +355,8 @@ gulp.task("watch", function () {
     //gulp.watch("scss/editormd.logo.scss", ["scss", "scss3"]);
     //gulp.watch("src/editormd.js", ["js", "amd"]);
     const files = [
+        "src/*/*.js",
         "src/editormd.js",
-        "src/util/*.js",
-        "src/methods/*.js",
     ];
     gulp.watch(files, gulp.series('js'));
 
