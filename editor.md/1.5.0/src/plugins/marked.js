@@ -1,6 +1,9 @@
 
 const markedPlugin = {
     $marked: null,
+    markedScripts: [
+        'marked.min.js'
+    ],
     /**
      * 将Markdown文档解析为HTML用于前台显示
      * Parse Markdown to HTML for Font-end preview.

@@ -7,7 +7,7 @@
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 const dialogMethods = {
@@ -58,7 +58,7 @@ const dialogMethods = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 const dialogProto = {
@@ -220,7 +220,7 @@ const dialogProto = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 const displayProto = {
@@ -418,7 +418,7 @@ const displayProto = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 let timer;
@@ -757,7 +757,7 @@ const eventProto = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 const keyboardProto = {
@@ -946,7 +946,7 @@ const keyboardProto = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 const previewProto = {
@@ -1093,7 +1093,7 @@ const previewProto = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 const resizeProto = {
@@ -1215,7 +1215,7 @@ const resizeProto = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 const searchProto = {
@@ -1260,7 +1260,7 @@ const searchProto = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 const valueProto = {
@@ -1393,7 +1393,7 @@ const valueProto = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 const watchProto = {
@@ -1476,13 +1476,584 @@ const watchProto = {
 /*
  * Editor.md
  *
+ * @file        methods/createDialog.js 
+ * @version     v1.5.0 
+ * @description Open source online markdown editor.
+ * @license     MIT License
+ * @author      Pandao
+ * {@link       https://github.com/pandao/editor.md}
+ * @updateTime  2022-06-23
+ */
+
+/**
+ * 动态创建对话框
+ * Creating custom dialogs
+ * 
+ * @param   {Object} options 配置项键值对 Key/Value
+ * @returns {dialog} 返回创建的dialog的jQuery实例对象
+ */
+
+const createDialog = function (options) {
+    var defaults = {
+        name: "",
+        width: 420,
+        height: 240,
+        title: "",
+        drag: true,
+        closed: true,
+        content: "",
+        mask: true,
+        maskStyle: {
+            backgroundColor: "#fff",
+            opacity: 0.1
+        },
+        lockScreen: true,
+        footer: true,
+        buttons: false
+    };
+
+    options = $.extend(true, defaults, options);
+
+    var $this = this;
+    var editor = this.editor;
+    var classPrefix = editormd.classPrefix;
+    var guid = (new Date()).getTime();
+    var dialogName = ((options.name === "") ? classPrefix + "dialog-" + guid : options.name);
+    var mouseOrTouch = editormd.mouseOrTouch;
+
+    var html = "<div class=\"" + classPrefix + "dialog " + dialogName + "\">";
+
+    if (options.title !== "") {
+        html += "<div class=\"" + classPrefix + "dialog-header\"" + ((options.drag) ? " style=\"cursor: move;\"" : "") + ">";
+        html += "<strong class=\"" + classPrefix + "dialog-title\">" + options.title + "</strong>";
+        html += "</div>";
+    }
+
+    if (options.closed) {
+        html += "<a href=\"javascript:;\" class=\"fa fa-close " + classPrefix + "dialog-close\"></a>";
+    }
+
+    html += "<div class=\"" + classPrefix + "dialog-container\">" + options.content;
+
+    if (options.footer || typeof options.footer === "string") {
+        html += "<div class=\"" + classPrefix + "dialog-footer\">" + ((typeof options.footer === "boolean") ? "" : options.footer) + "</div>";
+    }
+
+    html += "</div>";
+
+    html += "<div class=\"" + classPrefix + "dialog-mask " + classPrefix + "dialog-mask-bg\"></div>";
+    html += "<div class=\"" + classPrefix + "dialog-mask " + classPrefix + "dialog-mask-con\"></div>";
+    html += "</div>";
+
+    editor.append(html);
+
+    var dialog = editor.find("." + dialogName);
+
+    dialog.lockScreen = function (lock) {
+        if (options.lockScreen) {
+            $("html,body").css("overflow", (lock) ? "hidden" : "");
+            $this.resize();
+        }
+
+        return dialog;
+    };
+
+    dialog.showMask = function () {
+        if (options.mask) {
+            editor.find("." + classPrefix + "mask").css(options.maskStyle).css("z-index", editormd.dialogZindex - 1).show();
+        }
+        return dialog;
+    };
+
+    dialog.hideMask = function () {
+        if (options.mask) {
+            editor.find("." + classPrefix + "mask").hide();
+        }
+
+        return dialog;
+    };
+
+    dialog.loading = function (show) {
+        var loading = dialog.find("." + classPrefix + "dialog-mask");
+        loading[(show) ? "show" : "hide"]();
+
+        return dialog;
+    };
+
+    dialog.lockScreen(true).showMask();
+
+    dialog.show().css({
+        zIndex: editormd.dialogZindex,
+        border: (editormd.isIE8) ? "1px solid #ddd" : "",
+        width: (typeof options.width === "number") ? options.width + "px" : options.width,
+        height: (typeof options.height === "number") ? options.height + "px" : options.height
+    });
+
+    var dialogPosition = function () {
+        dialog.css({
+            top: ($(window).height() - dialog.height()) / 2 + "px",
+            left: ($(window).width() - dialog.width()) / 2 + "px"
+        });
+    };
+
+    dialogPosition();
+
+    $(window).resize(dialogPosition);
+
+    dialog.children("." + classPrefix + "dialog-close").bind(mouseOrTouch("click", "touchend"), function () {
+        dialog.hide().lockScreen(false).hideMask();
+    });
+
+    if (typeof options.buttons === "object") {
+        var footer = dialog.footer = dialog.find("." + classPrefix + "dialog-footer");
+
+        for (var key in options.buttons) {
+            var btn = options.buttons[key];
+            var btnClassName = classPrefix + key + "-btn";
+
+            footer.append("<button class=\"" + classPrefix + "btn " + btnClassName + "\">" + btn[0] + "</button>");
+            btn[1] = $.proxy(btn[1], dialog);
+            footer.children("." + btnClassName).bind(mouseOrTouch("click", "touchend"), btn[1]);
+        }
+    }
+
+    if (options.title !== "" && options.drag) {
+        var posX, posY;
+        var dialogHeader = dialog.children("." + classPrefix + "dialog-header");
+
+        if (!options.mask) {
+            dialogHeader.bind(mouseOrTouch("click", "touchend"), function () {
+                editormd.dialogZindex += 2;
+                dialog.css("z-index", editormd.dialogZindex);
+            });
+        }
+
+        dialogHeader.mousedown(function (e) {
+            e = e || window.event;  //IE
+            posX = e.clientX - parseInt(dialog[0].style.left);
+            posY = e.clientY - parseInt(dialog[0].style.top);
+
+            document.onmousemove = moveAction;
+        });
+
+        var userCanSelect = function (obj) {
+            obj.removeClass(classPrefix + "user-unselect").off("selectstart");
+        };
+
+        var userUnselect = function (obj) {
+            obj.addClass(classPrefix + "user-unselect").on("selectstart", function (event) { // selectstart for IE                        
+                return false;
+            });
+        };
+
+        var moveAction = function (e) {
+            e = e || window.event;  //IE
+
+            var left, top, nowLeft = parseInt(dialog[0].style.left), nowTop = parseInt(dialog[0].style.top);
+
+            if (nowLeft >= 0) {
+                if (nowLeft + dialog.width() <= $(window).width()) {
+                    left = e.clientX - posX;
+                } else {
+                    left = $(window).width() - dialog.width();
+                    document.onmousemove = null;
+                }
+            } else {
+                left = 0;
+                document.onmousemove = null;
+            }
+
+            if (nowTop >= 0) {
+                top = e.clientY - posY;
+            } else {
+                top = 0;
+                document.onmousemove = null;
+            }
+
+
+            document.onselectstart = function () {
+                return false;
+            };
+
+            userUnselect($("body"));
+            userUnselect(dialog);
+            dialog[0].style.left = left + "px";
+            dialog[0].style.top = top + "px";
+        };
+
+        document.onmouseup = function () {
+            userCanSelect($("body"));
+            userCanSelect(dialog);
+
+            document.onselectstart = null;
+            document.onmousemove = null;
+        };
+
+        dialogHeader.touchDraggable = function () {
+            var offset = null;
+            var start = function (e) {
+                var orig = e.originalEvent;
+                var pos = $(this).parent().position();
+
+                offset = {
+                    x: orig.changedTouches[0].pageX - pos.left,
+                    y: orig.changedTouches[0].pageY - pos.top
+                };
+            };
+
+            var move = function (e) {
+                e.preventDefault();
+                var orig = e.originalEvent;
+
+                $(this).parent().css({
+                    top: orig.changedTouches[0].pageY - offset.y,
+                    left: orig.changedTouches[0].pageX - offset.x
+                });
+            };
+
+            this.bind("touchstart", start).bind("touchmove", move);
+        };
+
+        dialogHeader.touchDraggable();
+    }
+
+    editormd.dialogZindex += 2;
+
+    return dialog;
+};
+/*
+ * Editor.md
+ *
+ * @file        methods/dateFormat.js 
+ * @version     v1.5.0 
+ * @description Open source online markdown editor.
+ * @license     MIT License
+ * @author      Pandao
+ * {@link       https://github.com/pandao/editor.md}
+ * @updateTime  2022-06-23
+ */
+
+/**
+ * 日期时间的格式化方法
+ * Datetime format method
+ * 
+ * @param   {String}   [format=""]  日期时间的格式，类似PHP的格式
+ * @returns {String}   datefmt      返回格式化后的日期时间字符串
+ */
+
+const editorDate = {
+    dateFormat: function (format) {
+        format = format || "";
+        var addZero = function (d) {
+            return (d < 10) ? "0" + d : d;
+        };
+
+        var date = new Date();
+        var year = date.getFullYear();
+        var year2 = year.toString().slice(2, 4);
+        var month = addZero(date.getMonth() + 1);
+        var day = addZero(date.getDate());
+        var weekDay = date.getDay();
+        var hour = addZero(date.getHours());
+        var min = addZero(date.getMinutes());
+        var second = addZero(date.getSeconds());
+        var ms = addZero(date.getMilliseconds());
+        var datefmt = "";
+
+        var ymd = year2 + "-" + month + "-" + day;
+        var fymd = year + "-" + month + "-" + day;
+        var hms = hour + ":" + min + ":" + second;
+
+        switch (format) {
+            case "UNIX Time":
+                datefmt = date.getTime();
+                break;
+
+            case "UTC":
+                datefmt = date.toUTCString();
+                break;
+
+            case "yy":
+                datefmt = year2;
+                break;
+
+            case "year":
+            case "yyyy":
+                datefmt = year;
+                break;
+
+            case "month":
+            case "mm":
+                datefmt = month;
+                break;
+
+            case "cn-week-day":
+            case "cn-wd":
+                var cnWeekDays = ["日", "一", "二", "三", "四", "五", "六"];
+                datefmt = "星期" + cnWeekDays[weekDay];
+                break;
+
+            case "week-day":
+            case "wd":
+                var weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                datefmt = weekDays[weekDay];
+                break;
+
+            case "day":
+            case "dd":
+                datefmt = day;
+                break;
+
+            case "hour":
+            case "hh":
+                datefmt = hour;
+                break;
+
+            case "min":
+            case "ii":
+                datefmt = min;
+                break;
+
+            case "second":
+            case "ss":
+                datefmt = second;
+                break;
+
+            case "ms":
+                datefmt = ms;
+                break;
+
+            case "yy-mm-dd":
+                datefmt = ymd;
+                break;
+
+            case "yyyy-mm-dd":
+                datefmt = fymd;
+                break;
+
+            case "yyyy-mm-dd h:i:s ms":
+            case "full + ms":
+                datefmt = fymd + " " + hms + " " + ms;
+                break;
+
+            case "full":
+            case "yyyy-mm-dd h:i:s":
+            default:
+                datefmt = fymd + " " + hms;
+                break;
+        }
+
+        return datefmt;
+    }
+};
+
+/*
+ * Editor.md
+ *
+ * @file        methods/filterHTMLTags.js 
+ * @version     v1.5.0 
+ * @description Open source online markdown editor.
+ * @license     MIT License
+ * @author      Pandao
+ * {@link       https://github.com/pandao/editor.md}
+ * @updateTime  2022-06-23
+ */
+
+/**
+ * 简单地过滤指定的HTML标签
+ * Filter custom html tags
+ * 
+ * @param   {String}   html          要过滤HTML
+ * @param   {String}   filters       要过滤的标签
+ * @returns {String}   html          返回过滤的HTML
+ */
+const filterHTMLTags = function (html, filters) {
+
+    if (typeof html !== "string") {
+        html = new String(html);
+    }
+
+    if (typeof filters !== "string") {
+        return html;
+    }
+
+    var expression = filters.split("|");
+    var filterTags = expression[0].split(",");
+    var attrs = expression[1];
+
+    for (var i = 0, len = filterTags.length; i < len; i++) {
+        var tag = filterTags[i];
+
+        html = html.replace(new RegExp("\<\s*" + tag + "\s*([^\>]*)\>([^\>]*)\<\s*\/" + tag + "\s*\>", "igm"), "");
+    }
+
+    //return html;
+
+    if (typeof attrs !== "undefined") {
+        var htmlTagRegex = /\<(\w+)\s*([^\>]*)\>([^\>]*)\<\/(\w+)\>/ig;
+
+        if (attrs === "*") {
+            html = html.replace(htmlTagRegex, function ($1, $2, $3, $4, $5) {
+                return "<" + $2 + ">" + $4 + "</" + $5 + ">";
+            });
+        }
+        else if (attrs === "on*") {
+            html = html.replace(htmlTagRegex, function ($1, $2, $3, $4, $5) {
+                var el = $("<" + $2 + ">" + $4 + "</" + $5 + ">");
+                var _attrs = $($1)[0].attributes;
+                var $attrs = {};
+
+                $.each(_attrs, function (i, e) {
+                    if (e.nodeName !== '"') $attrs[e.nodeName] = e.nodeValue;
+                });
+
+                $.each($attrs, function (i) {
+                    if (i.indexOf("on") === 0) {
+                        delete $attrs[i];
+                    }
+                });
+
+                el.attr($attrs);
+
+                var text = (typeof el[1] !== "undefined") ? $(el[1]).text() : "";
+
+                return el[0].outerHTML + text;
+            });
+        }
+        else {
+            html = html.replace(htmlTagRegex, function ($1, $2, $3, $4) {
+                var filterAttrs = attrs.split(",");
+                var el = $($1);
+                el.html($4);
+
+                $.each(filterAttrs, function (i) {
+                    el.attr(filterAttrs[i], null);
+                });
+
+                return el[0].outerHTML;
+            });
+        }
+    }
+
+    return html;
+};
+/*
+ * Editor.md
+ *
+ * @file        methods/mouseOrTouch.js 
+ * @version     v1.5.0 
+ * @description Open source online markdown editor.
+ * @license     MIT License
+ * @author      Pandao
+ * {@link       https://github.com/pandao/editor.md}
+ * @updateTime  2022-06-23
+ */
+
+/**
+  * 鼠标和触摸事件的判断/选择方法
+  * MouseEvent or TouchEvent type switch
+  * 
+  * @param   {String} [mouseEventType="click"]    供选择的鼠标事件
+  * @param   {String} [touchEventType="touchend"] 供选择的触摸事件
+  * @returns {String} EventType                   返回事件类型名称
+  */
+const mouseOrTouch = function (mouseEventType, touchEventType) {
+    mouseEventType = mouseEventType || "click";
+    touchEventType = touchEventType || "touchend";
+
+    var eventType = mouseEventType;
+
+    try {
+        document.createEvent("TouchEvent");
+        eventType = touchEventType;
+    } catch (e) { }
+
+    return eventType;
+};
+/*
+ * Editor.md
+ *
+ * @file        methods/tocDropdownMenu.js 
+ * @version     v1.5.0 
+ * @description Open source online markdown editor.
+ * @license     MIT License
+ * @author      Pandao
+ * {@link       https://github.com/pandao/editor.md}
+ * @updateTime  2022-06-23
+ */
+
+/**
+ *
+ * 生成TOC下拉菜单
+ * Creating ToC dropdown menu
+ * 
+ * @param   {Object}   container       插入TOC的容器jQuery对象元素
+ * @param   {String}   tocTitle        ToC title
+ * @returns {Object}                   return toc-menu object
+ */
+
+const tocDropdownMenu = function (container, tocTitle) {
+
+    tocTitle = tocTitle || "Table of Contents";
+
+    var zindex = 400;
+    var tocMenus = container.find("." + this.classPrefix + "toc-menu");
+
+    tocMenus.each(function () {
+        var $this = $(this);
+        var toc = $this.children(".markdown-toc");
+        var icon = "<i class=\"fa fa-angle-down\"></i>";
+        var btn = "<a href=\"javascript:;\" class=\"toc-menu-btn\">" + icon + tocTitle + "</a>";
+        var menu = toc.children("ul");
+        var list = menu.find("li");
+
+        toc.append(btn);
+
+        list.first().before("<li><h1>" + tocTitle + " " + icon + "</h1></li>");
+
+        $this.mouseover(function () {
+            menu.show();
+
+            list.each(function () {
+                var li = $(this);
+                var ul = li.children("ul");
+
+                if (ul.html() === "") {
+                    ul.remove();
+                }
+
+                if (ul.length > 0 && ul.html() !== "") {
+                    var firstA = li.children("a").first();
+
+                    if (firstA.children(".fa").length < 1) {
+                        firstA.append($(icon).css({ float: "right", paddingTop: "4px" }));
+                    }
+                }
+
+                li.mouseover(function () {
+                    ul.css("z-index", zindex).show();
+                    zindex += 1;
+                }).mouseleave(function () {
+                    ul.hide();
+                });
+            });
+        }).mouseleave(function () {
+            menu.hide();
+        });
+    });
+
+    return tocMenus;
+};
+/*
+ * Editor.md
+ *
  * @file        loader/defaultConst.js 
  * @version     v1.5.0 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -1950,26 +2521,13 @@ const defaultConst = {
 /*
  * Editor.md
  *
- * @file        loader/loadCSS.js 
- * @version     v1.5.0 
- * @description Open source online markdown editor.
- * @license     MIT License
- * @author      Pandao
- * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
- */
-
-
-/*
- * Editor.md
- *
  * @file        loader/loadPlugin.js 
  * @version     v1.5.0 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 const loadPluginProto = {
@@ -1985,48 +2543,6 @@ const loadPluginProto = {
         var settings = this.settings;
         var loadPath = settings.path;
 
-        var loadFlowChartOrSequenceDiagram = function () {
-
-            if (editormd.isIE8) {
-                _this.loadedDisplay();
-                return;
-            }
-
-            if (settings.flowChart || settings.sequenceDiagram) {
-                editormd.loadScript(loadPath + "raphael.min", function () {
-
-                    editormd.loadScript(loadPath + "underscore.min", function () {
-
-                        if (!settings.flowChart && settings.sequenceDiagram) {
-                            editormd.loadScript(loadPath + "sequence-diagram.min", function () {
-                                _this.loadedDisplay();
-                            });
-                        }
-                        else if (settings.flowChart && !settings.sequenceDiagram) {
-                            editormd.loadScript(loadPath + "flowchart.min", function () {
-                                editormd.loadScript(loadPath + "jquery.flowchart.min", function () {
-                                    _this.loadedDisplay();
-                                });
-                            });
-                        }
-                        else if (settings.flowChart && settings.sequenceDiagram) {
-                            editormd.loadScript(loadPath + "flowchart.min", function () {
-                                editormd.loadScript(loadPath + "jquery.flowchart.min", function () {
-                                    editormd.loadScript(loadPath + "sequence-diagram.min", function () {
-                                        _this.loadedDisplay();
-                                    });
-                                });
-                            });
-                        }
-                    });
-
-                });
-            }
-            else {
-                _this.loadedDisplay();
-            }
-        };
-
         editormd.loadCSS(loadPath + "codemirror/codemirror.min");
 
         if (settings.searchReplace && !settings.readOnly) {
@@ -2038,59 +2554,73 @@ const loadPluginProto = {
             editormd.loadCSS(loadPath + "codemirror/addon/fold/foldgutter");
         }
 
-        editormd.loadScript(loadPath + "codemirror/codemirror.min", function () {
-            editormd.$CodeMirror = CodeMirror;
-
-            editormd.loadScript(loadPath + "codemirror/modes.min", function () {
-
-                editormd.loadScript(loadPath + "codemirror/addons.min", function () {
-
-                    _this.setCodeMirror();
-
-                    if (settings.mode !== "gfm" && settings.mode !== "markdown") {
-                        _this.loadedDisplay();
-
-                        return false;
-                    }
-
-                    _this.setToolbar();
-
-                    editormd.loadScript(loadPath + "marked.min", function () {
-
-                        editormd.$marked = marked;
-
-                        if (settings.previewCodeHighlight) {
-                            editormd.loadScript(loadPath + "prettify.min", function () {
-                                loadFlowChartOrSequenceDiagram();
-                            });
-                        }
-                        else {
-                            loadFlowChartOrSequenceDiagram();
-                        }
-                    });
-
-                });
-
+        editormd.loadScripts(editormd.codeMirrorScripts, settings.path)
+            .then(() => {
+                _this.codeMirrorLoaderHandler();
             });
 
-        });
 
         return this;
     },
-};
-/*
- * Editor.md
- *
- * @file        loader/loadScript.js 
- * @version     v1.5.0 
- * @description Open source online markdown editor.
- * @license     MIT License
- * @author      Pandao
- * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
- */
 
-;
+    loadFlowChartOrSequenceDiagram: function () {
+        var _this = this;
+        var { settings } = this;
+
+        if (editormd.isIE8) {
+            _this.loadedDisplay();
+            return;
+        }
+
+        if (settings.flowChart || settings.sequenceDiagram) {
+            editormd.loadScripts([
+                "raphael.min.js",
+                "underscore.min.js"
+            ], settings.path).then(() => {
+                if (!settings.flowChart && settings.sequenceDiagram) {
+                    editormd.loadScripts([
+                        "sequence-diagram.min.js",
+                    ], settings.path).then(() => {
+                        _this.loadedDisplay();
+                    });
+                }
+                else if (settings.flowChart && !settings.sequenceDiagram) {
+                    editormd.loadScripts([
+                        editormd.flowChartScripts
+                    ], settings.path).then(() => {
+                        _this.loadedDisplay();
+                    });
+                }
+                else if (settings.flowChart && settings.sequenceDiagram) {
+                    editormd.loadScripts([
+                        editormd.flowChartScripts.push("sequence-diagram.min.js")
+                    ], settings.path).then(() => {
+                        _this.loadedDisplay();
+                    });
+
+                    // editormd.loadScript(loadPath + "flowchart.min", function () {
+                    //     editormd.loadScript(loadPath + "jquery.flowchart.min", function () {
+                    //         editormd.loadScript(loadPath + "", function () {
+                    //             _this.loadedDisplay();
+                    //         });
+                    //     });
+                    // });
+                }
+            });
+
+            // editormd.loadScript(loadPath + "raphael.min", function () {
+            //     editormd.loadScript(loadPath + "underscore.min", function () {
+
+
+            //     });
+
+            // });
+        }
+        else {
+            _this.loadedDisplay();
+        }
+    },
+};
 /*
  * Editor.md
  *
@@ -2100,7 +2630,7 @@ const loadPluginProto = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 const loaderProp = {
@@ -2114,7 +2644,6 @@ const loaderProp = {
      */
 
     loadCSS: function (fileName, callback, into) {
-        into = into || "head";
         callback = callback || function () { };
 
         var css = document.createElement("link");
@@ -2127,11 +2656,7 @@ const loaderProp = {
 
         css.href = fileName + ".css";
 
-        if (into === "head") {
-            document.getElementsByTagName("head")[0].appendChild(css);
-        } else {
-            document.body.appendChild(css);
-        }
+        this.appendFile2Load(css, into);
     },
 
     /**
@@ -2163,7 +2688,7 @@ const loaderProp = {
 
     loadScript: function (fileName, callback, into) {
 
-        into = into || "head";
+
         callback = callback || function () { };
 
         var script = null;
@@ -2182,954 +2707,620 @@ const loaderProp = {
                     }
                 }
             };
-        }
-        else {
+        } else {
             script.onload = function () {
                 editormd.loadFiles.js.push(fileName);
                 callback();
             };
         }
+        this.appendFile2Load(script, into);
 
-        if (into === "head") {
-            document.getElementsByTagName("head")[0].appendChild(script);
-        } else {
-            document.body.appendChild(script);
+    },
+
+    loadScripts: function (filenames, rootPath, callback) {
+        if (!filenames) {
+            return Promise.resolve();
         }
-    }
-};
-/*
- * Editor.md
- *
- * @file        methods/createDialog.js 
- * @version     v1.5.0 
- * @description Open source online markdown editor.
- * @license     MIT License
- * @author      Pandao
- * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
- */
-
-/**
- * 动态创建对话框
- * Creating custom dialogs
- * 
- * @param   {Object} options 配置项键值对 Key/Value
- * @returns {dialog} 返回创建的dialog的jQuery实例对象
- */
-
-const createDialog = function (options) {
-    var defaults = {
-        name: "",
-        width: 420,
-        height: 240,
-        title: "",
-        drag: true,
-        closed: true,
-        content: "",
-        mask: true,
-        maskStyle: {
-            backgroundColor: "#fff",
-            opacity: 0.1
-        },
-        lockScreen: true,
-        footer: true,
-        buttons: false
-    };
-
-    options = $.extend(true, defaults, options);
-
-    var $this = this;
-    var editor = this.editor;
-    var classPrefix = editormd.classPrefix;
-    var guid = (new Date()).getTime();
-    var dialogName = ((options.name === "") ? classPrefix + "dialog-" + guid : options.name);
-    var mouseOrTouch = editormd.mouseOrTouch;
-
-    var html = "<div class=\"" + classPrefix + "dialog " + dialogName + "\">";
-
-    if (options.title !== "") {
-        html += "<div class=\"" + classPrefix + "dialog-header\"" + ((options.drag) ? " style=\"cursor: move;\"" : "") + ">";
-        html += "<strong class=\"" + classPrefix + "dialog-title\">" + options.title + "</strong>";
-        html += "</div>";
-    }
-
-    if (options.closed) {
-        html += "<a href=\"javascript:;\" class=\"fa fa-close " + classPrefix + "dialog-close\"></a>";
-    }
-
-    html += "<div class=\"" + classPrefix + "dialog-container\">" + options.content;
-
-    if (options.footer || typeof options.footer === "string") {
-        html += "<div class=\"" + classPrefix + "dialog-footer\">" + ((typeof options.footer === "boolean") ? "" : options.footer) + "</div>";
-    }
-
-    html += "</div>";
-
-    html += "<div class=\"" + classPrefix + "dialog-mask " + classPrefix + "dialog-mask-bg\"></div>";
-    html += "<div class=\"" + classPrefix + "dialog-mask " + classPrefix + "dialog-mask-con\"></div>";
-    html += "</div>";
-
-    editor.append(html);
-
-    var dialog = editor.find("." + dialogName);
-
-    dialog.lockScreen = function (lock) {
-        if (options.lockScreen) {
-            $("html,body").css("overflow", (lock) ? "hidden" : "");
-            $this.resize();
+        if (typeof filenames === 'string') {
+            filenames = [filenames];
         }
-
-        return dialog;
-    };
-
-    dialog.showMask = function () {
-        if (options.mask) {
-            editor.find("." + classPrefix + "mask").css(options.maskStyle).css("z-index", editormd.dialogZindex - 1).show();
+        if (typeof rootPath === 'function') {
+            callback = rootPath;
+            rootPath = '';
         }
-        return dialog;
-    };
-
-    dialog.hideMask = function () {
-        if (options.mask) {
-            editor.find("." + classPrefix + "mask").hide();
-        }
-
-        return dialog;
-    };
-
-    dialog.loading = function (show) {
-        var loading = dialog.find("." + classPrefix + "dialog-mask");
-        loading[(show) ? "show" : "hide"]();
-
-        return dialog;
-    };
-
-    dialog.lockScreen(true).showMask();
-
-    dialog.show().css({
-        zIndex: editormd.dialogZindex,
-        border: (editormd.isIE8) ? "1px solid #ddd" : "",
-        width: (typeof options.width === "number") ? options.width + "px" : options.width,
-        height: (typeof options.height === "number") ? options.height + "px" : options.height
-    });
-
-    var dialogPosition = function () {
-        dialog.css({
-            top: ($(window).height() - dialog.height()) / 2 + "px",
-            left: ($(window).width() - dialog.width()) / 2 + "px"
-        });
-    };
-
-    dialogPosition();
-
-    $(window).resize(dialogPosition);
-
-    dialog.children("." + classPrefix + "dialog-close").bind(mouseOrTouch("click", "touchend"), function () {
-        dialog.hide().lockScreen(false).hideMask();
-    });
-
-    if (typeof options.buttons === "object") {
-        var footer = dialog.footer = dialog.find("." + classPrefix + "dialog-footer");
-
-        for (var key in options.buttons) {
-            var btn = options.buttons[key];
-            var btnClassName = classPrefix + key + "-btn";
-
-            footer.append("<button class=\"" + classPrefix + "btn " + btnClassName + "\">" + btn[0] + "</button>");
-            btn[1] = $.proxy(btn[1], dialog);
-            footer.children("." + btnClassName).bind(mouseOrTouch("click", "touchend"), btn[1]);
-        }
-    }
-
-    if (options.title !== "" && options.drag) {
-        var posX, posY;
-        var dialogHeader = dialog.children("." + classPrefix + "dialog-header");
-
-        if (!options.mask) {
-            dialogHeader.bind(mouseOrTouch("click", "touchend"), function () {
-                editormd.dialogZindex += 2;
-                dialog.css("z-index", editormd.dialogZindex);
+        const test = filenames.map((filename) => {
+            return new Promise(function (resolve, reject) {
+                let script = document.createElement('script')
+                script.src = rootPath + filename;
+                script.id = filename.replace(/[\./]+/g, "-");
+                script.type = "text/javascript";
+                script.onload = resolve
+                script.onerror = reject
+                document.getElementsByTagName("head")[0].appendChild(script);
+                //document.head.append(script)
             });
-        }
-
-        dialogHeader.mousedown(function (e) {
-            e = e || window.event;  //IE
-            posX = e.clientX - parseInt(dialog[0].style.left);
-            posY = e.clientY - parseInt(dialog[0].style.top);
-
-            document.onmousemove = moveAction;
         });
+        return Promise.allSettled(test)
+            .catch(error => {
+                console.error(error.message)
+            })
+        return;
+        return new Promise((resolve, reject) => {
+            try {
+                const script = document.createElement("script");
+                const container = document.head || document.body;
 
-        var userCanSelect = function (obj) {
-            obj.removeClass(classPrefix + "user-unselect").off("selectstart");
-        };
+                script.async = true;
+                script.src = src;
+                script.id = fileName.replace(/[\./]+/g, "-");
+                script.type = "text/javascript";
 
-        var userUnselect = function (obj) {
-            obj.addClass(classPrefix + "user-unselect").on("selectstart", function (event) { // selectstart for IE                        
-                return false;
-            });
-        };
-
-        var moveAction = function (e) {
-            e = e || window.event;  //IE
-
-            var left, top, nowLeft = parseInt(dialog[0].style.left), nowTop = parseInt(dialog[0].style.top);
-
-            if (nowLeft >= 0) {
-                if (nowLeft + dialog.width() <= $(window).width()) {
-                    left = e.clientX - posX;
-                } else {
-                    left = $(window).width() - dialog.width();
-                    document.onmousemove = null;
-                }
-            } else {
-                left = 0;
-                document.onmousemove = null;
-            }
-
-            if (nowTop >= 0) {
-                top = e.clientY - posY;
-            } else {
-                top = 0;
-                document.onmousemove = null;
-            }
-
-
-            document.onselectstart = function () {
-                return false;
-            };
-
-            userUnselect($("body"));
-            userUnselect(dialog);
-            dialog[0].style.left = left + "px";
-            dialog[0].style.top = top + "px";
-        };
-
-        document.onmouseup = function () {
-            userCanSelect($("body"));
-            userCanSelect(dialog);
-
-            document.onselectstart = null;
-            document.onmousemove = null;
-        };
-
-        dialogHeader.touchDraggable = function () {
-            var offset = null;
-            var start = function (e) {
-                var orig = e.originalEvent;
-                var pos = $(this).parent().position();
-
-                offset = {
-                    x: orig.changedTouches[0].pageX - pos.left,
-                    y: orig.changedTouches[0].pageY - pos.top
+                script.onload = function () {
+                    editormd.loadFiles.js.push(fileName);
+                    callback();
+                    resolve({ status: true });
                 };
-            };
 
-            var move = function (e) {
-                e.preventDefault();
-                var orig = e.originalEvent;
+                // el.addEventListener("load", () => {
+                //     resolve({ status: true });
+                // });
 
-                $(this).parent().css({
-                    top: orig.changedTouches[0].pageY - offset.y,
-                    left: orig.changedTouches[0].pageX - offset.x
-                });
-            };
-
-            this.bind("touchstart", start).bind("touchmove", move);
-        };
-
-        dialogHeader.touchDraggable();
-    }
-
-    editormd.dialogZindex += 2;
-
-    return dialog;
-};
-/*
- * Editor.md
- *
- * @file        methods/dateFormat.js 
- * @version     v1.5.0 
- * @description Open source online markdown editor.
- * @license     MIT License
- * @author      Pandao
- * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
- */
-
-/**
- * 日期时间的格式化方法
- * Datetime format method
- * 
- * @param   {String}   [format=""]  日期时间的格式，类似PHP的格式
- * @returns {String}   datefmt      返回格式化后的日期时间字符串
- */
-
-const editorDate = {
-    dateFormat: function (format) {
-        format = format || "";
-        var addZero = function (d) {
-            return (d < 10) ? "0" + d : d;
-        };
-
-        var date = new Date();
-        var year = date.getFullYear();
-        var year2 = year.toString().slice(2, 4);
-        var month = addZero(date.getMonth() + 1);
-        var day = addZero(date.getDate());
-        var weekDay = date.getDay();
-        var hour = addZero(date.getHours());
-        var min = addZero(date.getMinutes());
-        var second = addZero(date.getSeconds());
-        var ms = addZero(date.getMilliseconds());
-        var datefmt = "";
-
-        var ymd = year2 + "-" + month + "-" + day;
-        var fymd = year + "-" + month + "-" + day;
-        var hms = hour + ":" + min + ":" + second;
-
-        switch (format) {
-            case "UNIX Time":
-                datefmt = date.getTime();
-                break;
-
-            case "UTC":
-                datefmt = date.toUTCString();
-                break;
-
-            case "yy":
-                datefmt = year2;
-                break;
-
-            case "year":
-            case "yyyy":
-                datefmt = year;
-                break;
-
-            case "month":
-            case "mm":
-                datefmt = month;
-                break;
-
-            case "cn-week-day":
-            case "cn-wd":
-                var cnWeekDays = ["日", "一", "二", "三", "四", "五", "六"];
-                datefmt = "星期" + cnWeekDays[weekDay];
-                break;
-
-            case "week-day":
-            case "wd":
-                var weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-                datefmt = weekDays[weekDay];
-                break;
-
-            case "day":
-            case "dd":
-                datefmt = day;
-                break;
-
-            case "hour":
-            case "hh":
-                datefmt = hour;
-                break;
-
-            case "min":
-            case "ii":
-                datefmt = min;
-                break;
-
-            case "second":
-            case "ss":
-                datefmt = second;
-                break;
-
-            case "ms":
-                datefmt = ms;
-                break;
-
-            case "yy-mm-dd":
-                datefmt = ymd;
-                break;
-
-            case "yyyy-mm-dd":
-                datefmt = fymd;
-                break;
-
-            case "yyyy-mm-dd h:i:s ms":
-            case "full + ms":
-                datefmt = fymd + " " + hms + " " + ms;
-                break;
-
-            case "full":
-            case "yyyy-mm-dd h:i:s":
-            default:
-                datefmt = fymd + " " + hms;
-                break;
-        }
-
-        return datefmt;
-    }
-};
-
-/*
- * Editor.md
- *
- * @file        methods/filterHTMLTags.js 
- * @version     v1.5.0 
- * @description Open source online markdown editor.
- * @license     MIT License
- * @author      Pandao
- * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
- */
-
-/**
- * 简单地过滤指定的HTML标签
- * Filter custom html tags
- * 
- * @param   {String}   html          要过滤HTML
- * @param   {String}   filters       要过滤的标签
- * @returns {String}   html          返回过滤的HTML
- */
-const filterHTMLTags = function (html, filters) {
-
-    if (typeof html !== "string") {
-        html = new String(html);
-    }
-
-    if (typeof filters !== "string") {
-        return html;
-    }
-
-    var expression = filters.split("|");
-    var filterTags = expression[0].split(",");
-    var attrs = expression[1];
-
-    for (var i = 0, len = filterTags.length; i < len; i++) {
-        var tag = filterTags[i];
-
-        html = html.replace(new RegExp("\<\s*" + tag + "\s*([^\>]*)\>([^\>]*)\<\s*\/" + tag + "\s*\>", "igm"), "");
-    }
-
-    //return html;
-
-    if (typeof attrs !== "undefined") {
-        var htmlTagRegex = /\<(\w+)\s*([^\>]*)\>([^\>]*)\<\/(\w+)\>/ig;
-
-        if (attrs === "*") {
-            html = html.replace(htmlTagRegex, function ($1, $2, $3, $4, $5) {
-                return "<" + $2 + ">" + $4 + "</" + $5 + ">";
-            });
-        }
-        else if (attrs === "on*") {
-            html = html.replace(htmlTagRegex, function ($1, $2, $3, $4, $5) {
-                var el = $("<" + $2 + ">" + $4 + "</" + $5 + ">");
-                var _attrs = $($1)[0].attributes;
-                var $attrs = {};
-
-                $.each(_attrs, function (i, e) {
-                    if (e.nodeName !== '"') $attrs[e.nodeName] = e.nodeValue;
+                script.addEventListener("error", () => {
+                    reject({
+                        status: false,
+                        message: `Failed to load the script ${src}`
+                    });
                 });
 
-                $.each($attrs, function (i) {
-                    if (i.indexOf("on") === 0) {
-                        delete $attrs[i];
-                    }
-                });
-
-                el.attr($attrs);
-
-                var text = (typeof el[1] !== "undefined") ? $(el[1]).text() : "";
-
-                return el[0].outerHTML + text;
-            });
-        }
-        else {
-            html = html.replace(htmlTagRegex, function ($1, $2, $3, $4) {
-                var filterAttrs = attrs.split(",");
-                var el = $($1);
-                el.html($4);
-
-                $.each(filterAttrs, function (i) {
-                    el.attr(filterAttrs[i], null);
-                });
-
-                return el[0].outerHTML;
-            });
-        }
-    }
-
-    return html;
-};
-/*
- * Editor.md
- *
- * @file        methods/mouseOrTouch.js 
- * @version     v1.5.0 
- * @description Open source online markdown editor.
- * @license     MIT License
- * @author      Pandao
- * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
- */
-
-/**
-  * 鼠标和触摸事件的判断/选择方法
-  * MouseEvent or TouchEvent type switch
-  * 
-  * @param   {String} [mouseEventType="click"]    供选择的鼠标事件
-  * @param   {String} [touchEventType="touchend"] 供选择的触摸事件
-  * @returns {String} EventType                   返回事件类型名称
-  */
-const mouseOrTouch = function (mouseEventType, touchEventType) {
-    mouseEventType = mouseEventType || "click";
-    touchEventType = touchEventType || "touchend";
-
-    var eventType = mouseEventType;
-
-    try {
-        document.createEvent("TouchEvent");
-        eventType = touchEventType;
-    } catch (e) { }
-
-    return eventType;
-};
-/*
- * Editor.md
- *
- * @file        methods/tocDropdownMenu.js 
- * @version     v1.5.0 
- * @description Open source online markdown editor.
- * @license     MIT License
- * @author      Pandao
- * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
- */
-
-/**
- *
- * 生成TOC下拉菜单
- * Creating ToC dropdown menu
- * 
- * @param   {Object}   container       插入TOC的容器jQuery对象元素
- * @param   {String}   tocTitle        ToC title
- * @returns {Object}                   return toc-menu object
- */
-
-const tocDropdownMenu = function (container, tocTitle) {
-
-    tocTitle = tocTitle || "Table of Contents";
-
-    var zindex = 400;
-    var tocMenus = container.find("." + this.classPrefix + "toc-menu");
-
-    tocMenus.each(function () {
-        var $this = $(this);
-        var toc = $this.children(".markdown-toc");
-        var icon = "<i class=\"fa fa-angle-down\"></i>";
-        var btn = "<a href=\"javascript:;\" class=\"toc-menu-btn\">" + icon + tocTitle + "</a>";
-        var menu = toc.children("ul");
-        var list = menu.find("li");
-
-        toc.append(btn);
-
-        list.first().before("<li><h1>" + tocTitle + " " + icon + "</h1></li>");
-
-        $this.mouseover(function () {
-            menu.show();
-
-            list.each(function () {
-                var li = $(this);
-                var ul = li.children("ul");
-
-                if (ul.html() === "") {
-                    ul.remove();
-                }
-
-                if (ul.length > 0 && ul.html() !== "") {
-                    var firstA = li.children("a").first();
-
-                    if (firstA.children(".fa").length < 1) {
-                        firstA.append($(icon).css({ float: "right", paddingTop: "4px" }));
-                    }
-                }
-
-                li.mouseover(function () {
-                    ul.css("z-index", zindex).show();
-                    zindex += 1;
-                }).mouseleave(function () {
-                    ul.hide();
-                });
-            });
-        }).mouseleave(function () {
-            menu.hide();
+                //container.appendChild(el);
+                this.appendFile2Load(script);
+            } catch (err) {
+                reject(err);
+            }
         });
-    });
+    },
 
-    return tocMenus;
+    appendFile2Load: function (file, into) {
+        into = into || "head";
+        if (into === "head") {
+            document.getElementsByTagName("head")[0].appendChild(file);
+        } else {
+            document.body.appendChild(file);
+        }
+    }
 };
 /*
  * Editor.md
  *
- * @file        toolbar/toolbarHandlers.js 
+ * @file        prototypes/cursorProto.js 
  * @version     v1.5.0 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
-const toolbarHandlers = {
-    undo: function () {
-        this.cm.undo();
+const cursorProto = {
+    /**
+     * 聚焦光标位置
+     * Focusing the cursor position
+     * 
+     * @returns {editormd}         返回editormd的实例对象
+     */
+
+    focus: function () {
+        this.cm.focus();
+        return this;
     },
 
-    redo: function () {
-        this.cm.redo();
+    /**
+    * 设置光标的位置
+    * Set cursor position
+    * 
+    * @param   {Object}    cursor 要设置的光标位置键值对象，例：{line:1, ch:0}
+    * @returns {editormd}         返回editormd的实例对象
+    */
+
+    setCursor: function (cursor) {
+        this.cm.setCursor(cursor);
+        return this;
     },
 
-    bold: function () {
-        var cm = this.cm;
-        var cursor = cm.getCursor();
-        var selection = cm.getSelection();
+    /**
+     * 获取当前光标的位置
+     * Get the current position of the cursor
+     * 
+     * @returns {Cursor}         返回一个光标Cursor对象
+     */
 
-        cm.replaceSelection("**" + selection + "**");
+    getCursor: function () {
+        return this.cm.getCursor();
+    },
+};
+/*
+ * Editor.md
+ *
+ * @file        prototypes/selectionProto.js 
+ * @version     v1.5.0 
+ * @description Open source online markdown editor.
+ * @license     MIT License
+ * @author      Pandao
+ * {@link       https://github.com/pandao/editor.md}
+ * @updateTime  2022-06-23
+ */
 
-        if (selection === "") {
-            cm.setCursor(cursor.line, cursor.ch + 2);
-        }
+const selectionProto = {
+    /**
+    * 替换当前光标选中的文本或在当前光标处插入新字符
+    * Replace the text at the current cursor selected or insert a new character at the current cursor position
+    * 
+    * @param   {String}    value  要插入的字符值
+    * @returns {editormd}         返回editormd的实例对象
+    */
+
+    replaceSelection: function (value) {
+        this.cm.replaceSelection(value);
+        return this;
     },
 
-    del: function () {
-        var cm = this.cm;
-        var cursor = cm.getCursor();
-        var selection = cm.getSelection();
+    /**
+     * 设置光标选中的范围
+     * Set cursor selected ranges
+     * 
+     * @param   {Object}    from   开始位置的光标键值对象，例：{line:1, ch:0}
+     * @param   {Object}    to     结束位置的光标键值对象，例：{line:1, ch:0}
+     * @returns {editormd}         返回editormd的实例对象
+     */
 
-        cm.replaceSelection("~~" + selection + "~~");
-
-        if (selection === "") {
-            cm.setCursor(cursor.line, cursor.ch + 2);
-        }
+    setSelection: function (from, to) {
+        this.cm.setSelection(from, to);
+        return this;
     },
 
-    italic: function () {
-        var cm = this.cm;
-        var cursor = cm.getCursor();
-        var selection = cm.getSelection();
+    /**
+     * 获取光标选中的文本
+     * Get the texts from cursor selected
+     * 
+     * @returns {String}         返回选中文本的字符串形式
+     */
 
-        cm.replaceSelection("*" + selection + "*");
-
-        if (selection === "") {
-            cm.setCursor(cursor.line, cursor.ch + 1);
-        }
+    getSelection: function () {
+        return this.cm.getSelection();
     },
 
-    quote: function () {
-        var cm = this.cm;
-        var cursor = cm.getCursor();
-        var selection = cm.getSelection();
+    /**
+     * 设置光标选中的文本范围
+     * Set the cursor selection ranges
+     * 
+     * @param   {Array}    ranges  cursor selection ranges array
+     * @returns {Array}            return this
+     */
 
-        if (cursor.ch !== 0) {
-            cm.setCursor(cursor.line, 0);
-            cm.replaceSelection("> " + selection);
-            cm.setCursor(cursor.line, cursor.ch + 2);
-        }
-        else {
-            cm.replaceSelection("> " + selection);
-        }
-
-        //cm.replaceSelection("> " + selection);
-        //cm.setCursor(cursor.line, (selection === "") ? cursor.ch + 2 : cursor.ch + selection.length + 2);
+    setSelections: function (ranges) {
+        this.cm.setSelections(ranges);
+        return this;
     },
 
-    ucfirst: function () {
-        var cm = this.cm;
-        var selection = cm.getSelection();
-        var selections = cm.listSelections();
+    /**
+     * 获取光标选中的文本范围
+     * Get the cursor selection ranges
+     * 
+     * @returns {Array}         return selection ranges array
+     */
 
-        cm.replaceSelection(editormd.firstUpperCase(selection));
-        cm.setSelections(selections);
+    getSelections: function () {
+        return this.cm.getSelections();
+    },
+};
+/*
+ * Editor.md
+ *
+ * @file        prototypes/settingProto.js 
+ * @version     v1.5.0 
+ * @description Open source online markdown editor.
+ * @license     MIT License
+ * @author      Pandao
+ * {@link       https://github.com/pandao/editor.md}
+ * @updateTime  2022-06-23
+ */
+
+const settingProto = {
+    /**
+     * 设置或扩展当前实例对象，单个设置
+     * Extend editormd instance object, one by one
+     * 
+     * @param   {String|Object}   key       option key
+     * @param   {String|Object}   value     option value
+     * @returns {editormd}                  this(editormd instance object.)
+     */
+
+    set: function (key, value) {
+
+        if (typeof value !== "undefined" && typeof value === "function") {
+            value = $.proxy(value, this);
+        }
+
+        this[key] = value;
+
+        return this;
     },
 
-    ucwords: function () {
-        var cm = this.cm;
-        var selection = cm.getSelection();
-        var selections = cm.listSelections();
+    /**
+     * 重新配置
+     * Resetting editor options
+     * 
+     * @param   {String|Object}   key       option key
+     * @param   {String|Object}   value     option value
+     * @returns {editormd}                  this(editormd instance object.)
+     */
 
-        cm.replaceSelection(editormd.wordsFirstUpperCase(selection));
-        cm.setSelections(selections);
+    config: function (key, value) {
+        var settings = this.settings;
+
+        if (typeof key === "object") {
+            settings = $.extend(true, settings, key);
+        }
+
+        if (typeof key === "string") {
+            settings[key] = value;
+        }
+
+        this.settings = settings;
+        this.recreate();
+
+        return this;
+    },
+};
+/*
+ * Editor.md
+ *
+ * @file        prototypes/theme.js 
+ * @version     v1.5.0 
+ * @description Open source online markdown editor.
+ * @license     MIT License
+ * @author      Pandao
+ * {@link       https://github.com/pandao/editor.md}
+ * @updateTime  2022-06-23
+ */
+
+
+const themeProto = {
+    /**
+    * 设置 Editor.md 的整体主题，主要是工具栏
+    * Setting Editor.md theme
+    * 
+    * @returns {editormd}  返回editormd的实例对象
+    */
+
+    setTheme: function (theme) {
+        var editor = this.editor;
+        var oldTheme = this.settings.theme;
+        var themePrefix = this.classPrefix + "theme-";
+
+        editor.removeClass(themePrefix + oldTheme).addClass(themePrefix + theme);
+
+        this.settings.theme = theme;
+
+        return this;
     },
 
-    uppercase: function () {
-        var cm = this.cm;
-        var selection = cm.getSelection();
-        var selections = cm.listSelections();
+    /**
+        * 设置 CodeMirror（编辑区）的主题
+        * Setting CodeMirror (Editor area) theme
+        * 
+        * @returns {editormd}  返回editormd的实例对象
+        */
 
-        cm.replaceSelection(selection.toUpperCase());
-        cm.setSelections(selections);
+    setEditorTheme: function (theme) {
+        var settings = this.settings;
+        settings.editorTheme = theme;
+
+        if (theme !== "default") {
+            editormd.loadCSS(settings.path + "codemirror/theme/" + settings.editorTheme);
+        }
+
+        this.cm.setOption("theme", theme);
+
+        return this;
     },
 
-    lowercase: function () {
-        var cm = this.cm;
-        var cursor = cm.getCursor();
-        var selection = cm.getSelection();
-        var selections = cm.listSelections();
+    /**
+        * setEditorTheme() 的别名
+        * setEditorTheme() alias
+        * 
+        * @returns {editormd}  返回editormd的实例对象
+        */
 
-        cm.replaceSelection(selection.toLowerCase());
-        cm.setSelections(selections);
+    setCodeMirrorTheme: function (theme) {
+        this.setEditorTheme(theme);
+
+        return this;
     },
 
-    h1: function () {
-        var cm = this.cm;
-        var cursor = cm.getCursor();
-        var selection = cm.getSelection();
+    /**
+     * 设置 Editor.md 的主题
+     * Setting Editor.md theme
+     * 
+     * @returns {editormd}  返回editormd的实例对象
+     */
 
-        if (cursor.ch !== 0) {
-            cm.setCursor(cursor.line, 0);
-            cm.replaceSelection("# " + selection);
-            cm.setCursor(cursor.line, cursor.ch + 2);
-        }
-        else {
-            cm.replaceSelection("# " + selection);
-        }
+    setPreviewTheme: function (theme) {
+        var preview = this.preview;
+        var oldTheme = this.settings.previewTheme;
+        var themePrefix = this.classPrefix + "preview-theme-";
+
+        preview.removeClass(themePrefix + oldTheme).addClass(themePrefix + theme);
+
+        this.settings.previewTheme = theme;
+
+        return this;
     },
+};
+/*
+ * Editor.md
+ *
+ * @file        prototypes/toolbar.js 
+ * @version     v1.5.0 
+ * @description Open source online markdown editor.
+ * @license     MIT License
+ * @author      Pandao
+ * {@link       https://github.com/pandao/editor.md}
+ * @updateTime  2022-06-23
+ */
 
-    h2: function () {
-        var cm = this.cm;
-        var cursor = cm.getCursor();
-        var selection = cm.getSelection();
+const toolbarProto = {
+    /**
+     * 显示工具栏
+     * Display toolbar
+     * 
+     * @param   {Function} [callback=function(){}] 回调函数
+     * @returns {editormd}  返回editormd的实例对象
+     */
 
-        if (cursor.ch !== 0) {
-            cm.setCursor(cursor.line, 0);
-            cm.replaceSelection("## " + selection);
-            cm.setCursor(cursor.line, cursor.ch + 3);
-        }
-        else {
-            cm.replaceSelection("## " + selection);
-        }
-    },
+    showToolbar: function (callback) {
+        var settings = this.settings;
 
-    h3: function () {
-        var cm = this.cm;
-        var cursor = cm.getCursor();
-        var selection = cm.getSelection();
-
-        if (cursor.ch !== 0) {
-            cm.setCursor(cursor.line, 0);
-            cm.replaceSelection("### " + selection);
-            cm.setCursor(cursor.line, cursor.ch + 4);
-        }
-        else {
-            cm.replaceSelection("### " + selection);
-        }
-    },
-
-    h4: function () {
-        var cm = this.cm;
-        var cursor = cm.getCursor();
-        var selection = cm.getSelection();
-
-        if (cursor.ch !== 0) {
-            cm.setCursor(cursor.line, 0);
-            cm.replaceSelection("#### " + selection);
-            cm.setCursor(cursor.line, cursor.ch + 5);
-        }
-        else {
-            cm.replaceSelection("#### " + selection);
-        }
-    },
-
-    h5: function () {
-        var cm = this.cm;
-        var cursor = cm.getCursor();
-        var selection = cm.getSelection();
-
-        if (cursor.ch !== 0) {
-            cm.setCursor(cursor.line, 0);
-            cm.replaceSelection("##### " + selection);
-            cm.setCursor(cursor.line, cursor.ch + 6);
-        }
-        else {
-            cm.replaceSelection("##### " + selection);
-        }
-    },
-
-    h6: function () {
-        var cm = this.cm;
-        var cursor = cm.getCursor();
-        var selection = cm.getSelection();
-
-        if (cursor.ch !== 0) {
-            cm.setCursor(cursor.line, 0);
-            cm.replaceSelection("###### " + selection);
-            cm.setCursor(cursor.line, cursor.ch + 7);
-        }
-        else {
-            cm.replaceSelection("###### " + selection);
-        }
-    },
-
-    "list-ul": function () {
-        var cm = this.cm;
-        var cursor = cm.getCursor();
-        var selection = cm.getSelection();
-
-        if (selection === "") {
-            cm.replaceSelection("- " + selection);
-        }
-        else {
-            var selectionText = selection.split("\n");
-
-            for (var i = 0, len = selectionText.length; i < len; i++) {
-                selectionText[i] = (selectionText[i] === "") ? "" : "- " + selectionText[i];
-            }
-
-            cm.replaceSelection(selectionText.join("\n"));
-        }
-    },
-
-    "list-ol": function () {
-        var cm = this.cm;
-        var cursor = cm.getCursor();
-        var selection = cm.getSelection();
-
-        if (selection === "") {
-            cm.replaceSelection("1. " + selection);
-        }
-        else {
-            var selectionText = selection.split("\n");
-
-            for (var i = 0, len = selectionText.length; i < len; i++) {
-                selectionText[i] = (selectionText[i] === "") ? "" : (i + 1) + ". " + selectionText[i];
-            }
-
-            cm.replaceSelection(selectionText.join("\n"));
-        }
-    },
-
-    hr: function () {
-        var cm = this.cm;
-        var cursor = cm.getCursor();
-        var selection = cm.getSelection();
-
-        cm.replaceSelection(((cursor.ch !== 0) ? "\n\n" : "\n") + "------------\n\n");
-    },
-
-    tex: function () {
-        if (!this.settings.tex) {
-            alert("settings.tex === false");
+        if (settings.readOnly) {
             return this;
         }
 
-        var cm = this.cm;
-        var cursor = cm.getCursor();
-        var selection = cm.getSelection();
-
-        cm.replaceSelection("$$" + selection + "$$");
-
-        if (selection === "") {
-            cm.setCursor(cursor.line, cursor.ch + 2);
+        if (settings.toolbar && (this.toolbar.length < 1 || this.toolbar.find("." + this.classPrefix + "menu").html() === "")) {
+            this.setToolbar();
         }
+
+        settings.toolbar = true;
+
+        this.toolbar.show();
+        this.resize();
+
+        $.proxy(callback || function () { }, this)();
+
+        return this;
     },
 
-    link: function () {
-        this.executePlugin("linkDialog", "link-dialog/link-dialog");
+    /**
+     * 隐藏工具栏
+     * Hide toolbar
+     * 
+     * @param   {Function} [callback=function(){}] 回调函数
+     * @returns {editormd}                         this(editormd instance object.)
+     */
+
+    hideToolbar: function (callback) {
+        var settings = this.settings;
+
+        settings.toolbar = false;
+        this.toolbar.hide();
+        this.resize();
+
+        $.proxy(callback || function () { }, this)();
+
+        return this;
     },
 
-    "reference-link": function () {
-        this.executePlugin("referenceLinkDialog", "reference-link-dialog/reference-link-dialog");
+    /**
+     * 页面滚动时工具栏的固定定位
+     * Set toolbar in window scroll auto fixed position
+     * 
+     * @returns {editormd}  返回editormd的实例对象
+     */
+
+    setToolbarAutoFixed: function (fixed) {
+
+        var state = this.state;
+        var editor = this.editor;
+        var toolbar = this.toolbar;
+        var settings = this.settings;
+
+        if (typeof fixed !== "undefined") {
+            settings.toolbarAutoFixed = fixed;
+        }
+
+        var autoFixedHandle = function () {
+            var $window = $(window);
+            var top = $window.scrollTop();
+
+            if (!settings.toolbarAutoFixed) {
+                return false;
+            }
+
+            if (top - editor.offset().top > 10 && top < editor.height()) {
+                toolbar.css({
+                    position: "fixed",
+                    width: editor.width() + "px",
+                    left: ($window.width() - editor.width()) / 2 + "px"
+                });
+            }
+            else {
+                toolbar.css({
+                    position: "absolute",
+                    width: "100%",
+                    left: 0
+                });
+            }
+        };
+
+        if (!state.fullscreen && !state.preview && settings.toolbar && settings.toolbarAutoFixed) {
+            $(window).bind("scroll", autoFixedHandle);
+        }
+
+        return this;
+    },
+    getToolbarHandles: function (name) {
+        var toolbarHandlers = this.toolbarHandlers = editormd.toolbarHandlers;
+
+        return (name && typeof toolbarIconHandlers[name] !== "undefined") ? toolbarHandlers[name] : toolbarHandlers;
     },
 
-    pagebreak: function () {
-        if (!this.settings.pageBreak) {
-            alert("settings.pageBreak === false");
+    /**
+     * 工具栏图标事件处理器
+     * Bind toolbar icons event handle
+     * 
+     * @returns {editormd}  返回editormd的实例对象
+     */
+
+    setToolbarHandler: function () {
+        var _this = this;
+        var settings = this.settings;
+
+        if (!settings.toolbar || settings.readOnly) {
             return this;
         }
 
+        var toolbar = this.toolbar;
         var cm = this.cm;
-        var selection = cm.getSelection();
+        var classPrefix = this.classPrefix;
+        var toolbarIcons = this.toolbarIcons = toolbar.find("." + classPrefix + "menu > li > a");
+        var toolbarIconHandlers = this.getToolbarHandles();
 
-        cm.replaceSelection("\r\n[========]\r\n");
+        toolbarIcons.bind(editormd.mouseOrTouch("click", "touchend"), function (event) {
+
+            var icon = $(this).children(".fa");
+            var name = icon.attr("name");
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
+
+            if (name === "") {
+                return;
+            }
+
+            _this.activeIcon = icon;
+
+            if (typeof toolbarIconHandlers[name] !== "undefined") {
+                $.proxy(toolbarIconHandlers[name], _this)(cm);
+            }
+            else {
+                if (typeof settings.toolbarHandlers[name] !== "undefined") {
+                    $.proxy(settings.toolbarHandlers[name], _this)(cm, icon, cursor, selection);
+                }
+            }
+
+            if (name !== "link" && name !== "reference-link" && name !== "image" && name !== "code-block" &&
+                name !== "preformatted-text" && name !== "watch" && name !== "preview" && name !== "search" && name !== "fullscreen" && name !== "info") {
+                cm.focus();
+            }
+
+            return false;
+
+        });
+
+        return this;
     },
 
-    image: function () {
-        this.executePlugin("imageDialog", "image-dialog/image-dialog");
-    },
+    /**
+        * 配置和初始化工具栏
+        * Set toolbar and Initialization
+        * 
+        * @returns {editormd}  返回editormd的实例对象
+        */
 
-    code: function () {
-        var cm = this.cm;
-        var cursor = cm.getCursor();
-        var selection = cm.getSelection();
+    setToolbar: function () {
+        var settings = this.settings;
 
-        cm.replaceSelection("`" + selection + "`");
-
-        if (selection === "") {
-            cm.setCursor(cursor.line, cursor.ch + 1);
+        if (settings.readOnly) {
+            return this;
         }
+
+        var editor = this.editor;
+        var preview = this.preview;
+        var classPrefix = this.classPrefix;
+
+        var toolbar = this.toolbar = editor.children("." + classPrefix + "toolbar");
+
+        if (settings.toolbar && toolbar.length < 1) {
+            var toolbarHTML = "<div class=\"" + classPrefix + "toolbar\"><div class=\"" + classPrefix + "toolbar-container\"><ul class=\"" + classPrefix + "menu\"></ul></div></div>";
+
+            editor.append(toolbarHTML);
+            toolbar = this.toolbar = editor.children("." + classPrefix + "toolbar");
+        }
+
+        if (!settings.toolbar) {
+            toolbar.hide();
+
+            return this;
+        }
+
+        toolbar.show();
+
+        var icons = (typeof settings.toolbarIcons === "function") ? settings.toolbarIcons()
+            : ((typeof settings.toolbarIcons === "string") ? editormd.toolbarModes[settings.toolbarIcons] : settings.toolbarIcons);
+
+        var toolbarMenu = toolbar.find("." + this.classPrefix + "menu"), menu = "";
+        var pullRight = false;
+
+        for (var i = 0, len = icons.length; i < len; i++) {
+            var name = icons[i];
+
+            if (name === "||") {
+                pullRight = true;
+            }
+            else if (name === "|") {
+                menu += "<li class=\"divider\" unselectable=\"on\">|</li>";
+            }
+            else {
+                var isHeader = (/h(\d)/.test(name));
+                var index = name;
+
+                if (name === "watch" && !settings.watch) {
+                    index = "unwatch";
+                }
+
+                var title = settings.lang.toolbar[index];
+                var iconTexts = settings.toolbarIconTexts[index];
+                var iconClass = settings.toolbarIconsClass[index];
+
+                title = (typeof title === "undefined") ? "" : title;
+                iconTexts = (typeof iconTexts === "undefined") ? "" : iconTexts;
+                iconClass = (typeof iconClass === "undefined") ? "" : iconClass;
+
+                var menuItem = pullRight ? "<li class=\"pull-right\">" : "<li>";
+
+                if (typeof settings.toolbarCustomIcons[name] !== "undefined" && typeof settings.toolbarCustomIcons[name] !== "function") {
+                    menuItem += settings.toolbarCustomIcons[name];
+                }
+                else {
+                    menuItem += "<a href=\"javascript:;\" title=\"" + title + "\" unselectable=\"on\">";
+                    menuItem += "<i class=\"fa " + iconClass + "\" name=\"" + name + "\" unselectable=\"on\">" + ((isHeader) ? name.toUpperCase() : ((iconClass === "") ? iconTexts : "")) + "</i>";
+                    menuItem += "</a>";
+                }
+
+                menuItem += "</li>";
+
+                menu = pullRight ? menuItem + menu : menu + menuItem;
+            }
+        }
+
+        toolbarMenu.html(menu);
+
+        toolbarMenu.find("[title=\"Lowercase\"]").attr("title", settings.lang.toolbar.lowercase);
+        toolbarMenu.find("[title=\"ucwords\"]").attr("title", settings.lang.toolbar.ucwords);
+
+        this.setToolbarHandler();
+        this.setToolbarAutoFixed();
+
+        return this;
     },
-
-    "code-block": function () {
-        this.executePlugin("codeBlockDialog", "code-block-dialog/code-block-dialog");
-    },
-
-    "preformatted-text": function () {
-        this.executePlugin("preformattedTextDialog", "preformatted-text-dialog/preformatted-text-dialog");
-    },
-
-    table: function () {
-        this.executePlugin("tableDialog", "table-dialog/table-dialog");
-    },
-
-    datetime: function () {
-        var cm = this.cm;
-        var selection = cm.getSelection();
-        var date = new Date();
-        var langName = this.settings.lang.name;
-        var datefmt = editormd.dateFormat() + " " + editormd.dateFormat((langName === "zh-cn" || langName === "zh-tw") ? "cn-week-day" : "week-day");
-
-        cm.replaceSelection(datefmt);
-    },
-
-    emoji: function () {
-        this.executePlugin("emojiDialog", "emoji-dialog/emoji-dialog");
-    },
-
-    "html-entities": function () {
-        this.executePlugin("htmlEntitiesDialog", "html-entities-dialog/html-entities-dialog");
-    },
-
-    "goto-line": function () {
-        this.executePlugin("gotoLineDialog", "goto-line-dialog/goto-line-dialog");
-    },
-
-    watch: function () {
-        this[this.settings.watch ? "unwatch" : "watch"]();
-    },
-
-    preview: function () {
-        this.previewing();
-    },
-
-    fullscreen: function () {
-        this.fullscreen();
-    },
-
-    clear: function () {
-        this.clear();
-    },
-
-    search: function () {
-        this.search();
-    },
-
-    help: function () {
-        this.executePlugin("helpDialog", "help-dialog/help-dialog");
-    },
-
-    info: function () {
-        this.showInfoDialog();
-    }
 };
 /*
  * Editor.md
@@ -3140,11 +3331,18 @@ const toolbarHandlers = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 const codeMirrorPlugin = {
     $CodeMirror: null,
+    codeMirrorScripts: [
+        'codemirror/codemirror.min.js',
+        'codemirror/modes.min.js',
+        'codemirror/addons.min.js'
+    ],
+
+
 };
 
 const codeMirrorProto = {
@@ -3156,8 +3354,7 @@ const codeMirrorProto = {
      */
 
     setCodeMirror: function () {
-        var settings = this.settings;
-        var editor = this.editor;
+        const { settings, editor, markdownTextarea } = this;
 
         if (settings.editorTheme !== "default") {
             editormd.loadCSS(settings.path + "codemirror/theme/" + settings.editorTheme);
@@ -3174,6 +3371,7 @@ const codeMirrorProto = {
             indentUnit: settings.indentUnit,
             lineNumbers: settings.lineNumbers,
             lineWrapping: settings.lineWrapping,
+            lineNumWidth: 50,
             extraKeys: {
                 "Ctrl-Q": function (cm) {
                     cm.foldCode(cm.getCursor());
@@ -3190,26 +3388,32 @@ const codeMirrorProto = {
             highlightSelectionMatches: ((!settings.matchWordHighlight) ? false : { showToken: (settings.matchWordHighlight === "onselected") ? false : /\w/ })
         };
 
-        this.codeEditor = this.cm = editormd.$CodeMirror.fromTextArea(this.markdownTextarea[0], codeMirrorConfig);
-        this.codeMirror = this.cmElement = editor.children(".CodeMirror");
+        const codeMirror = editormd.$CodeMirror.fromTextArea(markdownTextarea[0], codeMirrorConfig);
+        const codeMirrorDom = editor.children(".CodeMirror");
 
         if (settings.value !== "") {
-            this.cm.setValue(settings.value);
+            codeMirror.setValue(settings.value);
         }
 
-        this.codeMirror.css({
+        codeMirrorDom.css({
             fontSize: settings.fontSize,
             width: (!settings.watch) ? "100%" : "50%"
         });
 
         if (settings.autoHeight) {
-            this.codeMirror.css("height", "auto");
-            this.cm.setOption("viewportMargin", Infinity);
+            codeMirrorDom.css("height", "auto");
+            codeMirror.setOption("viewportMargin", Infinity);
         }
 
         if (!settings.lineNumbers) {
-            this.codeMirror.find(".CodeMirror-gutters").css("border-right", "none");
+            codeMirrorDom.find(".CodeMirror-gutters").css("border-right", "none");
         }
+
+        const gutter = codeMirrorDom.find(".CodeMirror-linenumber").css({ with: `45px` });
+        let test = codeMirror.getGutterElement();
+
+        this.cm = codeMirror;
+        this.codeMirror = this.cmElement = codeMirrorDom;
         return this;
     },
 
@@ -3235,6 +3439,29 @@ const codeMirrorProto = {
         this.cm.setOption(key, value);
         return this;
     },
+
+    codeMirrorLoaderHandler: function () {
+        const _this = this;
+        var settings = this.settings;
+
+        editormd.$CodeMirror = CodeMirror;
+        this.setCodeMirror();
+        if (settings.mode !== "gfm" && settings.mode !== "markdown") {
+            _this.loadedDisplay();
+            return false;
+        }
+
+        _this.setToolbar();
+
+        let files = editormd.markedScripts;
+        if (settings.previewCodeHighlight) {
+            files.push("prettify.min.js");
+        }
+        editormd.loadScripts(files, settings.path).then(() => {
+            editormd.$marked = marked;
+            _this.loadFlowChartOrSequenceDiagram();
+        });
+    }
 };
 /*
  * Editor.md
@@ -3245,10 +3472,17 @@ const codeMirrorProto = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 let flowchartTimer;
+
+const flowChartPlugin = {
+    flowChartScripts: [
+        'flowchart.min.js',
+        "jquery.flowchart.min.js"
+    ],
+};
 
 const flowChartProto = {
     /**
@@ -3317,7 +3551,7 @@ const flowChartProto = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 const kaTexPlugin = {
@@ -3378,12 +3612,15 @@ const katexProto = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 
 const markedPlugin = {
     $marked: null,
+    markedScripts: [
+        'marked.min.js'
+    ],
     /**
      * 将Markdown文档解析为HTML用于前台显示
      * Parse Markdown to HTML for Font-end preview.
@@ -3896,7 +4133,7 @@ const markedProto = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 const prettyPrintProto = {
@@ -3926,535 +4163,365 @@ const prettyPrintProto = {
 /*
  * Editor.md
  *
- * @file        prototypes/cursorProto.js 
+ * @file        toolbar/toolbarHandlers.js 
  * @version     v1.5.0 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
-const cursorProto = {
-    /**
-     * 聚焦光标位置
-     * Focusing the cursor position
-     * 
-     * @returns {editormd}         返回editormd的实例对象
-     */
-
-    focus: function () {
-        this.cm.focus();
-        return this;
+const toolbarHandlers = {
+    undo: function () {
+        this.cm.undo();
     },
 
-    /**
-    * 设置光标的位置
-    * Set cursor position
-    * 
-    * @param   {Object}    cursor 要设置的光标位置键值对象，例：{line:1, ch:0}
-    * @returns {editormd}         返回editormd的实例对象
-    */
-
-    setCursor: function (cursor) {
-        this.cm.setCursor(cursor);
-        return this;
+    redo: function () {
+        this.cm.redo();
     },
 
-    /**
-     * 获取当前光标的位置
-     * Get the current position of the cursor
-     * 
-     * @returns {Cursor}         返回一个光标Cursor对象
-     */
-
-    getCursor: function () {
-        return this.cm.getCursor();
-    },
-};
-/*
- * Editor.md
- *
- * @file        prototypes/selectionProto.js 
- * @version     v1.5.0 
- * @description Open source online markdown editor.
- * @license     MIT License
- * @author      Pandao
- * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
- */
-
-const selectionProto = {
-    /**
-    * 替换当前光标选中的文本或在当前光标处插入新字符
-    * Replace the text at the current cursor selected or insert a new character at the current cursor position
-    * 
-    * @param   {String}    value  要插入的字符值
-    * @returns {editormd}         返回editormd的实例对象
-    */
-
-    replaceSelection: function (value) {
-        this.cm.replaceSelection(value);
-        return this;
-    },
-
-    /**
-     * 设置光标选中的范围
-     * Set cursor selected ranges
-     * 
-     * @param   {Object}    from   开始位置的光标键值对象，例：{line:1, ch:0}
-     * @param   {Object}    to     结束位置的光标键值对象，例：{line:1, ch:0}
-     * @returns {editormd}         返回editormd的实例对象
-     */
-
-    setSelection: function (from, to) {
-        this.cm.setSelection(from, to);
-        return this;
-    },
-
-    /**
-     * 获取光标选中的文本
-     * Get the texts from cursor selected
-     * 
-     * @returns {String}         返回选中文本的字符串形式
-     */
-
-    getSelection: function () {
-        return this.cm.getSelection();
-    },
-
-    /**
-     * 设置光标选中的文本范围
-     * Set the cursor selection ranges
-     * 
-     * @param   {Array}    ranges  cursor selection ranges array
-     * @returns {Array}            return this
-     */
-
-    setSelections: function (ranges) {
-        this.cm.setSelections(ranges);
-        return this;
-    },
-
-    /**
-     * 获取光标选中的文本范围
-     * Get the cursor selection ranges
-     * 
-     * @returns {Array}         return selection ranges array
-     */
-
-    getSelections: function () {
-        return this.cm.getSelections();
-    },
-};
-/*
- * Editor.md
- *
- * @file        prototypes/settingProto.js 
- * @version     v1.5.0 
- * @description Open source online markdown editor.
- * @license     MIT License
- * @author      Pandao
- * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
- */
-
-const settingProto = {
-    /**
-     * 设置或扩展当前实例对象，单个设置
-     * Extend editormd instance object, one by one
-     * 
-     * @param   {String|Object}   key       option key
-     * @param   {String|Object}   value     option value
-     * @returns {editormd}                  this(editormd instance object.)
-     */
-
-    set: function (key, value) {
-
-        if (typeof value !== "undefined" && typeof value === "function") {
-            value = $.proxy(value, this);
-        }
-
-        this[key] = value;
-
-        return this;
-    },
-
-    /**
-     * 重新配置
-     * Resetting editor options
-     * 
-     * @param   {String|Object}   key       option key
-     * @param   {String|Object}   value     option value
-     * @returns {editormd}                  this(editormd instance object.)
-     */
-
-    config: function (key, value) {
-        var settings = this.settings;
-
-        if (typeof key === "object") {
-            settings = $.extend(true, settings, key);
-        }
-
-        if (typeof key === "string") {
-            settings[key] = value;
-        }
-
-        this.settings = settings;
-        this.recreate();
-
-        return this;
-    },
-};
-/*
- * Editor.md
- *
- * @file        prototypes/theme.js 
- * @version     v1.5.0 
- * @description Open source online markdown editor.
- * @license     MIT License
- * @author      Pandao
- * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
- */
-
-
-const themeProto = {
-    /**
-    * 设置 Editor.md 的整体主题，主要是工具栏
-    * Setting Editor.md theme
-    * 
-    * @returns {editormd}  返回editormd的实例对象
-    */
-
-    setTheme: function (theme) {
-        var editor = this.editor;
-        var oldTheme = this.settings.theme;
-        var themePrefix = this.classPrefix + "theme-";
-
-        editor.removeClass(themePrefix + oldTheme).addClass(themePrefix + theme);
-
-        this.settings.theme = theme;
-
-        return this;
-    },
-
-    /**
-        * 设置 CodeMirror（编辑区）的主题
-        * Setting CodeMirror (Editor area) theme
-        * 
-        * @returns {editormd}  返回editormd的实例对象
-        */
-
-    setEditorTheme: function (theme) {
-        var settings = this.settings;
-        settings.editorTheme = theme;
-
-        if (theme !== "default") {
-            editormd.loadCSS(settings.path + "codemirror/theme/" + settings.editorTheme);
-        }
-
-        this.cm.setOption("theme", theme);
-
-        return this;
-    },
-
-    /**
-        * setEditorTheme() 的别名
-        * setEditorTheme() alias
-        * 
-        * @returns {editormd}  返回editormd的实例对象
-        */
-
-    setCodeMirrorTheme: function (theme) {
-        this.setEditorTheme(theme);
-
-        return this;
-    },
-
-    /**
-     * 设置 Editor.md 的主题
-     * Setting Editor.md theme
-     * 
-     * @returns {editormd}  返回editormd的实例对象
-     */
-
-    setPreviewTheme: function (theme) {
-        var preview = this.preview;
-        var oldTheme = this.settings.previewTheme;
-        var themePrefix = this.classPrefix + "preview-theme-";
-
-        preview.removeClass(themePrefix + oldTheme).addClass(themePrefix + theme);
-
-        this.settings.previewTheme = theme;
-
-        return this;
-    },
-};
-/*
- * Editor.md
- *
- * @file        prototypes/toolbar.js 
- * @version     v1.5.0 
- * @description Open source online markdown editor.
- * @license     MIT License
- * @author      Pandao
- * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
- */
-
-const toolbarProto = {
-    /**
-     * 显示工具栏
-     * Display toolbar
-     * 
-     * @param   {Function} [callback=function(){}] 回调函数
-     * @returns {editormd}  返回editormd的实例对象
-     */
-
-    showToolbar: function (callback) {
-        var settings = this.settings;
-
-        if (settings.readOnly) {
-            return this;
-        }
-
-        if (settings.toolbar && (this.toolbar.length < 1 || this.toolbar.find("." + this.classPrefix + "menu").html() === "")) {
-            this.setToolbar();
-        }
-
-        settings.toolbar = true;
-
-        this.toolbar.show();
-        this.resize();
-
-        $.proxy(callback || function () { }, this)();
-
-        return this;
-    },
-
-    /**
-     * 隐藏工具栏
-     * Hide toolbar
-     * 
-     * @param   {Function} [callback=function(){}] 回调函数
-     * @returns {editormd}                         this(editormd instance object.)
-     */
-
-    hideToolbar: function (callback) {
-        var settings = this.settings;
-
-        settings.toolbar = false;
-        this.toolbar.hide();
-        this.resize();
-
-        $.proxy(callback || function () { }, this)();
-
-        return this;
-    },
-
-    /**
-     * 页面滚动时工具栏的固定定位
-     * Set toolbar in window scroll auto fixed position
-     * 
-     * @returns {editormd}  返回editormd的实例对象
-     */
-
-    setToolbarAutoFixed: function (fixed) {
-
-        var state = this.state;
-        var editor = this.editor;
-        var toolbar = this.toolbar;
-        var settings = this.settings;
-
-        if (typeof fixed !== "undefined") {
-            settings.toolbarAutoFixed = fixed;
-        }
-
-        var autoFixedHandle = function () {
-            var $window = $(window);
-            var top = $window.scrollTop();
-
-            if (!settings.toolbarAutoFixed) {
-                return false;
-            }
-
-            if (top - editor.offset().top > 10 && top < editor.height()) {
-                toolbar.css({
-                    position: "fixed",
-                    width: editor.width() + "px",
-                    left: ($window.width() - editor.width()) / 2 + "px"
-                });
-            }
-            else {
-                toolbar.css({
-                    position: "absolute",
-                    width: "100%",
-                    left: 0
-                });
-            }
-        };
-
-        if (!state.fullscreen && !state.preview && settings.toolbar && settings.toolbarAutoFixed) {
-            $(window).bind("scroll", autoFixedHandle);
-        }
-
-        return this;
-    },
-    getToolbarHandles: function (name) {
-        var toolbarHandlers = this.toolbarHandlers = editormd.toolbarHandlers;
-
-        return (name && typeof toolbarIconHandlers[name] !== "undefined") ? toolbarHandlers[name] : toolbarHandlers;
-    },
-
-    /**
-     * 工具栏图标事件处理器
-     * Bind toolbar icons event handle
-     * 
-     * @returns {editormd}  返回editormd的实例对象
-     */
-
-    setToolbarHandler: function () {
-        var _this = this;
-        var settings = this.settings;
-
-        if (!settings.toolbar || settings.readOnly) {
-            return this;
-        }
-
-        var toolbar = this.toolbar;
+    bold: function () {
         var cm = this.cm;
-        var classPrefix = this.classPrefix;
-        var toolbarIcons = this.toolbarIcons = toolbar.find("." + classPrefix + "menu > li > a");
-        var toolbarIconHandlers = this.getToolbarHandles();
+        var cursor = cm.getCursor();
+        var selection = cm.getSelection();
 
-        toolbarIcons.bind(editormd.mouseOrTouch("click", "touchend"), function (event) {
+        cm.replaceSelection("**" + selection + "**");
 
-            var icon = $(this).children(".fa");
-            var name = icon.attr("name");
-            var cursor = cm.getCursor();
-            var selection = cm.getSelection();
-
-            if (name === "") {
-                return;
-            }
-
-            _this.activeIcon = icon;
-
-            if (typeof toolbarIconHandlers[name] !== "undefined") {
-                $.proxy(toolbarIconHandlers[name], _this)(cm);
-            }
-            else {
-                if (typeof settings.toolbarHandlers[name] !== "undefined") {
-                    $.proxy(settings.toolbarHandlers[name], _this)(cm, icon, cursor, selection);
-                }
-            }
-
-            if (name !== "link" && name !== "reference-link" && name !== "image" && name !== "code-block" &&
-                name !== "preformatted-text" && name !== "watch" && name !== "preview" && name !== "search" && name !== "fullscreen" && name !== "info") {
-                cm.focus();
-            }
-
-            return false;
-
-        });
-
-        return this;
+        if (selection === "") {
+            cm.setCursor(cursor.line, cursor.ch + 2);
+        }
     },
 
-    /**
-        * 配置和初始化工具栏
-        * Set toolbar and Initialization
-        * 
-        * @returns {editormd}  返回editormd的实例对象
-        */
+    del: function () {
+        var cm = this.cm;
+        var cursor = cm.getCursor();
+        var selection = cm.getSelection();
 
-    setToolbar: function () {
-        var settings = this.settings;
+        cm.replaceSelection("~~" + selection + "~~");
 
-        if (settings.readOnly) {
+        if (selection === "") {
+            cm.setCursor(cursor.line, cursor.ch + 2);
+        }
+    },
+
+    italic: function () {
+        var cm = this.cm;
+        var cursor = cm.getCursor();
+        var selection = cm.getSelection();
+
+        cm.replaceSelection("*" + selection + "*");
+
+        if (selection === "") {
+            cm.setCursor(cursor.line, cursor.ch + 1);
+        }
+    },
+
+    quote: function () {
+        var cm = this.cm;
+        var cursor = cm.getCursor();
+        var selection = cm.getSelection();
+
+        if (cursor.ch !== 0) {
+            cm.setCursor(cursor.line, 0);
+            cm.replaceSelection("> " + selection);
+            cm.setCursor(cursor.line, cursor.ch + 2);
+        }
+        else {
+            cm.replaceSelection("> " + selection);
+        }
+
+        //cm.replaceSelection("> " + selection);
+        //cm.setCursor(cursor.line, (selection === "") ? cursor.ch + 2 : cursor.ch + selection.length + 2);
+    },
+
+    ucfirst: function () {
+        var cm = this.cm;
+        var selection = cm.getSelection();
+        var selections = cm.listSelections();
+
+        cm.replaceSelection(editormd.firstUpperCase(selection));
+        cm.setSelections(selections);
+    },
+
+    ucwords: function () {
+        var cm = this.cm;
+        var selection = cm.getSelection();
+        var selections = cm.listSelections();
+
+        cm.replaceSelection(editormd.wordsFirstUpperCase(selection));
+        cm.setSelections(selections);
+    },
+
+    uppercase: function () {
+        var cm = this.cm;
+        var selection = cm.getSelection();
+        var selections = cm.listSelections();
+
+        cm.replaceSelection(selection.toUpperCase());
+        cm.setSelections(selections);
+    },
+
+    lowercase: function () {
+        var cm = this.cm;
+        var cursor = cm.getCursor();
+        var selection = cm.getSelection();
+        var selections = cm.listSelections();
+
+        cm.replaceSelection(selection.toLowerCase());
+        cm.setSelections(selections);
+    },
+
+    h1: function () {
+        var cm = this.cm;
+        var cursor = cm.getCursor();
+        var selection = cm.getSelection();
+
+        if (cursor.ch !== 0) {
+            cm.setCursor(cursor.line, 0);
+            cm.replaceSelection("# " + selection);
+            cm.setCursor(cursor.line, cursor.ch + 2);
+        }
+        else {
+            cm.replaceSelection("# " + selection);
+        }
+    },
+
+    h2: function () {
+        var cm = this.cm;
+        var cursor = cm.getCursor();
+        var selection = cm.getSelection();
+
+        if (cursor.ch !== 0) {
+            cm.setCursor(cursor.line, 0);
+            cm.replaceSelection("## " + selection);
+            cm.setCursor(cursor.line, cursor.ch + 3);
+        }
+        else {
+            cm.replaceSelection("## " + selection);
+        }
+    },
+
+    h3: function () {
+        var cm = this.cm;
+        var cursor = cm.getCursor();
+        var selection = cm.getSelection();
+
+        if (cursor.ch !== 0) {
+            cm.setCursor(cursor.line, 0);
+            cm.replaceSelection("### " + selection);
+            cm.setCursor(cursor.line, cursor.ch + 4);
+        }
+        else {
+            cm.replaceSelection("### " + selection);
+        }
+    },
+
+    h4: function () {
+        var cm = this.cm;
+        var cursor = cm.getCursor();
+        var selection = cm.getSelection();
+
+        if (cursor.ch !== 0) {
+            cm.setCursor(cursor.line, 0);
+            cm.replaceSelection("#### " + selection);
+            cm.setCursor(cursor.line, cursor.ch + 5);
+        }
+        else {
+            cm.replaceSelection("#### " + selection);
+        }
+    },
+
+    h5: function () {
+        var cm = this.cm;
+        var cursor = cm.getCursor();
+        var selection = cm.getSelection();
+
+        if (cursor.ch !== 0) {
+            cm.setCursor(cursor.line, 0);
+            cm.replaceSelection("##### " + selection);
+            cm.setCursor(cursor.line, cursor.ch + 6);
+        }
+        else {
+            cm.replaceSelection("##### " + selection);
+        }
+    },
+
+    h6: function () {
+        var cm = this.cm;
+        var cursor = cm.getCursor();
+        var selection = cm.getSelection();
+
+        if (cursor.ch !== 0) {
+            cm.setCursor(cursor.line, 0);
+            cm.replaceSelection("###### " + selection);
+            cm.setCursor(cursor.line, cursor.ch + 7);
+        }
+        else {
+            cm.replaceSelection("###### " + selection);
+        }
+    },
+
+    "list-ul": function () {
+        var cm = this.cm;
+        var cursor = cm.getCursor();
+        var selection = cm.getSelection();
+
+        if (selection === "") {
+            cm.replaceSelection("- " + selection);
+        }
+        else {
+            var selectionText = selection.split("\n");
+
+            for (var i = 0, len = selectionText.length; i < len; i++) {
+                selectionText[i] = (selectionText[i] === "") ? "" : "- " + selectionText[i];
+            }
+
+            cm.replaceSelection(selectionText.join("\n"));
+        }
+    },
+
+    "list-ol": function () {
+        var cm = this.cm;
+        var cursor = cm.getCursor();
+        var selection = cm.getSelection();
+
+        if (selection === "") {
+            cm.replaceSelection("1. " + selection);
+        }
+        else {
+            var selectionText = selection.split("\n");
+
+            for (var i = 0, len = selectionText.length; i < len; i++) {
+                selectionText[i] = (selectionText[i] === "") ? "" : (i + 1) + ". " + selectionText[i];
+            }
+
+            cm.replaceSelection(selectionText.join("\n"));
+        }
+    },
+
+    hr: function () {
+        var cm = this.cm;
+        var cursor = cm.getCursor();
+        var selection = cm.getSelection();
+
+        cm.replaceSelection(((cursor.ch !== 0) ? "\n\n" : "\n") + "------------\n\n");
+    },
+
+    tex: function () {
+        if (!this.settings.tex) {
+            alert("settings.tex === false");
             return this;
         }
 
-        var editor = this.editor;
-        var preview = this.preview;
-        var classPrefix = this.classPrefix;
+        var cm = this.cm;
+        var cursor = cm.getCursor();
+        var selection = cm.getSelection();
 
-        var toolbar = this.toolbar = editor.children("." + classPrefix + "toolbar");
+        cm.replaceSelection("$$" + selection + "$$");
 
-        if (settings.toolbar && toolbar.length < 1) {
-            var toolbarHTML = "<div class=\"" + classPrefix + "toolbar\"><div class=\"" + classPrefix + "toolbar-container\"><ul class=\"" + classPrefix + "menu\"></ul></div></div>";
-
-            editor.append(toolbarHTML);
-            toolbar = this.toolbar = editor.children("." + classPrefix + "toolbar");
+        if (selection === "") {
+            cm.setCursor(cursor.line, cursor.ch + 2);
         }
+    },
 
-        if (!settings.toolbar) {
-            toolbar.hide();
+    link: function () {
+        this.executePlugin("linkDialog", "link-dialog/link-dialog");
+    },
 
+    "reference-link": function () {
+        this.executePlugin("referenceLinkDialog", "reference-link-dialog/reference-link-dialog");
+    },
+
+    pagebreak: function () {
+        if (!this.settings.pageBreak) {
+            alert("settings.pageBreak === false");
             return this;
         }
 
-        toolbar.show();
+        var cm = this.cm;
+        var selection = cm.getSelection();
 
-        var icons = (typeof settings.toolbarIcons === "function") ? settings.toolbarIcons()
-            : ((typeof settings.toolbarIcons === "string") ? editormd.toolbarModes[settings.toolbarIcons] : settings.toolbarIcons);
-
-        var toolbarMenu = toolbar.find("." + this.classPrefix + "menu"), menu = "";
-        var pullRight = false;
-
-        for (var i = 0, len = icons.length; i < len; i++) {
-            var name = icons[i];
-
-            if (name === "||") {
-                pullRight = true;
-            }
-            else if (name === "|") {
-                menu += "<li class=\"divider\" unselectable=\"on\">|</li>";
-            }
-            else {
-                var isHeader = (/h(\d)/.test(name));
-                var index = name;
-
-                if (name === "watch" && !settings.watch) {
-                    index = "unwatch";
-                }
-
-                var title = settings.lang.toolbar[index];
-                var iconTexts = settings.toolbarIconTexts[index];
-                var iconClass = settings.toolbarIconsClass[index];
-
-                title = (typeof title === "undefined") ? "" : title;
-                iconTexts = (typeof iconTexts === "undefined") ? "" : iconTexts;
-                iconClass = (typeof iconClass === "undefined") ? "" : iconClass;
-
-                var menuItem = pullRight ? "<li class=\"pull-right\">" : "<li>";
-
-                if (typeof settings.toolbarCustomIcons[name] !== "undefined" && typeof settings.toolbarCustomIcons[name] !== "function") {
-                    menuItem += settings.toolbarCustomIcons[name];
-                }
-                else {
-                    menuItem += "<a href=\"javascript:;\" title=\"" + title + "\" unselectable=\"on\">";
-                    menuItem += "<i class=\"fa " + iconClass + "\" name=\"" + name + "\" unselectable=\"on\">" + ((isHeader) ? name.toUpperCase() : ((iconClass === "") ? iconTexts : "")) + "</i>";
-                    menuItem += "</a>";
-                }
-
-                menuItem += "</li>";
-
-                menu = pullRight ? menuItem + menu : menu + menuItem;
-            }
-        }
-
-        toolbarMenu.html(menu);
-
-        toolbarMenu.find("[title=\"Lowercase\"]").attr("title", settings.lang.toolbar.lowercase);
-        toolbarMenu.find("[title=\"ucwords\"]").attr("title", settings.lang.toolbar.ucwords);
-
-        this.setToolbarHandler();
-        this.setToolbarAutoFixed();
-
-        return this;
+        cm.replaceSelection("\r\n[========]\r\n");
     },
+
+    image: function () {
+        this.executePlugin("imageDialog", "image-dialog/image-dialog");
+    },
+
+    code: function () {
+        var cm = this.cm;
+        var cursor = cm.getCursor();
+        var selection = cm.getSelection();
+
+        cm.replaceSelection("`" + selection + "`");
+
+        if (selection === "") {
+            cm.setCursor(cursor.line, cursor.ch + 1);
+        }
+    },
+
+    "code-block": function () {
+        this.executePlugin("codeBlockDialog", "code-block-dialog/code-block-dialog");
+    },
+
+    "preformatted-text": function () {
+        this.executePlugin("preformattedTextDialog", "preformatted-text-dialog/preformatted-text-dialog");
+    },
+
+    table: function () {
+        this.executePlugin("tableDialog", "table-dialog/table-dialog");
+    },
+
+    datetime: function () {
+        var cm = this.cm;
+        var selection = cm.getSelection();
+        var date = new Date();
+        var langName = this.settings.lang.name;
+        var datefmt = editormd.dateFormat() + " " + editormd.dateFormat((langName === "zh-cn" || langName === "zh-tw") ? "cn-week-day" : "week-day");
+
+        cm.replaceSelection(datefmt);
+    },
+
+    emoji: function () {
+        this.executePlugin("emojiDialog", "emoji-dialog/emoji-dialog");
+    },
+
+    "html-entities": function () {
+        this.executePlugin("htmlEntitiesDialog", "html-entities-dialog/html-entities-dialog");
+    },
+
+    "goto-line": function () {
+        this.executePlugin("gotoLineDialog", "goto-line-dialog/goto-line-dialog");
+    },
+
+    watch: function () {
+        this[this.settings.watch ? "unwatch" : "watch"]();
+    },
+
+    preview: function () {
+        this.previewing();
+    },
+
+    fullscreen: function () {
+        this.fullscreen();
+    },
+
+    clear: function () {
+        this.clear();
+    },
+
+    search: function () {
+        this.search();
+    },
+
+    help: function () {
+        this.executePlugin("helpDialog", "help-dialog/help-dialog");
+    },
+
+    info: function () {
+        this.showInfoDialog();
+    }
 };
 /*
  * Editor.md
@@ -4465,7 +4532,7 @@ const toolbarProto = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 const mdUtil = {
@@ -4509,7 +4576,7 @@ const mdUtil = {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 /**
@@ -4532,7 +4599,7 @@ const trim = function (str) {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 /**
@@ -4559,7 +4626,7 @@ var ucfirst = firstUpperCase;
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 /**
@@ -4584,7 +4651,7 @@ var ucwords = function (str) {
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-06-22
+ * @updateTime  2022-06-23
  */
 
 ; (function (factory) {
@@ -4916,11 +4983,7 @@ var ucwords = function (str) {
     editormd.mouseOrTouch = mouseOrTouch;
 
     editormd.appendMethod(editorDate);
-
-    console.log(`=================`, { editormd })
-
     return editormd;
-
 }));
 
 jQuery(document).ready(function () {

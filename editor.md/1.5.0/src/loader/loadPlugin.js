@@ -11,48 +11,6 @@ const loadPluginProto = {
         var settings = this.settings;
         var loadPath = settings.path;
 
-        var loadFlowChartOrSequenceDiagram = function () {
-
-            if (editormd.isIE8) {
-                _this.loadedDisplay();
-                return;
-            }
-
-            if (settings.flowChart || settings.sequenceDiagram) {
-                editormd.loadScript(loadPath + "raphael.min", function () {
-
-                    editormd.loadScript(loadPath + "underscore.min", function () {
-
-                        if (!settings.flowChart && settings.sequenceDiagram) {
-                            editormd.loadScript(loadPath + "sequence-diagram.min", function () {
-                                _this.loadedDisplay();
-                            });
-                        }
-                        else if (settings.flowChart && !settings.sequenceDiagram) {
-                            editormd.loadScript(loadPath + "flowchart.min", function () {
-                                editormd.loadScript(loadPath + "jquery.flowchart.min", function () {
-                                    _this.loadedDisplay();
-                                });
-                            });
-                        }
-                        else if (settings.flowChart && settings.sequenceDiagram) {
-                            editormd.loadScript(loadPath + "flowchart.min", function () {
-                                editormd.loadScript(loadPath + "jquery.flowchart.min", function () {
-                                    editormd.loadScript(loadPath + "sequence-diagram.min", function () {
-                                        _this.loadedDisplay();
-                                    });
-                                });
-                            });
-                        }
-                    });
-
-                });
-            }
-            else {
-                _this.loadedDisplay();
-            }
-        };
-
         editormd.loadCSS(loadPath + "codemirror/codemirror.min");
 
         if (settings.searchReplace && !settings.readOnly) {
@@ -64,43 +22,70 @@ const loadPluginProto = {
             editormd.loadCSS(loadPath + "codemirror/addon/fold/foldgutter");
         }
 
-        editormd.loadScript(loadPath + "codemirror/codemirror.min", function () {
-            editormd.$CodeMirror = CodeMirror;
-
-            editormd.loadScript(loadPath + "codemirror/modes.min", function () {
-
-                editormd.loadScript(loadPath + "codemirror/addons.min", function () {
-
-                    _this.setCodeMirror();
-
-                    if (settings.mode !== "gfm" && settings.mode !== "markdown") {
-                        _this.loadedDisplay();
-
-                        return false;
-                    }
-
-                    _this.setToolbar();
-
-                    editormd.loadScript(loadPath + "marked.min", function () {
-
-                        editormd.$marked = marked;
-
-                        if (settings.previewCodeHighlight) {
-                            editormd.loadScript(loadPath + "prettify.min", function () {
-                                loadFlowChartOrSequenceDiagram();
-                            });
-                        }
-                        else {
-                            loadFlowChartOrSequenceDiagram();
-                        }
-                    });
-
-                });
-
+        editormd.loadScripts(editormd.codeMirrorScripts, settings.path)
+            .then(() => {
+                _this.codeMirrorLoaderHandler();
             });
 
-        });
 
         return this;
+    },
+
+    loadFlowChartOrSequenceDiagram: function () {
+        var _this = this;
+        var { settings } = this;
+
+        if (editormd.isIE8) {
+            _this.loadedDisplay();
+            return;
+        }
+
+        if (settings.flowChart || settings.sequenceDiagram) {
+            editormd.loadScripts([
+                "raphael.min.js",
+                "underscore.min.js"
+            ], settings.path).then(() => {
+                if (!settings.flowChart && settings.sequenceDiagram) {
+                    editormd.loadScripts([
+                        "sequence-diagram.min.js",
+                    ], settings.path).then(() => {
+                        _this.loadedDisplay();
+                    });
+                }
+                else if (settings.flowChart && !settings.sequenceDiagram) {
+                    editormd.loadScripts([
+                        editormd.flowChartScripts
+                    ], settings.path).then(() => {
+                        _this.loadedDisplay();
+                    });
+                }
+                else if (settings.flowChart && settings.sequenceDiagram) {
+                    editormd.loadScripts([
+                        editormd.flowChartScripts.push("sequence-diagram.min.js")
+                    ], settings.path).then(() => {
+                        _this.loadedDisplay();
+                    });
+
+                    // editormd.loadScript(loadPath + "flowchart.min", function () {
+                    //     editormd.loadScript(loadPath + "jquery.flowchart.min", function () {
+                    //         editormd.loadScript(loadPath + "", function () {
+                    //             _this.loadedDisplay();
+                    //         });
+                    //     });
+                    // });
+                }
+            });
+
+            // editormd.loadScript(loadPath + "raphael.min", function () {
+            //     editormd.loadScript(loadPath + "underscore.min", function () {
+
+
+            //     });
+
+            // });
+        }
+        else {
+            _this.loadedDisplay();
+        }
     },
 };

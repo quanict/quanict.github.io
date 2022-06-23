@@ -1,5 +1,12 @@
 let flowchartTimer;
 
+const flowChartPlugin = {
+    flowChartScripts: [
+        'flowchart.min.js',
+        "jquery.flowchart.min.js"
+    ],
+};
+
 const flowChartProto = {
     /**
      * 解析和渲染流程图及时序图

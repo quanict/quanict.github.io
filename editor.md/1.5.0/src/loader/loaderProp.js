@@ -9,7 +9,6 @@ const loaderProp = {
      */
 
     loadCSS: function (fileName, callback, into) {
-        into = into || "head";
         callback = callback || function () { };
 
         var css = document.createElement("link");
@@ -22,11 +21,7 @@ const loaderProp = {
 
         css.href = fileName + ".css";
 
-        if (into === "head") {
-            document.getElementsByTagName("head")[0].appendChild(css);
-        } else {
-            document.body.appendChild(css);
-        }
+        this.appendFile2Load(css, into);
     },
 
     /**
@@ -58,7 +53,7 @@ const loaderProp = {
 
     loadScript: function (fileName, callback, into) {
 
-        into = into || "head";
+
         callback = callback || function () { };
 
         var script = null;
@@ -77,18 +72,85 @@ const loaderProp = {
                     }
                 }
             };
-        }
-        else {
+        } else {
             script.onload = function () {
                 editormd.loadFiles.js.push(fileName);
                 callback();
             };
         }
+        this.appendFile2Load(script, into);
 
+    },
+
+    loadScripts: function (filenames, rootPath, callback) {
+        if (!filenames) {
+            return Promise.resolve();
+        }
+        if (typeof filenames === 'string') {
+            filenames = [filenames];
+        }
+        if (typeof rootPath === 'function') {
+            callback = rootPath;
+            rootPath = '';
+        }
+        const test = filenames.map((filename) => {
+            return new Promise(function (resolve, reject) {
+                let script = document.createElement('script')
+                script.src = rootPath + filename;
+                script.id = filename.replace(/[\./]+/g, "-");
+                script.type = "text/javascript";
+                script.onload = resolve
+                script.onerror = reject
+                document.getElementsByTagName("head")[0].appendChild(script);
+                //document.head.append(script)
+            });
+        });
+        return Promise.allSettled(test)
+            .catch(error => {
+                console.error(error.message)
+            })
+        return;
+        return new Promise((resolve, reject) => {
+            try {
+                const script = document.createElement("script");
+                const container = document.head || document.body;
+
+                script.async = true;
+                script.src = src;
+                script.id = fileName.replace(/[\./]+/g, "-");
+                script.type = "text/javascript";
+
+                script.onload = function () {
+                    editormd.loadFiles.js.push(fileName);
+                    callback();
+                    resolve({ status: true });
+                };
+
+                // el.addEventListener("load", () => {
+                //     resolve({ status: true });
+                // });
+
+                script.addEventListener("error", () => {
+                    reject({
+                        status: false,
+                        message: `Failed to load the script ${src}`
+                    });
+                });
+
+                //container.appendChild(el);
+                this.appendFile2Load(script);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    },
+
+    appendFile2Load: function (file, into) {
+        into = into || "head";
         if (into === "head") {
-            document.getElementsByTagName("head")[0].appendChild(script);
+            document.getElementsByTagName("head")[0].appendChild(file);
         } else {
-            document.body.appendChild(script);
+            document.body.appendChild(file);
         }
     }
 };

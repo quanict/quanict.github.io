@@ -1,5 +1,12 @@
 const codeMirrorPlugin = {
     $CodeMirror: null,
+    codeMirrorScripts: [
+        'codemirror/codemirror.min.js',
+        'codemirror/modes.min.js',
+        'codemirror/addons.min.js'
+    ],
+
+
 };
 
 const codeMirrorProto = {
@@ -11,8 +18,7 @@ const codeMirrorProto = {
      */
 
     setCodeMirror: function () {
-        var settings = this.settings;
-        var editor = this.editor;
+        const { settings, editor, markdownTextarea } = this;
 
         if (settings.editorTheme !== "default") {
             editormd.loadCSS(settings.path + "codemirror/theme/" + settings.editorTheme);
@@ -29,6 +35,7 @@ const codeMirrorProto = {
             indentUnit: settings.indentUnit,
             lineNumbers: settings.lineNumbers,
             lineWrapping: settings.lineWrapping,
+            lineNumWidth: 50,
             extraKeys: {
                 "Ctrl-Q": function (cm) {
                     cm.foldCode(cm.getCursor());
@@ -45,26 +52,32 @@ const codeMirrorProto = {
             highlightSelectionMatches: ((!settings.matchWordHighlight) ? false : { showToken: (settings.matchWordHighlight === "onselected") ? false : /\w/ })
         };
 
-        this.codeEditor = this.cm = editormd.$CodeMirror.fromTextArea(this.markdownTextarea[0], codeMirrorConfig);
-        this.codeMirror = this.cmElement = editor.children(".CodeMirror");
+        const codeMirror = editormd.$CodeMirror.fromTextArea(markdownTextarea[0], codeMirrorConfig);
+        const codeMirrorDom = editor.children(".CodeMirror");
 
         if (settings.value !== "") {
-            this.cm.setValue(settings.value);
+            codeMirror.setValue(settings.value);
         }
 
-        this.codeMirror.css({
+        codeMirrorDom.css({
             fontSize: settings.fontSize,
             width: (!settings.watch) ? "100%" : "50%"
         });
 
         if (settings.autoHeight) {
-            this.codeMirror.css("height", "auto");
-            this.cm.setOption("viewportMargin", Infinity);
+            codeMirrorDom.css("height", "auto");
+            codeMirror.setOption("viewportMargin", Infinity);
         }
 
         if (!settings.lineNumbers) {
-            this.codeMirror.find(".CodeMirror-gutters").css("border-right", "none");
+            codeMirrorDom.find(".CodeMirror-gutters").css("border-right", "none");
         }
+
+        const gutter = codeMirrorDom.find(".CodeMirror-linenumber").css({ with: `45px` });
+        let test = codeMirror.getGutterElement();
+
+        this.cm = codeMirror;
+        this.codeMirror = this.cmElement = codeMirrorDom;
         return this;
     },
 
@@ -90,4 +103,27 @@ const codeMirrorProto = {
         this.cm.setOption(key, value);
         return this;
     },
+
+    codeMirrorLoaderHandler: function () {
+        const _this = this;
+        var settings = this.settings;
+
+        editormd.$CodeMirror = CodeMirror;
+        this.setCodeMirror();
+        if (settings.mode !== "gfm" && settings.mode !== "markdown") {
+            _this.loadedDisplay();
+            return false;
+        }
+
+        _this.setToolbar();
+
+        let files = editormd.markedScripts;
+        if (settings.previewCodeHighlight) {
+            files.push("prettify.min.js");
+        }
+        editormd.loadScripts(files, settings.path).then(() => {
+            editormd.$marked = marked;
+            _this.loadFlowChartOrSequenceDiagram();
+        });
+    }
 };

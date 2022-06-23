@@ -327,11 +327,7 @@
     editormd.mouseOrTouch = mouseOrTouch;
 
     editormd.appendMethod(editorDate);
-
-    console.log(`=================`, { editormd })
-
     return editormd;
-
 }));
 
 jQuery(document).ready(function () {
