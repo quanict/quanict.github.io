@@ -413,15 +413,14 @@ const markedPlugin = {
         };
 
         markedRenderer.image = function (href, title, text) {
-            let _this = this;
-
             // href = cleanUrl(this.options.sanitize, this.options.baseUrl, href);
             if (href === null) {
                 return text;
             }
 
             const { settings } = editormd;
-            if (typeof settings.imgPath === 'string') {
+
+            if ( settings && typeof settings.imgPath === 'string') {
                 var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
                 if (regex.test(href) !== true) {
                     href = settings.imgPath + '/' + href;
