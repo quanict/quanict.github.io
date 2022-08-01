@@ -1,0 +1,12 @@
+:host,
+:root {
+    --fa-font-duotone: normal 900 1em/1 "Font Awesome 6 Duotone"
+}
+
+@font-face {
+    font-family: "Font Awesome 6 Duotone";
+    font-style: normal;
+    font-weight: 900;
+    font-display: block;
+    src: url(../webfonts/fa-duotone-900.woff2) format("woff2"), url(../webfonts/fa-duotone-900.ttf) format("truetype")
+}
