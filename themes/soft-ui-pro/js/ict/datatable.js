@@ -17,14 +17,13 @@
     let columnDefs = $('input[name=columnDefs]').val();
 
     const render = {
-        'settings': function (data, type, row, meta) { 
+        settings: function (data, type, row, meta) { 
             let btn = tableBtn.clone();
             btn.html(iconSetting);
 
             const urlEdit = $('input[name=url_edit]');
             if (urlEdit.length > 0) {
                 let url = urlEdit.val();
-                console.log(`===============`, { data, type, row, meta });
                 url = url.replace("/0", `/${row.id}`);
                 
                 btn.attr('href', url);
@@ -33,7 +32,7 @@
         },
         default: function (data, type, row, meta) { 
             const doc = new DOMParser().parseFromString(data, "text/html");
-            html = doc.documentElement.textContent;
+            let html = doc.documentElement.textContent;
 
             let col = meta.col;
             let columnDef = Object.values(columnDefs)[col];
@@ -42,15 +41,73 @@
             }
             
             return html;
+        },
+        tags:function(data){
+            if( !data ){
+                return '';
+            }
+
+            const div = document.createElement("div");
+            const items = data.split(", ");
+            if( items && items.length > 0 ){
+                items.forEach((txt, i) => {
+                    const span = document.createElement("span");
+                    span.className="badge badge-info";
+                    if( i> 0){
+                        span.className += " ms-1"
+                    }
+                    span.innerText = txt;
+                    div.appendChild(span);
+                });
+            }
+            
+            return div.outerHTML;
+        },
+        site_source: function(data, type, row){
+            const {logo, source} = row;
+            const btn = $('<a/>', { class:"badge badge-light", 'data-scroll':""});
+            btn.attr('href', source);
+            btn.html('<i class="ni ni-atom"></i>');
+            return btn.prop('outerHTML');
+        },
+
+        favicon: function(data, type, row){
+            const {favicon, domain} = row;
+
+            const btn = $('<a/>', { class:"", 'data-scroll':"", title: domain, target:"_blank"});
+            btn.attr('href', `//${domain}`);
+            btn.html(`<img src="${favicon}" style="height:16px;" />`);
+            return btn.prop('outerHTML');
+        },
+
+        page_source: function (data, type, row) {
+            const {source, title} = row;
+            const btn = $('<a/>', { class:"", 'data-scroll':"", title: source, target:"_blank"});
+            btn.attr('href', `//${source}`);
+            btn.html(title);
+            return btn.prop('outerHTML');
+        },
+
+        classes: function (data, type, row){
+            const div = document.createElement("div");
+            div.innerText = data;
+            return div.outerHTML;
         }
     };
     
     async function headerInit(table, options) {
         options.columns= [];
-        
+        const valueFunctionsMap = {
+            'title':{},
+            'col':{},
+            'orderSequence':{},
+            'classes':{},
+            'renderFunction':{}
+        };
         columnDefs = JSON.parse(columnDefs);
         let thead = document.createElement("thead");
         thead.classList = "thead-light text-xxs text-uppercase";
+
         for (let [key, value] of Object.entries(columnDefs)) {
             let th = document.createElement("th");
             let a = document.createElement("a");
@@ -60,12 +117,21 @@
             th.appendChild(a);
             thead.appendChild(th);
 
-            if (key == 'settings') {
-                options.columns.push({ data: key, render:  render.settings});
-            } else {
-                options.columns.push({data: key, render: render.default});
+            const renderFunctionIndex = Object.keys(valueFunctionsMap).indexOf('renderFunction');
+            const colDef = {data: key, render: render.default};
+            if (key === 'settings') {
+                colDef.render = render.settings;
+            } else if( typeof value[renderFunctionIndex] !== 'undefined' ){
+                colDef.render = render[value[renderFunctionIndex]];
+                // options.columns.push({data: key, render: , className:'xxxx'});
             }
-            
+
+            const renderClassNameIndex = Object.keys(valueFunctionsMap).indexOf('classes');
+
+            if( typeof value[renderClassNameIndex] !== 'undefined' && value[renderClassNameIndex] ){
+                colDef.className = value[renderClassNameIndex].trim();
+            }
+            options.columns.push(colDef);
         }
         table.prepend(thead);
         return options;
@@ -80,8 +146,9 @@
 
         let ajax = table.dataset.ajax;
         if (typeof ajax === 'undefined' || ajax.length < 6) {
-            //settings.ajax = `${window.location.href}.json`;
             return;
+        } else {
+            settings.ajax = ajax;
         }
 
         if (settings.ajax) {

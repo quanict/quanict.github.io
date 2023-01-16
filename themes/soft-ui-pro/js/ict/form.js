@@ -6,9 +6,7 @@ $(document).ready(function () {
 
 (function ($) { 
     $.fn.formAutoSubmit = function (options) {
-        const elms = this;
-        
-        function execute(form, options) { 
+        function execute(form, options) {
             console.log(`handler submit form`, {form})
             $('input', form).change(function () { 
                 form.submit();
@@ -23,19 +21,22 @@ $(document).ready(function () {
 }(jQuery));
 
 (function ($) { 
-
     const inputs = ['input', 'textarea'];
     const sKey = 83;
     $.fn.formShortcut = function (options) {
         $(document).keydown(function (e) {
+            let form = $(e.target).parents('form');
             if (inputs.indexOf(e.target.nodeName.toLowerCase()) > -1 && e.ctrlKey === true) {
-                let form = $(e.target).parents('form');
                 if (e.keyCode === sKey) {
                     $('button[name=save]', form).click();
+                    e.preventDefault;
                     return false;
                 }
-                //console.log(`============== ${e.keyCode}`, { e });
-    
+            }
+
+            if( e.key === 'Enter' && ['SELECT','INPUT'].indexOf(e.target.nodeName)){
+                e.preventDefault;
+                return false;
             }
         });
         return this;

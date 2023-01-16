@@ -16576,26 +16576,29 @@ return jQuery;
 			// Apply custom sizing to the cloned header
 			headerCells = _fnGetUniqueThs( oSettings, tmpTable.find('thead')[0] );
 	
-			for ( i=0 ; i<visibleColumns.length ; i++ ) {
-				column = columns[ visibleColumns[i] ];
-	
-				headerCells[i].style.width = column.sWidthOrig !== null && column.sWidthOrig !== '' ?
-					_fnStringToCss( column.sWidthOrig ) :
-					'';
-	
-				// For scrollX we need to force the column width otherwise the
-				// browser will collapse it. If this width is smaller than the
-				// width the column requires, then it will have no effect
-				if ( column.sWidthOrig && scrollX ) {
-					$( headerCells[i] ).append( $('<div/>').css( {
-						width: column.sWidthOrig,
-						margin: 0,
-						padding: 0,
-						border: 0,
-						height: 1
-					} ) );
+			if(typeof headerCells !== 'undefined' && headerCells.length === visibleColumns.length){
+				for ( i=0 ; i<visibleColumns.length ; i++ ) {
+					column = columns[ visibleColumns[i] ];
+		
+					headerCells[i].style.width = column.sWidthOrig !== null && column.sWidthOrig !== '' ?
+						_fnStringToCss( column.sWidthOrig ) :
+						'';
+		
+					// For scrollX we need to force the column width otherwise the
+					// browser will collapse it. If this width is smaller than the
+					// width the column requires, then it will have no effect
+					if ( column.sWidthOrig && scrollX ) {
+						$( headerCells[i] ).append( $('<div/>').css( {
+							width: column.sWidthOrig,
+							margin: 0,
+							padding: 0,
+							border: 0,
+							height: 1
+						} ) );
+					}
 				}
 			}
+			
 	
 			// Find the widest cell for each column and put it into the table
 			if ( oSettings.aoData.length ) {
@@ -16669,9 +16672,15 @@ return jQuery;
 	
 				// Use getBounding... where possible (not IE8-) because it can give
 				// sub-pixel accuracy, which we then want to round up!
-				var bounding = browser.bBounding ?
+				let bounding;
+				if( typeof headerCells[i] === 'undefined' ){
+					bounding = cell.outerWidth();
+				} else {
+					bounding = browser.bBounding ?
 					Math.ceil( headerCells[i].getBoundingClientRect().width ) :
 					cell.outerWidth();
+				}
+				
 	
 				// Total is tracked to remove any sub-pixel errors as the outerWidth
 				// of the table might not equal the total given here (IE!).
