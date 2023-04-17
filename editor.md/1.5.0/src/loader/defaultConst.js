@@ -1,5 +1,5 @@
-var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-var key = isMac ? "Cmd" : "Ctrl";
+const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+const key = isMac ? "Cmd" : "Ctrl";
 
 const classPrefix = 'editormd-';
 
@@ -14,8 +14,8 @@ const defaultConst = {
         tex: classPrefix + "tex"
     },
     dialogZindex: 99999,
-    isIE: (navigator.appName == "Microsoft Internet Explorer"),
-    isIE8: (navigator.appName == "Microsoft Internet Explorer" && navigator.appVersion.match(/8./i) == "8."),
+    isIE: (navigator.appName === "Microsoft Internet Explorer"),
+    isIE8: (navigator.appName === "Microsoft Internet Explorer" && navigator.appVersion.match(/8./i) === "8."),
     urls: {
         atLinkBase: "https://github.com/"
     },
