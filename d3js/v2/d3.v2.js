@@ -1836,7 +1836,7 @@
     function formatValue(text) {
       return reFormat.test(text) ? '"' + text.replace(/\"/g, '""') + '"' : text;
     }
-    var reParse = new RegExp("\r\n|[" + delimiter + "\r\n]", "g"), reFormat = new RegExp('["' + delimiter + "\n]"), delimiterCode = delimiter.charCodeAt(0);
+    var reParse = new RegExp("\r|[" + delimiter + "\r]", "g"), reFormat = new RegExp('["' + delimiter + "]"), delimiterCode = delimiter.charCodeAt(0);
     dsv.parse = function(text) {
       var header;
       return dsv.parseRows(text, function(row, i) {
@@ -1898,7 +1898,7 @@
       return rows;
     };
     dsv.format = function(rows) {
-      return rows.map(formatRow).join("\n");
+      return rows.map(formatRow).join("");
     };
     return dsv;
   }

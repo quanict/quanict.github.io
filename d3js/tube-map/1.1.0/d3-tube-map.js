@@ -833,7 +833,7 @@
       var alignmentBaseline;
       var offset = lineWidth * 1.8;
 
-      var numLines = data.label.split(/\n/).length;
+      var numLines = data.label.split(//).length;
 
       var sqrt2 = Math.sqrt(2);
 
@@ -896,7 +896,7 @@
     function wrap(text, baseline) {
       text.each(function() {
         var text = d3.select(this);
-        var lines = text.text().split(/\n/);
+        var lines = text.text().split(//);
 
         var y = text.attr('y');
         var x = text.attr('x');

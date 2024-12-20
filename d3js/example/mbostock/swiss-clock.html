@@ -14,28 +14,28 @@
 </div>
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
-    let html = '<svg width="640" height="640" viewBox="50 50 500 500" style="max-width:100%;height:auto;">\n' +
-        '            <g transform="translate(300,300)">\n' +
-        '                <circle id="face" r="225" stroke-width="20" fill="none" stroke="lightgray"/>\n' +
-        '                ${d3.range(12).map(i => `<g id="tick-major" transform="rotate(${i * 30})">\n' +
-        '                <line y1="-203" y2="-153" stroke="black" stroke-width="14" />\n' +
-        '            </g>`).join("")}\n' +
-        '                ${d3.range(60).map(i => i % 5 ? `<g id="tick-minor" transform="rotate(${i * 6})">\n' +
-        '                <line y1="-203" y2="-188" stroke="black" stroke-width="4" />\n' +
-        '            </g>` : ``).join("")}\n' +
-        '                <g id="hand-hours" transform="rotate(${(now - d3.timeDay(now)) / 864e5 * 720})">\n' +
-        '                    <path d="M-13,47h26l-3,-186h-17z" />\n' +
-        '                </g>\n' +
-        '                <g id="hand-minutes" transform="rotate(${(now - d3.timeHour(now)) / 36e5 * 360})">\n' +
-        '                    <path d="M-13,47h26l-3,-240h-17z" />\n' +
-        '                </g>\n' +
-        '                <g id="hand-seconds" transform="rotate(${(now - d3.timeMinute(now)) / 6e4 * 360})">\n' +
-        '                    <line y1="65" y2="-138" stroke="red" stroke-width="4" />\n' +
-        '                    <circle cy="-138" r="16" fill="red" />\n' +
-        '                    <circle r="7.5" fill="red" />\n' +
-        '                    <circle r="4.5" fill="none" stroke="brown" />\n' +
-        '                </g>\n' +
-        '            </g>\n' +
+    let html = '<svg width="640" height="640" viewBox="50 50 500 500" style="max-width:100%;height:auto;">' +
+        '            <g transform="translate(300,300)">' +
+        '                <circle id="face" r="225" stroke-width="20" fill="none" stroke="lightgray"/>' +
+        '                ${d3.range(12).map(i => `<g id="tick-major" transform="rotate(${i * 30})">' +
+        '                <line y1="-203" y2="-153" stroke="black" stroke-width="14" />' +
+        '            </g>`).join("")}' +
+        '                ${d3.range(60).map(i => i % 5 ? `<g id="tick-minor" transform="rotate(${i * 6})">' +
+        '                <line y1="-203" y2="-188" stroke="black" stroke-width="4" />' +
+        '            </g>` : ``).join("")}' +
+        '                <g id="hand-hours" transform="rotate(${(now - d3.timeDay(now)) / 864e5 * 720})">' +
+        '                    <path d="M-13,47h26l-3,-186h-17z" />' +
+        '                </g>' +
+        '                <g id="hand-minutes" transform="rotate(${(now - d3.timeHour(now)) / 36e5 * 360})">' +
+        '                    <path d="M-13,47h26l-3,-240h-17z" />' +
+        '                </g>' +
+        '                <g id="hand-seconds" transform="rotate(${(now - d3.timeMinute(now)) / 6e4 * 360})">' +
+        '                    <line y1="65" y2="-138" stroke="red" stroke-width="4" />' +
+        '                    <circle cy="-138" r="16" fill="red" />' +
+        '                    <circle r="7.5" fill="red" />' +
+        '                    <circle r="4.5" fill="none" stroke="brown" />' +
+        '                </g>' +
+        '            </g>' +
         '        </svg>';
     html.append("content-scripts")
 </script>

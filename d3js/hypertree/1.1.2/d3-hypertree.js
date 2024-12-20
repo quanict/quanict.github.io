@@ -7166,7 +7166,7 @@ function inferColumns(rows) {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (function(delimiter) {
-  var reFormat = new RegExp("[\"" + delimiter + "\n\r]"),
+  var reFormat = new RegExp("[\"" + delimiter + "\r]"),
       DELIMITER = delimiter.charCodeAt(0);
 
   function parse(text, f) {
@@ -7233,11 +7233,11 @@ function inferColumns(rows) {
       return columns.map(function(column) {
         return formatValue(row[column]);
       }).join(delimiter);
-    })).join("\n");
+    })).join("");
   }
 
   function formatRows(rows) {
-    return rows.map(formatRow).join("\n");
+    return rows.map(formatRow).join("");
   }
 
   function formatRow(row) {
@@ -8910,7 +8910,7 @@ var generators;
       renderOpts: {
         'pretty': true,
         'indent': '  ',
-        'newline': '\n'
+        'newline': ''
       },
       headless: false,
       chunkSize: 10000,
@@ -10915,7 +10915,7 @@ Buffer.prototype.fill = function fill (val, start, end, encoding) {
 var INVALID_BASE64_RE = /[^+\/0-9A-Za-z-_]/g
 
 function base64clean (str) {
-  // Node strips out invalid characters like \n and \t from the string, base64-js does not
+  // Node strips out invalid characters like  and \t from the string, base64-js does not
   str = stringtrim(str).replace(INVALID_BASE64_RE, '')
   // Node converts strings with length < 2 to ''
   if (str.length < 2) return ''
@@ -18645,7 +18645,7 @@ exports.presets = {
     XMLStringifier.prototype.attEscape = function(str) {
       var ampregex;
       ampregex = this.noDoubleEncoding ? /(?!&\S+;)&/g : /&/g;
-      return str.replace(ampregex, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/\t/g, '&#x9;').replace(/\n/g, '&#xA;').replace(/\r/g, '&#xD;');
+      return str.replace(ampregex, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/\t/g, '&#x9;').replace(//g, '&#xA;').replace(/\r/g, '&#xD;');
     };
 
     return XMLStringifier;
@@ -18672,7 +18672,7 @@ exports.presets = {
       this.allowEmpty = (ref = options.allowEmpty) != null ? ref : false;
       if (this.pretty) {
         this.indent = (ref1 = options.indent) != null ? ref1 : '  ';
-        this.newline = (ref2 = options.newline) != null ? ref2 : '\n';
+        this.newline = (ref2 = options.newline) != null ? ref2 : '';
         this.offset = (ref3 = options.offset) != null ? ref3 : 0;
         this.dontprettytextnodes = (ref4 = options.dontprettytextnodes) != null ? ref4 : 0;
       } else {
@@ -18706,7 +18706,7 @@ exports.presets = {
       }
       if (this.pretty) {
         this.indent = "indent" in options ? options.indent : '  ';
-        this.newline = "newline" in options ? options.newline : '\n';
+        this.newline = "newline" in options ? options.newline : '';
         this.offset = "offset" in options ? options.offset : 0;
         this.dontprettytextnodes = "dontprettytextnodes" in options ? options.dontprettytextnodes : 0;
       } else {
@@ -36058,7 +36058,7 @@ exports.Tree = Tree;
           s = stack[stack.length - 1];
           if (s) {
             s[charkey] += text;
-            if (_this.options.explicitChildren && _this.options.preserveChildrenOrder && _this.options.charsAsChildren && (_this.options.includeWhiteChars || text.replace(/\\n/g, '').trim() !== '')) {
+            if (_this.options.explicitChildren && _this.options.preserveChildrenOrder && _this.options.charsAsChildren && (_this.options.includeWhiteChars || text.replace(/\/g, '').trim() !== '')) {
               s[_this.options.childkey] = s[_this.options.childkey] || [];
               charChild = {
                 '#name': '__text__'
@@ -36437,7 +36437,7 @@ exports.Tree = Tree;
   var entityBody = /[#:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\u00B7\u0300-\u036F\u203F-\u2040.\d-]/
 
   function isWhitespace (c) {
-    return c === ' ' || c === '\n' || c === '\r' || c === '\t'
+    return c === ' ' || c === '' || c === '\r' || c === '\t'
   }
 
   function isQuote (c) {
@@ -36797,9 +36797,9 @@ exports.Tree = Tree;
   function error (parser, er) {
     closeText(parser)
     if (parser.trackPosition) {
-      er += '\nLine: ' + parser.line +
-        '\nColumn: ' + parser.column +
-        '\nChar: ' + parser.c
+      er += 'Line: ' + parser.line +
+        'Column: ' + parser.column +
+        'Char: ' + parser.c
     }
     er = new Error(er)
     parser.error = er
@@ -36879,11 +36879,11 @@ exports.Tree = Tree;
         // namespace binding attribute. push the binding into scope
         if (local === 'xml' && parser.attribValue !== XML_NAMESPACE) {
           strictFail(parser,
-            'xml: prefix must be bound to ' + XML_NAMESPACE + '\n' +
+            'xml: prefix must be bound to ' + XML_NAMESPACE + '' +
             'Actual: ' + parser.attribValue)
         } else if (local === 'xmlns' && parser.attribValue !== XMLNS_NAMESPACE) {
           strictFail(parser,
-            'xmlns: prefix must be bound to ' + XMLNS_NAMESPACE + '\n' +
+            'xmlns: prefix must be bound to ' + XMLNS_NAMESPACE + '' +
             'Actual: ' + parser.attribValue)
         } else {
           var tag = parser.tag
@@ -37142,7 +37142,7 @@ exports.Tree = Tree;
 
       if (parser.trackPosition) {
         parser.position++
-        if (c === '\n') {
+        if (c === '') {
           parser.line++
           parser.column = 0
         } else {
@@ -37170,7 +37170,7 @@ exports.Tree = Tree;
               c = charAt(chunk, i++)
               if (c && parser.trackPosition) {
                 parser.position++
-                if (c === '\n') {
+                if (c === '') {
                   parser.line++
                   parser.column = 0
                 } else {
@@ -38801,7 +38801,7 @@ function UnitdiskMeta_({ parent, ud, className }) {
         const colors = layerlist.map(e => ducd_4.googlePalette(ducd_3.stringhash(e)));
         const v = rows.d3;
         v.info.innerHTML = `${cache.unculledNodes.length}<sub>N</sub>`;
-        v.info.title = Δ.map((e, i) => `${layerlist[i]}: ${e.toFixed(1)}ms`).join('\n');
+        v.info.title = Δ.map((e, i) => `${layerlist[i]}: ${e.toFixed(1)}ms`).join('');
         v.q.innerHTML = `${t}`;
         updateBar(v.bar, Δ.map(e => e * mag_time), colors);
         ping(v.useIndic);
@@ -38818,9 +38818,9 @@ function UnitdiskMeta_({ parent, ud, className }) {
         const Δms = Δ.map(n => n.toFixed(1));
         const v = rows.transform;
         v.info.innerHTML = `state, sets, voro`;
-        v.info.title = `Visible node count: ${na}\n`;
-        v.info.title += `Min weigth: ${hwexits}\n`;
-        v.info.title += `${Δms[0]} init\n${Δms[1]} culling\n${Δms[2]} pathes+sets\n${Δms[3]} voronoi+labels`;
+        v.info.title = `Visible node count: ${na}`;
+        v.info.title += `Min weigth: ${hwexits}`;
+        v.info.title += `${Δms[0]} init${Δms[1]} culling${Δms[2]} pathes+sets${Δms[3]} voronoi+labels`;
         v.q.innerHTML = `${t}`;
         updateBar(v.bar, Δ.map(e => e * mag_time), ['#2196f3', '#ffc107', '#673ab7', '#4caf50']);
         ping(v.useIndic);
@@ -38854,17 +38854,17 @@ function UnitdiskMeta_({ parent, ud, className }) {
         model.each(cn => ø += (cn.children || []).length / i);
         const v = rows.data;
         v.info.innerHTML = `${kb}<sub>kB</sub>${sep}${mysi(n)}<sub>N</sub>`;
-        v.info.title = `download: ${Δ[0].toFixed(0)}ms\n`;
-        v.info.title += `parse: ${Δ[1].toFixed(0)}ms\n`;
-        v.info.title += `hierarchy: ${Δ[2].toFixed(0)}ms\n`;
-        v.info.title += `weights: ${Δ[3].toFixed(0)}ms\n`;
-        v.info.title += `${lp} leaves\n`;
-        v.info.title += `↕ max: ${h}\n`;
-        v.info.title += `↕ μ: ?\n`;
-        v.info.title += `↕ ⌀: ?\n`;
-        v.info.title += `○ max: ?\n`;
-        v.info.title += `○ μ: ${ø.toPrecision(2)}\n`;
-        v.info.title += `○ ⌀: ?\n`;
+        v.info.title = `download: ${Δ[0].toFixed(0)}ms`;
+        v.info.title += `parse: ${Δ[1].toFixed(0)}ms`;
+        v.info.title += `hierarchy: ${Δ[2].toFixed(0)}ms`;
+        v.info.title += `weights: ${Δ[3].toFixed(0)}ms`;
+        v.info.title += `${lp} leaves`;
+        v.info.title += `↕ max: ${h}`;
+        v.info.title += `↕ μ: ?`;
+        v.info.title += `↕ ⌀: ?`;
+        v.info.title += `○ max: ?`;
+        v.info.title += `○ μ: ${ø.toPrecision(2)}`;
+        v.info.title += `○ ⌀: ?`;
         v.q.innerHTML = `${(t / 1000).toFixed(1)}`;
         updateBar(v.bar, Δ.map(e => e / mag_load), ['#ff9800', '#2196f3', 'green']);
         ping(v.useIndic);

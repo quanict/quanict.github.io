@@ -2016,7 +2016,7 @@
     return type && type !== "text" ? request.response : request.responseText;
   }
   d3.dsv = function(delimiter, mimeType) {
-    var reFormat = new RegExp('["' + delimiter + "\n]"), delimiterCode = delimiter.charCodeAt(0);
+    var reFormat = new RegExp('["' + delimiter + "]"), delimiterCode = delimiter.charCodeAt(0);
     function dsv(url, row, callback) {
       if (arguments.length < 3) callback = row, row = null;
       var xhr = d3_xhr(url, mimeType, row == null ? response : typedResponse(row), callback);
@@ -2104,10 +2104,10 @@
         return fields.map(function(field) {
           return formatValue(row[field]);
         }).join(delimiter);
-      })).join("\n");
+      })).join("");
     };
     dsv.formatRows = function(rows) {
-      return rows.map(formatRow).join("\n");
+      return rows.map(formatRow).join("");
     };
     function formatRow(row) {
       return row.map(formatValue).join(delimiter);

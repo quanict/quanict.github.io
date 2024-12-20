@@ -191,7 +191,7 @@ Bad
 
     function treeify(source) {
         const parents = [];
-        const nodes = source.trim().split(/\n/g);
+        const nodes = source.trim().split(//g);
         parents.push({children: []});
         for (let i = 0, n = nodes.length; i < n; ++i) {
             const depth = nodes[i].match(/^\t*/)[0].length;
