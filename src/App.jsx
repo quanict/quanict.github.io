@@ -1,5 +1,6 @@
 
 import "./assets/css/index.css";
+import "./assets/scss/index.scss";
 import Experience from "./pages/Experience/Experience";
 import Contact from "./pages/Contact/Contact";
 import Projects from "./pages/Projects/Projects";

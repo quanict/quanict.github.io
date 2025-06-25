@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.page-about-desc {
+    p {
+        @apply text-white pt-6;
+
+        &:first-child {
+            @apply pt-0;
+        }
+    }
+
+    blockquote {
+        @apply border-l-4 border-gray-300 pl-4;
+        @apply pt-3 pb-3;
+    }
+
+    a {
+        @apply text-blue-400;
+    }
+}

@@ -2,6 +2,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import IconCloudDemo from "@/components/globe";
+import SkillIcon from "@/components/ui/SkillIcon"
 import { Code2, Paintbrush, Database, Layout, Cpu, Cloud } from "lucide-react";
 import {
   FaReact,
@@ -52,7 +53,8 @@ const SkillCard = ({ icon: Icon, title, skills, color }) => (
             className="group/badge relative bg-gray-800/50 hover:bg-gray-700/80 text-gray-100 border-gray-600 flex items-center gap-2 py-2 px-3 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20"
           >
             <span className="transform group-hover/badge:scale-110 transition-transform duration-300">
-              {skill.icon}
+              {/* {skill.icon} */}
+              <SkillIcon name={skill.name} />
             </span>
             <span className="font-medium">{skill.name}</span>
           </Badge>
@@ -72,31 +74,24 @@ const SkillsSection = () => {
         { name: "React", icon: <FaReact className="w-4 h-4 text-[#61DAFB]" /> },
         {
           name: "Next.js",
-          icon: <SiNextdotjs className="w-4 h-4 text-white" />,
         },
         {
           name: "JavaScript",
-          icon: <FaJsSquare  className="w-4 h-4 text-[#F7DF1E]" />,
         },
         {
           name: "TypeScript",
-          icon: <SiTypescript className="w-4 h-4 text-[#3178C6]" />,
         },
          {
           name: "HTML5",
-          icon: <BsFileEarmarkCode className="w-4 h-4 text-[#E34F26]" />,
         },
         {
           name: "CSS3",
-          icon: <BsFileEarmarkCode className="w-4 h-4 text-[#1572B6]" />,
         },
         {
           name: "Tailwind CSS",
-          icon: <SiTailwindcss className="w-4 h-4 text-[#38B2AC]" />,
         },
         {
           name:"Bootstrap",
-          icon: <SiTailwindcss className="w-4 h-4 text-[#563D7C]" />,
         },
        
       ],
@@ -108,36 +103,28 @@ const SkillsSection = () => {
       skills: [
         {
           name: "Node.js",
-          icon: <FaNodeJs className="w-4 h-4 text-[#339933]" />,
         },
         {
           name: "Express.js",
-          icon: <BsFileEarmarkCode className="w-4 h-4 text-[#000000]" />,
         },
 
-        // {
-        //   name: "Python",
-        //   icon: <FaPython className="w-4 h-4 text-[#3776AB]" />,
-        // },
-        // {
-        //   name: "PostgreSQL",
-        //   icon: <SiPostgresql className="w-4 h-4 text-[#336791]" />,
-        // },
+        {
+          name: "Python",
+        },
+        {
+          name: "PostgreSQL",
+        },
         {
           name: "MongoDB",
-          icon: <SiMongodb className="w-4 h-4 text-[#47A248]" />,
         },
         {
           name: "REST APIs",
-          icon: <BsGrid1X2 className="w-4 h-4 text-[#FF6C37]" />,
         }, {
           name: "Google Cloud",
-          icon: <SiVercel className="w-4 h-4 text-[#4285F4]" />,
         },
-        // {
-        //   name: "GraphQL",
-        //   icon: <SiGraphql className="w-4 h-4 text-[#E10098]" />,
-        // },
+        {
+          name: "GraphQL",
+        },
       ],
     },
     {
@@ -148,15 +135,12 @@ const SkillsSection = () => {
         { name: "Figma", icon: <FaFigma className="w-4 h-4 text-[#F24E1E]" /> },
         {
           name: "Responsive Design",
-          icon: <Layout className="w-4 h-4 text-[#38B2AC]" />,
         },
         {
           name: "Wireframing",
-          icon: <BsGrid1X2 className="w-4 h-4 text-[#9CA3AF]" />,
         },
         {
           name: "Prototyping",
-          icon: <MdAnimation className="w-4 h-4 text-[#F59E0B]" />,
         },
       ],
     },
@@ -232,10 +216,10 @@ const SkillsSection = () => {
           name: "Graphic Design",
           icon: <Paintbrush className="w-4 h-4 text-[#FF6D00]" />,
         },
-        // {
-        //   name: "Motion Graphics",
+        {
+          name: "Motion Graphics",
         //   icon: <MdAnimation className="w-4 h-4 text-[#FF6D00]" />,
-        // },
+        },
       ],
     },
   ];
@@ -261,7 +245,7 @@ const SkillsSection = () => {
           ))}
         </div>
       </section>
-      <style jsx>{`
+      <style jsx="true" >{`
         @keyframes shimmer {
           0% {
             transform: translateX(-100%);

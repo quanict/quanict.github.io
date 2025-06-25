@@ -6,6 +6,10 @@ import Meteors from "@/components/ui/meteors";
 import PortfolioPage from "@/pages/About/About";
 import SparklesText from "@/components/ui/sparkles-text";
 import { FlipWords } from "@/components/ui/flip-words";
+import hero from "@/data/hero"
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
+import FloatingBadges from "./components/FloatingBadges"
 
 // Grid Background - Replacing the HexagonBackground
 const GridBackground = () => {
@@ -41,14 +45,23 @@ const GridBackground = () => {
 };
 
 export default function Hero() {
-  const words = [
-    "Full-Stack Developer & UI/UX Enthusiast",
-    "JavaScript & TypeScript Lover",
-    "React & NextJS Developer",
-    "Learning MARN Stack",
-    "Git & GitHub for Version Control",
-    "Passionate about Clean Code",
-  ];
+  const { t } = useTranslation();
+  const [language, setLanguage] = useState(i18next.language);
+  const { i18n } = useTranslation();
+
+  const changeLang = () => {
+    const selectedLanguage = "vi"
+    setLanguage(selectedLanguage);
+    i18next.changeLanguage(selectedLanguage);
+  }
+  // const words = [
+  //   "Full-Stack Developer & UI/UX Enthusiast",
+  //   "JavaScript & TypeScript Lover",
+  //   "React & NextJS Developer",
+  //   "Learning MARN Stack",
+  //   "Git & GitHub for Version Control",
+  //   "Passionate about Clean Code",
+  // ];
   // 'GraphQL', 'Docker', 'AWS','MySQL','Git', 'Linux', 'Discord Development'
   const [code] = useState(`
 const profile = {
@@ -128,7 +141,7 @@ const profile = {
 
     checkResolution();
     window.addEventListener("resize", checkResolution);
-
+    changeLang()
     return () => {
       document.head.removeChild(style);
       window.removeEventListener("resize", checkResolution);
@@ -180,7 +193,7 @@ const profile = {
               <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 mb-6 sm:mb-8 animate__animated animate__fadeInDown animate__delay-1s">
                 <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></div>
                 <span className="text-gray-300 text-xs sm:text-sm font-medium">
-                  Welcome to my universe
+                  {hero.welcome}
                 </span>
               </div>
 
@@ -190,9 +203,7 @@ const profile = {
                   <SparklesText text="Hello" />
                   <span className="relative inline-block">
                     I&apos;m
-                    <span className="typing-effect gradient-text">
-                      Mohi Uddin
-                    </span>
+                    <span className="typing-effect gradient-text">{hero.name}</span>
                   </span>
                 </h1>
                 <div className="absolute -z-10 top-1/2 -translate-y-1/2 left-1/4 w-24 sm:w-32 h-24 sm:h-32 bg-blue-500/20 rounded-full blur-2xl animate-pulse"></div>
@@ -204,7 +215,7 @@ const profile = {
                 <span>
                   <FlipWords
                     className={"text-lg sm:text-xl text-blue-400 font-medium"}
-                    words={words}
+                    words={hero.roles}
                   />
                 </span>
               </div>
@@ -212,7 +223,7 @@ const profile = {
               {/* Description */}
               <div className="relative mb-8 sm:mb-12 max-w-xl">
                 <p className="text-base sm:text-xl text-gray-300/90 leading-relaxed capitalize">
-                  A passionate JavaScript developer with a love for creating dynamic and interactive visual websites and web applications.
+                  {hero.description}
                 </p>
               </div>
 
@@ -220,12 +231,12 @@ const profile = {
               <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 animate__animated animate__fadeInUp animate__delay-2s">
                 {/* View Projects Button */}
                 <a
-                  href="https://app.daily.dev/mdmohiuddin"
+                  href={hero.profile_link}
                   className="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-blue-500 to-teal-400 p-0.5 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-[0_0_2rem_-0.5rem_#60A5FA]"
                 >
                   <span className="block w-full px-6 sm:px-8 py-3 sm:py-4 rounded-[11px] bg-gray-900 transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-blue-500 group-hover:to-teal-400">
                     <span className="relative flex items-center justify-center gap-2 text-white font-medium">
-                      <span>Learn More</span>
+                      <span>{t("Learn More")}</span>
                       <i className="fas fa-arrow-right transform transition-all duration-300 group-hover:translate-x-1"></i>
                     </span>
                   </span>
@@ -238,7 +249,7 @@ const profile = {
                 >
                   <span className="block w-full px-6 sm:px-8 py-3 sm:py-4 rounded-[11px] bg-gray-900 border border-gray-700/50 transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-gray-800 group-hover:to-gray-700">
                     <span className="relative flex items-center justify-center gap-2 text-gray-300 font-medium group-hover:text-white">
-                      <span>Get Resume</span>
+                      <span>{t("Get Resume")}</span>
                       <i className="fas fa-envelope transform transition-all duration-300 group-hover:rotate-12"></i>
                     </span>
                   </span>
@@ -246,22 +257,7 @@ const profile = {
               </div>
 
               {/* Floating badges */}
-              <div className="hidden lg:block absolute left-[5.5rem] top-[2.3rem] animate-float-slow">
-                <div className="px-4 py-2 rounded-lg bg-purple-500/10 backdrop-blur-sm border border-purple-500/20 text-purple-400">
-                  <i className="fas fa-wand-magic-sparkles"></i>&nbsp;&nbsp;UI
-                  Magic
-                </div>
-              </div>
-              <div className="hidden lg:block absolute right-10 top-20 animate-float">
-                <div className="px-4 py-2 rounded-lg bg-blue-500/10 backdrop-blur-sm border border-blue-500/20 text-blue-400">
-                  <i className="fas fa-code"></i>&nbsp;&nbsp;Clean Code
-                </div>
-              </div>
-              <div className="hidden lg:block absolute top-[17rem] left-[70%] transform -translate-x-1/2 animate-float">
-                <div className="px-4 py-2 rounded-lg bg-amber-500/10 backdrop-blur-sm border border-amber-500/20 text-amber-400">
-                  <i className="fas fa-lightbulb"></i>&nbsp;&nbsp;Innovation
-                </div>
-              </div>
+              <FloatingBadges />
             </div>
 
             {/* Right column - Code window */}
@@ -290,7 +286,7 @@ const profile = {
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce flex flex-col items-center gap-2">
           <span className="text-gray-400 text-sm flex items-center gap-2">
             <i className="fas fa-mouse text-blue-400"></i>
-            About me
+            {t("About me")}
           </span>
           <i className="fas fa-chevron-down text-blue-400 text-xl"></i>
         </div>
