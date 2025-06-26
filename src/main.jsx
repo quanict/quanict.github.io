@@ -4,7 +4,7 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import '@/lib/i18n.tsx';
 
-createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById("portfolio")).render(
   <BrowserRouter>
     <StrictMode>
       <App />

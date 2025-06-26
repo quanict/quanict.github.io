@@ -1,12 +1,14 @@
 
 import { Code2,  Computer ,GalleryThumbnails } from "lucide-react";
+import {experiences} from "@/data/experiences"
+import SkillIcon from "@/components/ui/SkillIcon"
 
 const ExperienceCard = ({
   title,
   company,
   period,
   description,
-  icon: Icon,
+  icon,
 }) => (
   <div className="group relative overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
     {/* Glass morphism effect */}
@@ -19,7 +21,7 @@ const ExperienceCard = ({
       {/* Floating icon with pulse effect */}
       <div className="relative mb-6">
         <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500 to-blue-500 opacity-25 rounded-full blur-xl " />
-        <Icon className="w-12 h-12 text-cyan-400 relative z-10 " />
+        <SkillIcon name={icon} size="12" className="text-cyan-400 relative z-10" />
       </div>
 
       {/* Content with improved typography */}
@@ -52,48 +54,7 @@ const ExperienceCard = ({
 );
 
 const ExperienceSection = () => {
-  const experiences = [
-    {
-      icon: Computer ,
-      title: "jr. Mern Stack Developer",
-      company: "talent people",
-
-      period: " October 2024 – December 2024 ",
-
-      description:
-        `Created a full-stack web application using the MERN stack, including user authentication, data management, and responsive design.
-        Collaborated with a team to implement RESTful APIs and integrate third-party sms services.
-        Demonstrated proficiency in React, Node.js, Express.js, and MongoDB.`,
-    },
-    {
-      icon: Code2,
-      title: " Frontend Developer",
-      company: " Freelancing ",
-      period: "December 2024 -January 2025 ",
-      description:
-        "created responsive and user-friendly web applications using Next.js and Tailwind CSS. Nodemailer for email service integration.",
-    },
-    {
-      icon: Code2,
-      title: "Frontend Developer",
-      company: "Freelancing",
-      period: " February 2025 ",
-
-      description:
-        `created a responsive and user-friendly web application using next.js,typeScript and Tailwind CSS. for sports management system.
-        and also make ui ux design using figma.`,
-    },
-
-    {
-      icon: GalleryThumbnails,
-      title: "Full Stack Developer",
-      company: "Freelancing",
-      period: " March 2025 - may 2025 ",
-
-      description:
-        `created a responsive and user-friendly web application using next.js and Tailwind CSS.notion for store data and nodemailer for email service integration for e-commerce website. and also added animations and transitions to enhance user experience. using framer motion and gsap library.`,
-    },
-  ];
+  
 
   return (
     <>

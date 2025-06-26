@@ -1,14 +1,17 @@
 import { useState } from "react";
+import * as ContactInfo from "@/data/contact"
 import { Send, MapPin, Mail } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 
 import {
   FaGithub,
   FaLinkedin,
- 
+
 } from "react-icons/fa6";
+import { useTranslation } from "react-i18next";
 
 export default function Contact() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,6 +21,49 @@ export default function Contact() {
 
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState(null);
+
+  const contactData = []
+  if (ContactInfo.phone) {
+    contactData.push({
+      icon: <FaWhatsapp className="w-6 h-6 text-green-500" />,
+      label: "Phone",
+      link: `https://wa.me/${ContactInfo.phone}`,
+      text: ContactInfo.phone,
+    })
+  }
+
+  if (ContactInfo.mail) {
+    contactData.push({
+      icon: <Mail className="w-6 h-6 text-purple-400" />,
+      label: "Email",
+      link: `mailto:${ContactInfo.mail}`,
+      text: ContactInfo.mail,
+    })
+  }
+  if (ContactInfo.github) {
+    contactData.push({
+      icon: <FaGithub className="w-6 h-6" />,
+      label: "Github",
+      link: `https://github.com/${ContactInfo.github}`,
+      text: "Check out my GitHub",
+    })
+  }
+  if (ContactInfo.linkedin) {
+    contactData.push({
+      icon: <FaLinkedin className="w-6 h-6 text-blue-500" />,
+      label: "Linkedin",
+      link: `https://www.linkedin.com/in/${ContactInfo.linkedin}/`,
+      text: "Connect with me on LinkedIn",
+    })
+  }
+
+  if (ContactInfo.location) {
+    contactData.push({
+      icon: <MapPin className="w-6 h-6 text-red-500" />,
+      label: "Location",
+      text: ContactInfo.location
+    })
+  }
 
   const validateForm = () => {
     let tempErrors = {};
@@ -67,11 +113,6 @@ export default function Contact() {
     // create .env file in root directory and add your access key 
     // or you can directly add your access key here
 
-
-
-
-
-
     form.append("name", formData.name);
     form.append("email", formData.email);
     form.append("phone", formData.phone || ""); // Optional field
@@ -106,59 +147,23 @@ export default function Contact() {
   };
 
   return (
-    <main
-      className="pt-20 lg:pt-[0rem] bg-[#04081A]
- text-white min-h-screen"
-    >
+    <main className="pt-20 lg:pt-[0rem] bg-[#04081A] text-white min-h-screen" >
       <section className="hero min-h-screen flex items-center relative px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Contact Info */}
-
             <div className="space-y-8">
               <div>
                 <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                  Get in Touch
+                  {t("contact.get_in_touch")}
                 </h2>
                 <p className="text-gray-300 text-lg">
-                  Have a question or want to work together? Drop us a message!
+                  {t("contact.Have a question or want to work together? Drop us a message!")}
                 </p>
               </div>
 
               <div className="space-y-8">
-                {[
-                  {
-                    icon: <FaWhatsapp className="w-6 h-6 text-green-500" />,
-                    label: "Phone",
-                    link: "https://wa.me/+8801865540885",
-                    text: "+880 1865540885",
-                  },
-                  {
-                    icon: <Mail className="w-6 h-6 text-purple-400" />,
-                    label: "Email",
-                    link: "mailto:mohiu5204@gmail.com",
-                    text: "mohiu5204@gmail.com",
-                  },
-                  {
-                    icon: <FaLinkedin className="w-6 h-6 text-blue-500" />,
-                    label: "Linkedin",
-                    link: "https://www.linkedin.com/in/mohammedmohiuddin/",
-                    text: "Connect with me on LinkedIn",
-                  },
-                  {
-                    icon: <FaGithub className="w-6 h-6" />,
-                    label: "Github",
-                    link: "https://github.com/MDmohiuddin-web",
-                    text: "Check out my GitHub",
-                  },
-
-                  {
-                    icon: <MapPin className="w-6 h-6 text-red-500" />,
-                    label: "Location",
-
-                    text: "Feni, Chattogram, Bangladesh - Feni Elahigonj",
-                  },
-                ].map((item, index) => (<>
+                {contactData.map((item, index) => (<>
                   <div key={index + 1} className="flex items-center space-x-4">
                     <div className="bg-pink-500/10 p-3 rounded-lg">
                       {item.icon}
@@ -174,8 +179,6 @@ export default function Contact() {
                       )}
                     </div>
                   </div>
-
-
                 </>
                 ))}
               </div>
@@ -279,7 +282,7 @@ export default function Contact() {
                   type="submit"
                   className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 px-6 rounded-lg font-semibold flex items-center justify-center space-x-2 hover:opacity-90 transition-opacity"
                 >
-                  <span>Send Message</span>
+                  <span>{t("contact.send_message")}</span>
                   <Send className="w-4 h-4" />
                 </button>
               </form>

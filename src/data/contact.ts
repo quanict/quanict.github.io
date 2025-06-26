@@ -1,0 +1,5 @@
+export const phone = "+84989982285"
+export const mail = "hongquan2712@gmail.com"
+export const linkedin = "quanict"
+export const github = "quanict"
+export const location = "Gia Lam, Ha Noi, Vietnam"
