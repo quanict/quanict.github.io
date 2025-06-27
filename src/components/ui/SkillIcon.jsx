@@ -17,6 +17,11 @@ import * as SiIcon from "react-icons/si";
 import { BsFileEarmarkCode, BsGrid1X2 } from "react-icons/bs";
 import { MdAnimation } from "react-icons/md";
 
+/**
+ * https://animate-ui.com/
+ */
+
+
 const getColor = function (name) {
     let className
     switch (name) {
