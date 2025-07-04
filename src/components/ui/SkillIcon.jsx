@@ -22,7 +22,8 @@ import { MdAnimation } from "react-icons/md";
  */
 
 const icons = {
-    "python" : {icon:FaIcon.FaPython, color : "text-[#3776AB]"}
+    "python" : {icon:FaIcon.FaPython, color : "text-[#3776AB]"},
+    "aws" : {icon:SiIcon.SiIcon.SiAmazon, color : "text-[#3776AB]"},
 }
 
 const getColor = function (name) {
@@ -169,7 +170,12 @@ export default function SkillIcon({ name = '', size = '4', className = '' }) {
         .replaceAll(' & ', "-")
         .replaceAll('/', "-")
         .replaceAll(' ', "-")
-    const Icon = getIcon(iconName)
+    let Icon
+    if( icons[iconName] ){
+        Icon = icons[iconName]
+    } else {
+        Icon = getIcon(iconName)
+    }
 
     const classes = className.split(' ')
     classes.push(`w-${size} h-${size}`)
