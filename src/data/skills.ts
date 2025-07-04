@@ -44,6 +44,7 @@ const Skills = [
         "Kubernetes", "Docker", "AWS","CI/CD",
         "SonarQube",
         "nginx",
+        "AWS"
         // { name: "CI/CD", icon: <FcWorkflow className="w-4 h-4" /> },
       
       ],
