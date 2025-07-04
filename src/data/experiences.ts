@@ -1,4 +1,99 @@
 export const experiences = [
+  {
+      name : "NewMyZcom",
+      icon: "computer" ,
+      title: "jr. Mern Stack Developer",
+      company: "GMO Internet",
+      period: "",
+      start : "2021/08/01",
+      skills : ["WHMCS"],
+      description:``,
+    }, // NewMyZcom
+   {
+      name : "InfoQ",
+      icon: "computer" ,
+      title: "jr. Mern Stack Developer",
+      company: "GMO Internet",
+      period: "",
+      start : "2024/03/22",
+      skills : ["CakePHP", "jQuery"],
+      description:``,
+    }, // InfoQ
+    {
+      name : "Itaku-MNP",
+      icon: "computer" ,
+      title: "jr. Mern Stack Developer",
+      company: "RunSystem",
+      period: "",
+      start : "2024/03/05",
+      skills : ["VueJs", "Laravel", "NuxtJs"],
+      description:``,
+    }, // Itaku-MNP
+    {
+      name : "Sun Hospital",
+      icon: "computer" ,
+      title: "jr. Mern Stack Developer",
+      company: "RunSystem",
+      period: "",
+      start : "2024/02/01",
+      end : "2024/02/29",
+      skills : ["ReactJs", "Bootstrap"],
+      description:``,
+    }, // Sun Hospital
+    {
+      name : "Azure 2023",
+      icon: "computer" ,
+      title: "jr. Mern Stack Developer",
+      company: "RunSystem",
+      period: "",
+      start : "2023/08/01",
+      end : "2023/08/30",
+      skills : ["node.js", "angular"],
+      description:``,
+    }, // Azure 2023
+    {
+      name : "IC Yakataban",
+      icon: "computer" ,
+      title: "jr. Mern Stack Developer",
+      company: "RunSystem",
+      period: "",
+      start : "2021/08/01",
+      effort:50,
+      skills : ["CakePHP"],
+      description:``,
+    }, // IC Yakataban
+    {
+      name : "CCCMarketing AICamera",
+      icon: "computer" ,
+      title: "jr. Mern Stack Developer",
+      company: "RunSystem",
+      start : "2023/04/17",
+      end : "2023/09/30",
+      skills : ["CakePHP"],
+      description:``,
+    }, // CC AI
+    {
+      name : "Value Domain Renewal",
+      icon: "computer" ,
+      title: "jr. Mern Stack Developer",
+      company: "RunSystem",
+      start : "2020/10/12",
+      end : "2021/03/31",
+      effort: 100,
+      skills : ["Laravel", "Bootstrap"],
+      description:``,
+    }, // ValueDomain
+     {
+      name : "NEDO",
+      icon: "computer" ,
+      title: "jr. Mern Stack Developer",
+      company: "RunSystem",
+      start : "2023/02/01",
+      end : "2023/03/31",
+      effort: 50,
+      skills : ["VueJS", "Spring Boot"],
+      description:``,
+    }, // NEDO
     {
       icon: "computer" ,
       title: "jr. Mern Stack Developer",

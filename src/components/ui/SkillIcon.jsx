@@ -21,6 +21,9 @@ import { MdAnimation } from "react-icons/md";
  * https://animate-ui.com/
  */
 
+const icons = {
+    "python" : {icon:FaIcon.FaPython, color : "text-[#3776AB]"}
+}
 
 const getColor = function (name) {
     let className

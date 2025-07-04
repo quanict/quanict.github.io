@@ -1,6 +1,7 @@
 export const Frontend = [
     "HTML5",
     "CSS3",
+    "jQuery",
     "JavaScript",
     "TypeScript",
     "React",
@@ -18,6 +19,16 @@ export const Backend = [
     "postgresql"
 ]
 
+export const Frameworks = [
+  "Flutter", 
+  "Prisma", 
+  "Express.js", 
+  "Next.js", 
+  "Laravel", 
+  "CakePHP",
+  "CodeIgniter"
+]
+
 const Skills = [
     {
       title: "Frontend Development",
@@ -29,7 +40,7 @@ const Skills = [
     },
     {
       title: "Frameworks",
-      skills: ["Flutter", "Prisma", "Express.js", "Next.js", "Laravel", "CodeIgniter"],
+      skills: Frameworks,
     },
     {
       title: "Language",
