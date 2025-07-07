@@ -54,8 +54,6 @@ const ExperienceCard = ({
 );
 
 const ExperienceSection = () => {
-  
-
   return (
     <>
       <div className="min-h-screen bg-gradient-to-b relative overflow-hidden pt-32 pb-20">
