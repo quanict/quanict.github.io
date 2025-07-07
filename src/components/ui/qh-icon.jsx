@@ -1,6 +1,6 @@
 export default function QhIcon({name}) {
 
     return (
-        <div>{name}</div>
+        <div className="border p-2 justify-self-center">{name}</div>
     )
 }
