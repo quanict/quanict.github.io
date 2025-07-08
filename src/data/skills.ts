@@ -16,7 +16,8 @@ export const Backend = [
     "MongoDB",
     "REST APIs",
     "Google Cloud",
-    "postgresql"
+    "postgresql",
+    "MySQL",
 ]
 
 export const Frameworks = [
@@ -25,8 +26,13 @@ export const Frameworks = [
   "Express.js", 
   "Next.js", 
   "Laravel", 
+  "PHP Unit",
+  "Magento", 
   "CakePHP",
-  "CodeIgniter"
+  "CodeIgniter",
+  "Drupal",
+  "Joomla",
+  "WordPress"
 ]
 
 const Skills = [
@@ -51,13 +57,11 @@ const Skills = [
       title: "Cloud & DevOps",
       skills: [
         "Git", "GitHub", "GitLab", 
-        "Linux", 
+        "Linux", "Fedora", "CentOS", "Ubuntu",
         "Kubernetes", "Docker", "AWS","CI/CD",
         "SonarQube",
         "nginx",
         "AWS"
-        // { name: "CI/CD", icon: <FcWorkflow className="w-4 h-4" /> },
-      
       ],
     },
     {
@@ -66,7 +70,7 @@ const Skills = [
         "VS Code","Redux","Jira","Vite","Firebase", "Netlify", "Vercel", "Webpack", "Jest",
         "Figma","Cypress",
 
-        "Android Studio"
+        "Android Studio", "Shopify"
       ],
     },
   

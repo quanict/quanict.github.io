@@ -26,12 +26,14 @@ export default function IconsPage() {
     })
 
     return (
-        <main className="grid grid-flow-col grid-rows-4 gap-4 mt-10 p-10">
+        <main className="container mx-auto mt-[70px]">
+            <div className="grid grid-cols-4 md:grid-cols-12 gap-4 mt-10 p-10">
             {icons.map((image, index) => {
-            return (
-              <div key={index} ><QhIcon name={image} /></div>
-            );
-          })}
+                return (
+                    <div key={index} className="w-32 h-32 border p-2 content-center" ><QhIcon name={image} /></div>
+                );
+            })}
+            </div>
         </main>
     )
 }
