@@ -15,7 +15,8 @@ dist-ssr
 *.local
 
 # data
-src/data/experiences.ts
+src/data/experiences.local
+src/data/projects/*
 
 
 # Editor directories and files

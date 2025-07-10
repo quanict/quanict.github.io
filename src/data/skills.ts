@@ -18,6 +18,7 @@ export const Backend = [
     "Google Cloud",
     "postgresql",
     "MySQL",
+    "Firebase"
 ]
 
 export const Frameworks = [

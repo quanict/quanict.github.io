@@ -13,6 +13,12 @@ import * as SiIcon from "react-icons/si";
 import * as BsIcon from "react-icons/bs";
 import * as MdIcon from "react-icons/md";
 
+/**
+ * https://simpleicons.org/
+ */
+// import { SimpleIcon } from 'react-icon-cloud';
+
+
 let Icon = FaIcon.FaPython
 const getIcon = (name) => {
     let icon,
@@ -32,19 +38,19 @@ const getIcon = (name) => {
         case "next-js": icon = SiIcon.SiNextdotjs; className = "text-[#000000]"; break;
         case "laravel": icon = FaIcon.FaLaravel; className = "text-[#F05340]"; break;
         case "codeigniter": icon = SiIcon.SiCodeigniter; className = "text-[#dd4814]"; break;
-        case "drupal": icon = SiIcon.SiDrupal; className = "text-[#000000]"; break;
-        case "cakephp": icon = SiIcon.SiCakephp; className = "text-[#D33C44]"; break;
-        case "joomla": icon = SiIcon.SiJoomla; className = "text-[#86be3c]"; break;
+        case "drupal": icon = SiIcon.SiDrupal; className = "text-[#0678BE]"; break;
+        case "cakephp": icon = SiIcon.SiCakephp; className = "text-[#D33C43]"; break;
+        case "joomla": icon = SiIcon.SiJoomla; className = "text-[#5091CD]"; break;
         case "wordpress": icon = SiIcon.SiWordpress; className = "text-[#D33C44]"; break;
-        case "shopify": icon = SiIcon.SiShopify; className = "text-[#D33C44]"; break;
+        case "shopify": icon = SiIcon.SiShopify; className = "text-[#7AB55C]"; break;
         
-        case "flutter": icon = SiIcon.SiFlutter; className = "text-[#000000]"; break;
+        case "flutter": icon = SiIcon.SiFlutter; className = "text-[#02569B]"; break;
 
         
         case "express-js": icon = SiIcon.SiExpress; className = "text-[#000000]"; break;
         case "tailwind-css": icon = SiIcon.SiTailwindcss; className = "text-[#38B2AC]"; break;
         case "bootstrap": icon = SiIcon.SiBootstrap; className = "text-[#563D7C]"; break;
-        case "jquery": icon = SiIcon.SiJquery; className = "text-[#563D7C]"; break;
+        case "jquery": icon = SiIcon.SiJquery; className = "text-[#0769AD]"; break;
         case "cypress": icon = SiIcon.SiCypress; className = "text-[#563D7C]"; break;
         
 
@@ -64,19 +70,19 @@ const getIcon = (name) => {
 
         case "git": icon = FaIcon.FaGitAlt; className = "text-[#F05032]"; break;
         case "github": icon = FaIcon.FaGithub; className = "text-[#181717]"; break;
-        case "gitlab": icon = FaIcon.FaGitlab; className = "text-[#e2432a]"; break;
+        case "gitlab": icon = FaIcon.FaGitlab; className = "text-[#FC6D26]"; break;
         case "linux": icon = FaIcon.FaLinux; className = "text-[#003a72]"; break;
         case "kubernetes": icon = BsIcon.BsGrid1X2; className = "text-[#326CE5]"; break;
         case "docker": icon = FaIcon.FaDocker; className = "text-[#2496ED]"; break;
         case "aws": icon = FaIcon.FaAws; className = "text-[#FF9900]"; break;
-        case "sonarqube": icon = SiIcon.SiSonarqube; className = "text-[#FF9900]"; break;
+        case "sonarqube": icon = SiIcon.SiSonarqube; className = "text-[#126ED3]"; break;
         // case "ci-cd": icon = FcWorkflow; break;
 
         case "vs-code": icon = TbIcon.TbBrandVscode; className = "text-[#007ACC]"; break;
         case "redux": icon = SiIcon.SiRedux; className = "text-[#764ABC]"; break;
         case "vite": icon = SiIcon.SiVite; className = "text-[#646CFF]"; break;
-        case "firebase":
-        case "nextauth": icon = SiIcon.SiFirebase; className = "text-[#007ACC]"; break;
+        case "firebase": icon = SiIcon.SiFirebase; className = "text-[#DD2C00]"; break;
+        // case "nextauth": icon = SiIcon.SiFirebase; className = "text-[#007ACC]"; break;
         case "netlify": icon = SiIcon.SiNetlify; className = "text-[#00C7B7]"; break;
         case "vercel": icon = SiIcon.SiVercel; className = "text-[#000000]"; break;
         case "webpack": icon = SiIcon.SiWebpack; className = "text-[#8DD6F9]"; break;
@@ -103,9 +109,9 @@ const getIcon = (name) => {
         case "apache": icon = SiIcon.SiApache; className = "text-[#000000]"; break;
 
         case "android": icon = SiIcon.SiAndroid; className = "text-[#000000]"; break;
-        case "android-studio": icon = SiIcon.SiAndroidstudio; className = "text-[#000000]"; break;
+        case "android-studio": icon = SiIcon.SiAndroidstudio; className = "text-[#3DDC84]"; break;
         
-        case "jira": icon = SiIcon.SiJira; className = "text-[#000000]"; break;
+        case "jira": icon = SiIcon.SiJira; className = "text-[#0052CC]"; break;
         case "ci-cd": icon = BsIcon.BsCCircle; className = "text-[#fc2323]"; break;
 
         case "prisma": icon = SiIcon.SiPrisma; className = "text-[#000000]"; break;
