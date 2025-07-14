@@ -1,17 +1,18 @@
-
-import "./assets/css/index.css";
-import "./assets/scss/index.scss";
-import Experience from "./pages/Experience/Experience";
-import Contact from "./pages/Contact/Contact";
-import Projects from "./pages/Projects/Projects";
-import Header from "./pages/Header/Header";
-import Hero from "./pages/Hero/Hero";
-import Skills from "./pages/Skills/Skills";
-import Icons from "./pages/Skills/Icons";
-import Education from "./pages/Education/Education";
-
 import { Route, Routes } from "react-router-dom";
 import { useState } from "react";
+
+import "./assets/css/index.css"
+import "./assets/scss/index.scss"
+import Experience from "./pages/Experience/Experience"
+import Contact from "./pages/Contact/Contact"
+import Projects from "./pages/Projects/Projects"
+import Header from "./pages/Header/Header"
+import Hero from "./pages/Hero/Hero"
+import Skills from "./pages/Skills/Skills"
+import Education from "./pages/Education/Education"
+import Icons from "./pages/Skills/Icons"
+import TestPage from "./pages/Tailwind/test"
+
 
 export default function App() {
   const [isOnePage] = useState(false); // Toggle state
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/icons" element={<Icons />} />
+          <Route path="/test" element={<TestPage />} />
         </Routes>
       )}
     </>
