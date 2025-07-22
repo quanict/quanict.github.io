@@ -1,6 +1,4 @@
 export const experiences = [
-  ,
-  
     {
       icon: "computer" ,
       title: "jr. Mern Stack Developer",
