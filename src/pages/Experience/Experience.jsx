@@ -1,7 +1,8 @@
 
-import { Code2,  Computer ,GalleryThumbnails } from "lucide-react";
-import {experiences} from "@/data/experiences"
+import { Code2, Computer, GalleryThumbnails } from "lucide-react";
+import { experiences } from "@/data/experiences"
 import SkillIcon from "@/components/ui/SkillIcon"
+import QhIcon from "@/components/ui/qh-icon"
 
 const ExperienceCard = ({
   title,
@@ -9,6 +10,7 @@ const ExperienceCard = ({
   period,
   description,
   icon,
+  skills
 }) => (
   <div className="group relative overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
     {/* Glass morphism effect */}
@@ -21,7 +23,7 @@ const ExperienceCard = ({
       {/* Floating icon with pulse effect */}
       <div className="relative mb-6">
         <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500 to-blue-500 opacity-25 rounded-full blur-xl " />
-        <SkillIcon name={icon} size="12" className="text-cyan-400 relative z-10" />
+        <QhIcon name={icon||"react"} size="12" className="text-cyan-400 relative z-10" />
       </div>
 
       {/* Content with improved typography */}
@@ -35,6 +37,11 @@ const ExperienceCard = ({
             {period}
           </span>
         </div>
+        {skills && <div className="flex">
+          {skills.map((skill, index) => (
+            <QhIcon name={skill} size="4" key={index} className="mr-2" />
+          ))}
+        </div>}
         <p className="text-gray-300 border-l-4 border-blue-500/50 pl-4 mt-4 leading-relaxed">
           {description}
         </p>
@@ -96,6 +103,7 @@ const ExperienceSection = () => {
           {/* Experience grid with improved layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
             {experiences.map((exp, index) => (
+
               <ExperienceCard key={index} {...exp} />
             ))}
           </div>

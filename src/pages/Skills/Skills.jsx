@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import IconCloudDemo from "@/components/globe";
 import SkillIcon from "@/components/ui/SkillIcon"
+import QhIcon from "@/components/ui/qh-icon"
 import Skills from "@/data/skills"
 
 const SkillCard = ({ icon: Icon, title, skills, color }) => (
@@ -13,7 +14,7 @@ const SkillCard = ({ icon: Icon, title, skills, color }) => (
         <div
           className={`p-3 rounded-xl bg-gray-800/50 group-hover:scale-110 transition-transform duration-300`}
         >
-          <SkillIcon name={title} size="8" />
+          <QhIcon name={title} size="8" />
         </div>
         <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
           {title}
@@ -27,7 +28,7 @@ const SkillCard = ({ icon: Icon, title, skills, color }) => (
             className="group/badge relative bg-gray-800/50 hover:bg-gray-700/80 text-gray-100 border-gray-600 flex items-center gap-2 py-2 px-3 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20"
           >
             <span className="transform group-hover/badge:scale-110 transition-transform duration-300">
-              <SkillIcon name={skillName} />
+              <QhIcon name={skillName} size="4" />
             </span>
             <span className="font-medium">{skillName}</span>
           </Badge>

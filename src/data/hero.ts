@@ -1,8 +1,11 @@
 
 
 import { HeroData } from "@/types"
+import HeroImg from "@/assets/images/IMG_20250331_132637.jpg";
 
 const hero: HeroData = {
+    experience_years : 17,
+    img: HeroImg,
     roles: [
         "Full-Stack Developer & UI/UX Enthusiast",
         "JavaScript & TypeScript Lover",
@@ -12,24 +15,21 @@ const hero: HeroData = {
         "Passionate about Clean Code",
     ],
     titles: [
-        "Developer", "Designer", "Creator", "Innovator"
+        "From Code to Leadership – My Journey in Software Engineering"
     ],
 
-    name: "Mohi Uddin",
+    name: import.meta.env.VITE_PROFILE_NAME|| "Mohi Uddin",
     welcome: "Welcome to my universe",
-    description: "A passionate JavaScript developer with a love for creating dynamic and interactive visual websites and web applications.",
-    profile_link: "https://app.daily.dev/mdmohiuddin",
+    description: "Experienced software engineer with over 17 years in web and system development, working across start-ups and large enterprises. Skilled in full-stack development, system architecture, and leading software teams to deliver scalable, maintainable, and efficient solutions.",
+    profile_link: "",
     about: {
-        description: "Hello! I'm Mohi Uddin, a passionate JavaScript developer specializing in creating innovative web solutions and user-friendly interfaces. \
-                    Using **React & Next.js Framework**, I'm dedicated to simplifying development workflows. \
-                    \nMy focus is on making web development faster, easier, and accessible to all developers. \
-                    Currently, I'm expanding into backend development to grow as a full-stack developer and create seamless, secure web applications. \
-                    \n> I'am a lifelong learner and a dedicated supporter of the developer community, \
-                    committed to creating new and effective tools and ideas to empower developers. \
-                    As the creator of the Frontend Developer Squad at app.daily.dev, \
-                    I am championing new technologies to help developers build better and more efficient applications. \
-                    I share this knowledge and experience with my community, so that we can all move forward together.",
-        singature: "Mohi Uddin, Creator of the Frontend Developer Squad at [app.daily.dev](https://app.daily.dev/mdmohiuddin)"
+        description: "I'm Nguyen Hong Quan, a passionate and experienced Senior Software Engineer / Project Leader with over 17 years of hands-on experience in full-stack web development, cloud-based architecture, and team leadership. \
+                    \nI specialize in building robust, scalable, and user-centric applications using technologies like PHP, Node.js, Python, and modern frontend frameworks such as React.js, Vue.js, and Nuxt.js. My professional journey spans across startups, enterprise environments, and freelance consulting, giving me a broad perspective and adaptive problem-solving skills. \
+                    \nThroughout my career, I've led and contributed to various impactful projects—ranging from cinema booking systems, domain hosting platforms, and financial form builders, to custom WHMCS modules and video conferencing tools. \
+                    \nI take pride in combining technical expertise with product thinking, ensuring that every solution not only works well, but also delivers a great user experience. \
+                    \nWhether it's building from scratch, optimizing legacy code, or mentoring junior developers, I bring commitment, curiosity, and clarity to every challenge.\
+                    ",
+        singature: ""
     }
 }
 export default hero

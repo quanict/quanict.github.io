@@ -47,7 +47,6 @@ const GridBackground = () => {
 export default function Hero() {
   const { t } = useTranslation();
   const [language, setLanguage] = useState(i18next.language);
-  const { i18n } = useTranslation();
 
   const changeLang = () => {
     const selectedLanguage = "vi"
@@ -65,18 +64,18 @@ export default function Hero() {
   // 'GraphQL', 'Docker', 'AWS','MySQL','Git', 'Linux', 'Discord Development'
   const [code] = useState(`
 const profile = {
-    name: 'Mohi Uddin',
-    title: 'Full-Stack Developer | UI/UX Enthusiast | Problem Solver',
+    name: '${hero.name}',
+    title: 'From Code to Leadership – My Journey in Software Engineering',
     skills: [
-        'React', 'NextJS', 'Redux','Tailwind CSS','Bootstrap', 
-        'Express','NodeJS', 'JavaScript','TypeScript','MongoDB', 
-        'Firebase','NextAuth','Graphic design','Figma','UI/UX Design',
+        'React.js', 'Vue.js', 'Nuxt.js', 'Next.js', 'Angular', 'TailwindCSS','Bootstrap', 
+        'Laravel', 'CakePhp', 'Symfony', 'Express.js', 'NestJS', 'Fastify','NodeJS', 'JavaScript','TypeScript','MongoDB', 
+        'Amazon Web Services','Docker','Docker Compose','Kubernetes','Jenkins', 'GitHub Actions', 'GitLab CI'
         
     ],
     hardWorker: true,
     quickLearner: true,
     problemSolver: true,
-    yearsOfExperience: 2, 
+    yearsOfExperience: ${hero.experience_years}, 
     hireable: function() {
         return (
             this.hardWorker &&

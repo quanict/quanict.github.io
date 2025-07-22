@@ -107,8 +107,7 @@ export default function Contact() {
     // Create a new FormData object to send to Web3Forms API
     const form = new FormData();
     form.append("access_key", import.meta.env.VITE_WEB3FORMS_ACCESS_KEY);
-    // form.append("access_key", "YOUR_ACCESS_KEY"); // Replace with your Web3Forms access key
-
+    
     // https://web3forms.com/ => goto ths site and Create your Access Key 
     // create .env file in root directory and add your access key 
     // or you can directly add your access key here
