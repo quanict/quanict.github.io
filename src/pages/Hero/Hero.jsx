@@ -49,7 +49,7 @@ export default function Hero() {
   const [language, setLanguage] = useState(i18next.language);
 
   const changeLang = () => {
-    const selectedLanguage = "vi"
+    const selectedLanguage = "en"
     setLanguage(selectedLanguage);
     i18next.changeLanguage(selectedLanguage);
   }
