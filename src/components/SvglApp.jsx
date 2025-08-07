@@ -1,0 +1,3 @@
+/**
+ * https://svgl.app/api
+ */
