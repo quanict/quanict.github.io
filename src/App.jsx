@@ -5,13 +5,14 @@ import "./assets/css/index.css"
 import "./assets/scss/index.scss"
 import Experience from "./pages/Experience/Experience"
 import Contact from "./pages/Contact/Contact"
-import Projects from "./pages/Projects/Projects"
+// import Projects from "./pages/Projects/Projects"
 import Header from "./pages/Header/Header"
 import Hero from "./pages/Hero/Hero"
 import Skills from "./pages/Skills/Skills"
 import Education from "./pages/Education/Education"
-import Icons from "./pages/Skills/Icons"
-import TestPage from "./pages/Tailwind/test"
+// import Icons from "./pages/Skills/Icons"
+// import TestPage from "./pages/Tailwind/test"
+import CloudSkillsBoost from "./pages/Certificate/CloudSkillsBoost";
 
 
 export default function App() {
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/" element={<Hero />} />
           <Route path="/skills" element={<Skills />} />
           <Route path="/experience" element={<Experience />} />
+          <Route path="/certificate" element={<CloudSkillsBoost />} />
           {/* <Route path="/education" element={<Education />} /> */}
           <Route path="/contact" element={<Contact />} />
           {/* <Route path="/projects" element={<Projects />} /> */}
