@@ -8,10 +8,12 @@ import {
   FaLinkedin,
 
 } from "react-icons/fa6";
+
 import { useTranslation } from "react-i18next";
 
 export default function Contact() {
   const { t } = useTranslation();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -162,7 +164,7 @@ export default function Contact() {
               </div>
 
               <div className="space-y-8">
-                {contactData.map((item, index) => (<>
+                {contactData.map((item, index) => (
                   <div key={index + 1} className="flex items-center space-x-4">
                     <div className="bg-pink-500/10 p-3 rounded-lg">
                       {item.icon}
@@ -178,7 +180,6 @@ export default function Contact() {
                       )}
                     </div>
                   </div>
-                </>
                 ))}
               </div>
             </div>

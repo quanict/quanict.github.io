@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import PropTypes from "prop-types";
 import
     // {
     //     Paintbrush,
@@ -157,6 +157,10 @@ const getIcon = (name) => {
         case "prisma": icon = SiIcon.SiPrisma; className = "text-[#000000]"; break;
         case "google-api": icon = SiIcon.SiGooglecloud; className = "text-[#000000]"; break;
         case "google_meet": icon = SiIcon.SiGooglemeet; break;
+        case "vpc": icon = LuIcon.Computer; break;
+        case "networking": 
+        case "network-connectivity-center":
+            icon = LuIcon.Network; break;
 
 
         case "computer": icon = LuIcon.Computer; break;
@@ -168,6 +172,9 @@ const getIcon = (name) => {
 
         case "php-unit": icon = SiIcon.SiPhp; className = "text-[#000000]"; break;
         case "selenium": icon = SiIcon.SiSelenium; className = "text-[#000000]"; break;
+
+        case "gemini": icon = SiIcon.SiGooglegemini; className = "text-[#4796E3]"; break;
+
         default:
             console.warn(`==== not found icon=[${iconName}]`)
             icon = FaIcon.FaImage
@@ -193,3 +200,9 @@ export default function QhIcon({ name, size, className }) {
         </div>
     )
 }
+
+QhIcon.propTypes = {
+    name: PropTypes.string.isRequired,
+    size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    className: PropTypes.string
+};

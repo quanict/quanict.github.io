@@ -1,3 +1,5 @@
+import { t } from "i18next"
+
 export const CloudSkillsBoostProfile = [
     {
         name: "hongquan2712",
@@ -389,6 +391,12 @@ const QuanQuanGCP_S7 = [
         certificate_id : 19163385,
         finished_date : "2025-10-14",
         img: "https://cdn.qwiklabs.com/%2Feo332Pa00UJLbtsBSuwWmIw1jKMi5mweI27B%2FRwlE8%3D",
+        tags : [
+            "API Development",
+            "Google Cloud Services",
+            "App Engine",
+            "Cloud Vision API"
+        ]
     },
     {
         name :"Machine Learning in the Enterprise",
@@ -461,6 +469,11 @@ const courses = [
         certificate_id : 19176333,
         finished_date : "2025-10-15",
         img: "https://cdn.qwiklabs.com/VPyLqRbmy%2Fnu2SvMfe1z3l0c06dIMHSGytoitnjplPs%3D",
+        tags : [
+            "VPC",
+            "Networking",
+            "Gemini",
+        ]
     },
 
     {
@@ -469,6 +482,12 @@ const courses = [
         certificate_id : 19174969,
         finished_date : "2025-10-15",
         img: "https://cdn.qwiklabs.com/WRQIZKMs67tkMh5AZVLKfUWmfMVrN4ZtGf3eu9%2BNRls%3D",
+        tags : [
+            "Cloud Networking",
+            "GKE Networking",
+            "GKE on Multi-Cloud",
+            "Fleet Routing"
+        ]
     },{
         name :"Google Cloud Fundamentals: Core Infrastructure",
         course_id: 60,
@@ -513,25 +532,38 @@ const courses = [
         img: "",
     },
      {
-        name :"",
-        course_id: 0,
-        certificate_id : 0,
-        finished_date : "2025-10-",
-        img: "",
+        name :"Connecting Cloud Networks with NCC",
+        course_id: 1364,
+        certificate_id : 19262471,
+        finished_date : "2025-10-18",
+        img: "https://cdn.qwiklabs.com/eNCNCHyWo2UP%2FTBizMDG6SttL40jTwdFfHzHzCZYQoM%3D ",
+        tags : [
+            "Networking",
+            "Network Connectivity Center",
+        ]
     },
     {
-        name :"",
-        course_id: 0,
-        certificate_id : 0,
-        finished_date : "2025-10-",
-        img: "",
+        name :"Networking in Google Cloud: Network Security",
+        course_id: 1142,
+        certificate_id : 19261929,
+        finished_date : "2025-10-18",
+        img: "https://cdn.qwiklabs.com/G0mnN9ObkfsoJhnxcsvpydokiWJPkwdNMNMO7UOi%2BYQ%3D",
+        tags : [
+            "Networking",
+        ]
     },
     {
-        name :"",
-        course_id: 0,
-        certificate_id : 0,
-        finished_date : "2025-10-",
-        img: "",
+        name :"Networking in Google Cloud: Network Architecture",
+        course_id: 1144,
+        certificate_id : 19261929,
+        finished_date : "2025-10-18",
+        img: "https://cdn.qwiklabs.com/wDi2Xm%2F8G4L20ehasoaVEs%2F7VoTKH93XS0t2%2FgU7VOk%3D",
+        tags : [
+            "Networking",
+            "Effective Routes",
+            "Google Cloud Services",
+            "Google Cloud Architect"
+        ]
     },
     {
         name :"",
