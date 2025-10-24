@@ -13,6 +13,7 @@ import Education from "./pages/Education/Education"
 // import Icons from "./pages/Skills/Icons"
 // import TestPage from "./pages/Tailwind/test"
 import CloudSkillsBoost from "./pages/Certificate/CloudSkillsBoost";
+import JobApplied from "./pages/Job/Applied";
 
 
 export default function App() {
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/skills" element={<Skills />} />
           <Route path="/experience" element={<Experience />} />
           <Route path="/certificate" element={<CloudSkillsBoost />} />
+          <Route path="/jobs" element={<JobApplied />} />
           {/* <Route path="/education" element={<Education />} /> */}
           <Route path="/contact" element={<Contact />} />
           {/* <Route path="/projects" element={<Projects />} /> */}
