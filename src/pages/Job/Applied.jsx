@@ -4,6 +4,7 @@ import { Layout1 } from "@/components/layouts/style1";
 import moment from "moment";
 import { FaUpwork } from "react-icons/fa6"
 import Rating from "@/components/ui/rating";
+import { FaLinkedin } from "react-icons/fa";
 
 const JobSiteItem = ({ site }) => {
     let classes = ["p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700"]
@@ -80,13 +81,19 @@ export default function JobApplied() {
         return 0;
     })
 
+    const jobSites = sites.sort((a, b) => {
+        const rateA = a.rate || 0;
+        const rateB = b.rate || 0;
+        return rateB - rateA;
+    });
+
     return (
         <Layout1 title="Job searching">
             <div className="job-applied-page">
                 <h3 className="text-white text-3xl font-bold mb-6">Job Search</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {sites && sites.map((site, i) => (
+                {jobSites && jobSites.map((site, i) => (
                     <JobSiteItem key={i} site={site} />
                 ))}
             </div>
@@ -185,6 +192,27 @@ const sites = [
         logo: "https://gallery-cdn.breezy.hr/d0eace02-af20-44d2-bca5-b107e301ae49/Screenshot%202021-06-02%20at%204.34.38%20PM.png",
         description: "",
         rate: 1
+    },
+    {
+        name: "LinkedIn",
+        url: "https://www.linkedin.com/jobs/",
+        logo: FaLinkedin,
+        description: "",
+        rate: 5
+    },
+    {
+        name: "Clearer.io",
+        url: "https://jobs.lever.co/Clearer",
+        logo: "https://lever-client-logos.s3.us-west-2.amazonaws.com/5aa24a91-b1aa-4dd6-9896-592d6d7103e2-1730138761940.png",
+        description: "Remote work",
+        rate: 1
+    },
+    {
+        name: "topdev",
+        url: "https://topdev.vn/jobs/search?job_categories_ids=2&salary_min=30000000&keyword=&region_ids=01%2C27%2C33",
+        logo: "https://c.topdevvn.com/uploads/2025/07/15/logo_v2.png",
+        description: "Top IT Jobs For Developers.",
+        rate: 4
     }
 ]
 
@@ -231,6 +259,14 @@ const INTERVIEW_STATUS = {
 };
 
 const data = [
+    {
+        company: "Crossian",
+        contact: "https://www.linkedin.com/in/my-thai-164265ba/",
+        contact_name: "My Thai",
+        position: "Frontend Technical Leader",
+        date_interview: "",
+        status: INTERVIEW_STATUS.NOT_APPLLY,
+    },
     {
         company: "Gradion Vietnam",
         contact: "gam.ho@gradion.com",
