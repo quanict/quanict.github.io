@@ -260,6 +260,16 @@ const INTERVIEW_STATUS = {
 
 const data = [
     {
+        company: "Border Z Vietnam",
+        contact: "https://www.facebook.com/trinh.nguyen.127648",
+        contact_name: "Trinh Nguyễn",
+        position: "Technical Leader",
+        date_interview: "2025/11/10 15:30",
+        status: INTERVIEW_STATUS.WAIT,
+        address: "Tòa nhà CIC, số 2 đường Nguyễn Thị Duệ, Yên Hòa, HN",
+        jd : "https://docs.google.com/document/d/1DB8iGh4PL1aDxrmPYlC6R9kNRCkkKPRsaLhx1E5drhY/edit?tab=t.0"
+    },  
+    {
         company: "Crossian",
         contact: "https://www.linkedin.com/in/my-thai-164265ba/",
         contact_name: "My Thai",
