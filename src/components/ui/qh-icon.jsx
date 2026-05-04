@@ -1,9 +1,6 @@
 "use client";
 import PropTypes from "prop-types";
 import
-    // {
-    //     Paintbrush,
-    // } 
     * as LuIcon
     from "lucide-react";
 
@@ -53,7 +50,7 @@ const getIcon = (name) => {
             icon = SiIcon.SiNextdotjs; className = "text-[#000000]";
             break;
         case "nuxtjs":
-            icon = SiIcon.SiNuxtdotjs; className = "text-[#000000]";
+            icon = SiIcon.SiNuxt; className = "text-[#000000]";
             break;
         case "vuejs":
             icon = SiIcon.SiVuedotjs; className = "text-[#000000]";
@@ -69,7 +66,7 @@ const getIcon = (name) => {
             icon = SiIcon.SiCakephp; className = "text-[#D33C43]"; break;
         case "joomla": icon = SiIcon.SiJoomla; className = "text-[#5091CD]"; break;
         case "wordpress": icon = SiIcon.SiWordpress; className = "text-[#D33C44]"; break;
-        case "magento": icon = SiIcon.SiMagento; className = "text-[#D33C44]"; break;
+        case "magento": icon = SiIcon.SiIcon; className = "text-[#D33C44]"; break;
         // case "whmcs": icon = SiIcon.Sif; className = "text-[#D33C44]"; break;
         case "shopify": icon = SiIcon.SiShopify; className = "text-[#7AB55C]"; break;
         case "symfony-2": icon = SiIcon.SiSymfony; className = "text-[#000000]"; break;
@@ -99,7 +96,7 @@ const getIcon = (name) => {
         case "rest-apis": icon = BsIcon.BsGrid1X2; className = "text-[#FF6C37]"; break;
         case "google-cloud": icon = SiIcon.SiGooglecloud; className = "text-[#4285F4]"; break;
 
-        case "responsive-design": icon = MdIcon.Layout; className = "text-[#38B2AC]"; break;
+        case "responsive-design": icon = MdIcon.MdLayers; className = "text-[#38B2AC]"; break;
         case "figma": icon = FaIcon.FaFigma; className = "text-[#F24E1E]"; break;
         case "wireframing": icon = BsIcon.BsGrid1X2; className = "text-[#9CA3AF]"; break;
         case "prototyping": icon = MdIcon.MdAnimation; className = "text-[#F59E0B]"; break;
@@ -112,9 +109,8 @@ const getIcon = (name) => {
         case "kubernetes": icon = BsIcon.BsGrid1X2; className = "text-[#326CE5]"; break;
         case "docker": icon = FaIcon.FaDocker; className = "text-[#2496ED]"; break;
         case "aws": icon = FaIcon.FaAws; className = "text-[#FF9900]"; break;
-        case "sonarqube": icon = SiIcon.SiSonarqube; className = "text-[#126ED3]"; break;
-
-        case "aws-lambda": icon = SiIcon.SiAwslambda; className = "text-[#126ED3]"; break;
+        case "sonarqube": icon = SiIcon.SiSonarqubecloud; className = "text-[#126ED3]"; break;
+        
         // case "ci-cd": icon = FcWorkflow; break;
 
         case "vs-code": icon = TbIcon.TbBrandVscode; className = "text-[#007ACC]"; break;
@@ -174,6 +170,9 @@ const getIcon = (name) => {
         case "selenium": icon = SiIcon.SiSelenium; className = "text-[#000000]"; break;
 
         case "gemini": icon = SiIcon.SiGooglegemini; className = "text-[#4796E3]"; break;
+
+
+        // case "aws-lambda": icon = SiIcon.SiAwslambda; className = "text-[#126ED3]"; break;
 
         default:
             console.warn(`==== not found icon=[${iconName}]`)

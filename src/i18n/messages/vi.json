@@ -1,0 +1,11 @@
+{
+    "seo": {
+        "home": "Trang chu",
+        "home_description": "noi dung trang chu"
+    },
+    "hero": {
+        "About me": "Giới thiệu bản thân",
+        "Learn More": "Learn More",
+        "Get Resume": "Get Resume"
+    }
+}

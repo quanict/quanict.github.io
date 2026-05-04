@@ -41,8 +41,8 @@ let experiences = [
   },
 ];
 
-if( typeof import.meta.env.VITE_EXPERIENCES !== 'undefined'){
-  experiences = JSON.parse(import.meta.env.VITE_EXPERIENCES)
+if( typeof process.env.NEXT_PUBLIC_EXPERIENCES !== 'undefined'){
+  experiences = JSON.parse(process.env.NEXT_PUBLIC_EXPERIENCES)
 }
 
 export { experiences }

@@ -1,0 +1,5 @@
+export const phone = process.env.NEXT_PUBLIC_PROFILE_PHONE || "xxxx-xxxx-xx"
+export const mail = process.env.NEXT_PUBLIC_PROFILE_MAIL || "me@gmail.com"
+export const linkedin = "quanict"
+export const github = "quanict"
+export const location = "Gia Lam, Ha Noi, Vietnam"
