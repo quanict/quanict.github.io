@@ -1,0 +1,948 @@
+[
+  {
+    "id": 1,
+    "question": "Đồng chí cho biết lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở được kiện toàn từ những lực lượng nào?",
+    "options": {
+      "a": "Kiện toàn từ lực lượng bảo vệ dân phố, Công an xã bán chuyên trách đang được tiếp tục sử dụng và Đội trưởng, Đội phó đội dân phòng.",
+      "b": "Kiện toàn từ lực lượng bảo vệ dân phố, Công an xã bán chuyên trách đang được tiếp tục sử dụng và dân phòng.",
+      "c": "Kiện toàn từ lực lượng bảo vệ dân phố, Công an xã bán chuyên trách đang được tiếp tục sử dụng và Dân quân tự vệ.",
+      "d": "Kiện toàn từ lực lượng bảo vệ dân phố, Công an xã và Đội trưởng, Đội phó đội dân phòng."
+    },
+    "answer": "a"
+  },
+  {
+    "id": 2,
+    "question": "Đồng chí cho biết lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở trực tiếp hỗ trợ cơ quan nào?",
+    "options": {
+      "a": "Uỷ ban nhân dân cấp tỉnh.",
+      "b": "Công an cấp xã.",
+      "c": "Quân đội nhân dân.",
+      "d": "Tòa án nhân dân."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 3,
+    "question": "Đồng chí cho biết cơ quan nào sau đây có thẩm quyền ban hành quyết định thành lập Tổ bảo vệ an ninh, trật tự?",
+    "options": {
+      "a": "Chủ tịch Uỷ ban nhân dân cấp xã.",
+      "b": "Đảng ủy cấp xã.",
+      "c": "Công an cấp xã.",
+      "d": "Hội đồng nhân dân cấp xã."
+    },
+    "answer": "a"
+  },
+  {
+    "id": 4,
+    "question": "Đồng chí cho biết cơ quan nào ở địa phương trực tiếp giúp Ủy ban nhân dân cấp xã quản lý, chỉ đạo hoạt động của Tổ bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Đảng ủy cấp xã.",
+      "b": "Công an cấp xã.",
+      "c": "Uỷ ban Mặt trận Tổ quốc Việt Nam cấp xã.",
+      "d": "Ban Chỉ huy quân sự cấp xã."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 5,
+    "question": "Đồng chí cho biết trong 04 nhiệm vụ sau, nhiệm vụ nào là nhiệm vụ của lực lượng tham gia bảo vệ an ninh trật tự ở cơ sở theo quy định của Luật?",
+    "options": {
+      "a": "Xét xử tội phạm.",
+      "b": "Điều tra hình sự.",
+      "c": "Hỗ trợ Công an cấp xã bảo đảm an ninh, trật tự.",
+      "d": "Truy tố tội phạm."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 6,
+    "question": "Đồng chí cho biết ưu thế nổi bật của lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở trong bảo vệ an ninh, trật tự tại cơ sở?",
+    "options": {
+      "a": "Có quyền cưỡng chế mạnh.",
+      "b": "Am hiểu địa bàn, gần dân.",
+      "c": "Có vũ khí chuyên dụng.",
+      "d": "Tất cả các phương án trên."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 7,
+    "question": "Đồng chí cho biết yêu cầu đúng nhất về tư tưởng chính trị đối với lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở là gì?",
+    "options": {
+      "a": "Có lối sống trong sáng, hòa đồng.",
+      "b": "Trung thành với Đảng, Tổ quốc, Nhân dân.",
+      "c": "Có kỹ năng giao tiếp, kỹ năng xử lý tình huống.",
+      "d": "Tất cả các phương án trên."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 8,
+    "question": "Đồng chí cho biết phương châm “bốn tại chỗ” trong bảo đảm an ninh, trật tự tại cơ sở gồm những nội dung nào?",
+    "options": {
+      "a": "Chỉ huy tại chỗ, lực lượng tại chỗ, phương tiện tại chỗ, hậu cần tại chỗ.",
+      "b": "Chỉ huy tại chỗ, nguồn lực tại chỗ, con người tại chỗ, hậu cần tại chỗ.",
+      "c": "Lãnh đạo tại chỗ, lực lượng tại chỗ, nguồn lực tại chỗ, hậu cần tại chỗ.",
+      "d": "Lãnh đạo tại chỗ, nguồn lực tại chỗ, con người tại chỗ, hậu cần tại chỗ."
+    },
+    "answer": "a"
+  },
+  {
+    "id": 9,
+    "question": "Đồng chí cho biết quan điểm xây dựng lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở cần phù hợp với những đặc thù gì tại địa phương?",
+    "options": {
+      "a": "Quy mô dân số, diện tích.",
+      "b": "Điều kiện kinh tế - xã hội.",
+      "c": "Tình hình, yêu cầu bảo đảm an ninh, trật tự.",
+      "d": "Tất cả các phương án trên."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 10,
+    "question": "Đồng chí cho biết trong quan điểm chỉ đạo về xây dựng lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở, Nhân dân được có vai trò như thế nào?",
+    "options": {
+      "a": "Đối tượng quản lý.",
+      "b": "Trung tâm, chủ thể, mục tiêu và động lực.",
+      "c": "Lực lượng hỗ trợ.",
+      "d": "Tất cả các phương án trên."
+    },
+    "answer": "b"
+  },
+   {
+    "id": 11,
+    "question": "Đồng chí cho biết theo quy định của Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở, quan hệ công tác của lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở ở cơ sở với trưởng thôn, Tổ trưởng tổ dân phố, trưởng ban công tác mặt trận ở thôn, tổ dân phố là gì?",
+    "options": {
+      "a": "Phối hợp.",
+      "b": "Phục tùng, chấp hành.",
+      "c": "Hỗ trợ.",
+      "d": "Chỉ đạo, điều hành."
+    },
+    "answer": "a"
+  },
+  {
+    "id": 12,
+    "question": "Đồng chí cho biết quan điểm xây dựng lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở gắn bó chặt chẽ với xây dựng thế trận lòng dân có ý nghĩa như thế nào đối với công tác bảo đảm an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Tăng cường tiềm lực quân sự.",
+      "b": "Tạo niềm tin, tăng cường sự đồng thuận xã hội.",
+      "c": "Tăng quyền lực hành chính.",
+      "d": "Tăng kiểm soát xã hội."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 13,
+    "question": "Đồng chí cho biết quan điểm xây dựng lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở lấy địa bàn cơ sở là trọng tâm phản ánh tư duy gì trong xây dựng nhà nước pháp quyền xã hội chủ nghĩa Việt Nam?",
+    "options": {
+      "a": "Tập trung quyền lực từ cấp tỉnh.",
+      "b": "Quản trị quốc gia hiện đại, hiệu quả từ cơ sở.",
+      "c": "Quản lý từ trung ương.",
+      "d": "Không phân cấp, phân quyền."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 14,
+    "question": "Đồng chí cho biết điểm “an ninh chủ động” theo tinh thần Đại hội Đảng khóa XIV của Đảng Cộng sản Việt Nam đặt ra yêu cầu gì đối với lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Chủ động nắm tình hình.",
+      "b": "Chủ động xử lý kịp thời các vấn đề phức tạp về trật tự, an toàn xã hội.",
+      "c": "Chủ động chuẩn bị nguồn lực.",
+      "d": "Tất cả các phương án trên."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 15,
+    "question": "Đồng chí cho biết điểm “an ninh kiến tạo” theo tinh thần Đại hội Đảng khóa XIV nhấn mạnh yêu cầu gì đối với nhiệm vụ bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Chuyển hóa thách thức thành cơ hội cho phát triển đất nước.",
+      "b": "Tạo động lực trực tiếp và thuận lợi nhất cho phát triển kinh tế - xã hội.",
+      "c": "Chủ động nhận diện, tranh thủ tối đa thời cơ.",
+      "d": "Tất cả các phương án trên."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 16,
+    "question": "Đồng chí cho biết theo tinh thần Đại hội XIV của Đảng Cộng sản Việt Nam, tự chủ chiến lược về an ninh gồm những nội dung gì?",
+    "options": {
+      "a": "Chủ động nhận diện, ngăn ngừa, đẩy lùi từ sớm, từ xa các nguy cơ, rủi ro an ninh.",
+      "b": "Chủ động chuẩn bị nguồn lực quốc gia.",
+      "c": "Chăm lo xây dựng thế trận lòng dân.",
+      "d": "Tất cả các phương án trên."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 17,
+    "question": "Đồng chí cho biết tiêu chuẩn đạo đức để tham gia lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở được quy định như thế nào trong Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Phẩm chất đạo đức xuất sắc.",
+      "b": "Phẩm chất đạo đức giỏi.",
+      "c": "Phẩm chất đạo đức tốt.",
+      "d": "Tất cả các phương án trên."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 18,
+    "question": "Đồng chí cho biết yêu cầu của việc tuyển chọn Tổ viên Tổ bảo vệ an ninh, trật tự?",
+    "options": {
+      "a": "Bảo đảm công bằng, minh bạch, thực hiện quyền, nghĩa vụ của công dân.",
+      "b": "Bảo đảm công khai, dân chủ, đúng quy định của pháp luật.",
+      "c": "Bảo đảm bí mật, an toàn, theo các yêu cầu của các cơ quan chuyên môn.",
+      "d": "Tất cả các phương án trên."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 19,
+    "question": "Đồng chí cho biết các tư duy, phương pháp bảo vệ an ninh quốc gia trong kỷ nguyên mới?",
+    "options": {
+      "a": "An ninh chủ động.",
+      "b": "An ninh bao trùm.",
+      "c": "Kỷ luật thực thi.",
+      "d": "Tất cả các phương án trên."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 20,
+    "question": "Ngày 12/11/2025, Bộ Công an tổ chức Hội nghị sơ kết 01 năm lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở. Đồng chí cho biết, phát biểu tại Hội nghị, Thủ tướng chính phủ đã tặng lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở 14 chữ nào sau đây?",
+    "options": {
+      "a": "“Mưu trí; Trung thành; tận tụy; đoàn kết; kỷ cương; trách nhiệm; hiệu quả”.",
+      "b": "“Bản lĩnh; mưu trí; dũng cảm; mắt sáng, tai thính; nhân văn; vì dân”.",
+      "c": "“Chủ động; linh hoạt; kiên quyết; khôn khéo; gần dân; sát dân”.",
+      "d": "“Đoàn kết; dân chủ; kỷ luật; trách nhiệm; sáng tạo; phát triển; nhân văn”. "
+    },
+    "answer": "b"
+  },
+  {
+    "id": 21,
+    "question": "Đồng chí cho biết Báo cáo chính trị Đại hội XIV nêu xây dựng lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở như thế nào?",
+    "options": {
+      "a": "Chính quy, tinh nhuệ.",
+      "b": "Chuyên nghiệp.",
+      "c": "Vững mạnh.",
+      "d": "Kỷ cương, trách nhiệm."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 22,
+    "question": "Đồng chí cho biết theo Chương trình hành động của Ban chấp hành Trung ương Đảng, thực hiện nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, xây dựng lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở theo định hướng nào?",
+    "options": {
+      "a": "Chính quy, tinh nhuệ, từng bước hiện đại.",
+      "b": "Vững mạnh, rộng khắp.",
+      "c": "Đoàn kết, kỷ cương, trách nhiệm.",
+      "d": "Chủ động, linh hoạt, hiệu quả."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 23,
+    "question": "Đồng chí cho biết Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở được thông qua vào ngày, tháng, năm nào?",
+    "options": {
+      "a": "Ngày 25/11/2023.",
+      "b": "Ngày 26/11/2023.",
+      "c": "Ngày 27/11/2023.",
+      "d": "Ngày 28/11/2023."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 24,
+    "question": "Đồng chí cho biết Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở có hiệu lực thi hành khi nào?",
+    "options": {
+      "a": "Ngày 01/6/2024.",
+      "b": "Ngày 01/7/2024.",
+      "c": "Ngày 01/8/2024.",
+      "d": "Ngày 01/9/2024."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 25,
+    "question": "Đồng chí cho biết vị trí, chức năng của lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở là gì theo quy định của Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở là lực lượng do chính quyền địa phương thành lập trên cơ sở tự nguyện của người dân để hỗ trợ Công an xã, phường, thị trấn giúp Ủy ban nhân dân cùng cấp trong bảo vệ an ninh, trật tự và xây dựng phong trào toàn dân bảo vệ an ninh Tổ quốc.",
+      "b": "Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở là một trong những lực lượng quần chúng, được bố trí ở thôn, tổ dân phố, làm nòng cốt hỗ trợ Công an cấp xã giúp Ủy ban nhân dân cùng cấp trong bảo vệ an ninh, trật tự và xây dựng phong trào toàn dân bảo vệ an ninh Tổ quốc.",
+      "c": "Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở là lực lượng quần chúng tự nguyện, được chính quyền địa phương thành lập, hoạt động tại thôn, tổ dân phố, phường, xã, hỗ trợ Công an cấp xã nắm tình hình, ngăn chặn vi phạm, tuần tra và bảo vệ an ninh, trật tự, an toàn xã hội.",
+      "d": "Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở là lực lượng quần chúng được tổ chức tại địa bàn dân cư (xã, phường, thị trấn, thôn, tổ dân phố) nhằm hỗ trợ cơ quan công an trong việc giữ gìn an ninh, trật tự."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 26,
+    "question": "Đồng chí cho biết đâu không phải là nguyên tắc hoạt động của lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Tuân thủ Hiến pháp và pháp luật; bảo vệ, bảo đảm quyền con người, quyền công dân; bảo vệ lợi ích của Nhà nước, quyền và lợi ích hợp pháp của tổ chức, cá nhân; dựa vào Nhân dân và chịu sự giám sát của Nhân dân.",
+      "b": "Chịu sự lãnh đạo toàn diện của cấp ủy Đảng, sự quản lý của Ủy ban nhân dân cấp xã; sự hướng dẫn, phân công, kiểm tra của Công an cấp xã trong thực hiện nhiệm vụ theo quy định của Luật này.",
+      "c": "Đáp ứng yêu cầu bảo vệ an ninh, trật tự; phù hợp với điều kiện kinh tế - xã hội của từng địa phương.",
+      "d": "Tuân thủ quy định của Luật Công an nhân dân và các văn bản quy phạm pháp luật có liên quan."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 27,
+    "question": "Đồng chí cho biết theo quy định hiện hành, ai là người có thẩm quyền công nhận Tổ trưởng, Tổ phó Tổ bảo vệ an ninh, trật tự?",
+    "options": {
+      "a": "Trưởng Công an cấp xã.",
+      "b": "Chủ tịch Ủy ban nhân dân cấp xã.",
+      "c": "Tổ trưởng tổ dân phố.",
+      "d": "Trưởng thôn."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 28,
+    "question": "Đồng chí cho biết đâu không phải là hành vi bị nghiêm cấm theo quy định của Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Làm lộ bí mật nhà nước, bí mật công tác, thông tin về an ninh, trật tự.",
+      "b": "Lợi dụng, lạm dụng nhiệm vụ bảo vệ an ninh, trật tự ở cơ sở để thực hiện hành vi vi phạm pháp luật, nhũng nhiễu, xâm phạm lợi ích của Nhà nước, quyền và lợi ích hợp pháp của tổ chức, cá nhân.",
+      "c": "Giả danh lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở.",
+      "d": "Xúc phạm, đe dọa, cản trở, chống đối lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở trong khi thực hiện nhiệm vụ."
+    },
+    "answer": "a"
+  },
+  {
+    "id": 29,
+    "question": "Đồng chí cho biết đâu không phải là nhiệm vụ của lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở theo quy định của Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Hỗ trợ xây dựng phong trào toàn dân bảo vệ an ninh Tổ quốc.",
+      "b": "Hỗ trợ phòng cháy, chữa cháy, cứu nạn, cứu hộ.",
+      "c": "Hỗ trợ quản lý hành chính về trật tự xã hội.",
+      "d": "Hỗ trợ hỏi cung bị can."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 30,
+    "question": "Đồng chí cho biết giấy tờ nào không thuộc thành phần hồ sơ tuyển chọn lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Đơn đề nghị tham gia lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở.",
+      "b": "Chứng nhận của cơ sở khám bệnh, chữa bệnh được thành lập, hoạt động theo quy định của pháp luật về việc có đủ sức khoẻ.",
+      "c": "Thẻ căn cước, giấy phép lái xe, hộ chiếu (nếu có).",
+      "d": "Bản khai sơ yếu lý lịch."
+    },
+    "answer": "c"
+  },
+   {
+    "id": 31,
+    "question": "Đồng chí cho biết độ tuổi tham gia lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở theo quy định của Luật Lực lượng bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Từ đủ 18 tuổi đến đủ 70 tuổi.",
+      "b": "Từ đủ 18 tuổi đến đủ 65 tuổi.",
+      "c": "Từ đủ 18 tuổi đến đủ 60 tuổi.",
+      "d": "Từ đủ 18 tuổi đến đủ 70 tuổi; trường hợp trên 70 tuổi mà bảo đảm sức khỏe thì Chủ tịch Ủy ban nhân dân cấp xã xem xét, quyết định trên cơ sở đề nghị của Công an cấp xã."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 32,
+    "question": "Đồng chí cho biết địa bàn phụ trách của Tổ bảo vệ an ninh, trật tự theo quy định của Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Là một hoặc một số thôn, tổ dân phố thuộc đơn vị hành chính cấp xã.",
+      "b": "Là một số địa bàn cơ sở thuộc đơn vị hành chính cấp xã.",
+      "c": "Là một số thôn, ấp thuộc địa bàn hành chính xã.",
+      "d": "Là các khu vực dân cư, thôn, tổ dân phố thuộc địa giới hành chính của xã, phường, đặc khu."
+    },
+    "answer": "a"
+  },
+  {
+    "id": 33,
+    "question": "Cơ quan có thẩm quyền quyết định số lượng Tổ bảo vệ an ninh, trật tự cần thành lập, số lượng thành viên Tổ bảo vệ an ninh, trật tự tại thôn, tổ dân phố thuộc phạm vi quản lý đến từng đơn vị hành chính cấp xã?",
+    "options": {
+      "a": "Bộ trưởng Bộ Công an.",
+      "b": "Uỷ ban nhân dân cấp tỉnh.",
+      "c": "Hội đồng nhân dân cấp tỉnh.",
+      "d": "Uỷ ban nhân dân cấp xã."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 34,
+    "question": "Cơ quan có thẩm quyền quy định tiêu chí thành lập Tổ bảo vệ an ninh, trật tự và tiêu chí về số lượng thành viên Tổ bảo vệ an ninh, trật tự trên địa bàn quản lý?",
+    "options": {
+      "a": "Bộ trưởng Bộ Công an.",
+      "b": "Uỷ ban nhân dân cấp tỉnh.",
+      "c": "Hội đồng nhân dân cấp tỉnh.",
+      "d": "Uỷ ban nhân dân cấp xã."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 35,
+    "question": "Đồng chí cho biết lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở được trang bị những loại công cụ hỗ trợ nào?",
+    "options": {
+      "a": "Dùi cui, áo giáp chống đâm, găng tay bắt dao.",
+      "b": "Dùi cui cao su, dùi cui kim loại, áo giáp chống đâm, găng tay bắt dao.",
+      "c": "Súng, dùi cui kim loại, áo giáp chống đâm, găng tay bắt dao.",
+      "d": "Tất cả các phương án trên."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 36,
+    "question": "Đồng chí cho biết lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở được hưởng những chế độ, chính sách gì?",
+    "options": {
+      "a": "Được hưởng tiền hỗ trợ thường xuyên hằng tháng, được hỗ trợ tiền đóng bảo hiểm xã hội tự nguyện, bảo hiểm y tế theo mức do Hội đồng nhân dân cấp tỉnh quyết định.",
+      "b": "Được hưởng lương hàng tháng, được hỗ trợ tiền đóng bảo hiểm xã hội tự nguyện, bảo hiểm y tế theo mức do Hội đồng nhân dân cấp tỉnh quyết định.",
+      "c": "Được hưởng tiền hỗ trợ thường xuyên hằng tháng, được hỗ trợ tiền đóng bảo hiểm xã hội tự nguyện, bảo hiểm y tế theo mức do Bộ Công an quyết định.",
+      "d": "Được hưởng tiền hỗ trợ thường xuyên hằng tháng, được hỗ trợ tiền đóng bảo hiểm xã hội tự nguyện, bảo hiểm y tế theo mức do Uỷ ban nhân dân cấp tỉnh quyết định."
+    },
+    "answer": "a"
+  },
+  {
+    "id": 37,
+    "question": "Đồng chí cho biết đâu không phải là trường hợp cho thôi tham gia lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở theo quy định của Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Có đơn xin thôi tham gia lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở.",
+      "b": "Không bảo đảm sức khỏe theo giấy chứng nhận của cơ sở khám bệnh, chữa bệnh được thành lập, hoạt động theo quy định của pháp luật.",
+      "c": "Không chấp hành nhiệm vụ được giao theo sự phân công, huy động của Công an cấp xã từ 01 lần mà không có lý do chính đáng, không hoàn thành nhiệm vụ hoặc lợi dụng, lạm dụng nhiệm vụ bảo vệ an ninh, trật tự ở cơ sở để thực hiện hành vi vi phạm pháp luật và đã bị Công an cấp xã nhắc nhở bằng văn bản từ 01 lần.",
+      "d": "Vi phạm pháp luật hình sự đã có quyết định khởi tố bị can hoặc bị áp dụng biện pháp ngăn chặn theo quy định của pháp luật về tố tụng hình sự; bị áp dụng biện pháp xử lý hành chính."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 38,
+    "question": "Đồng chí cho biết tổ chức của lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở được bố trí như thế nào theo quy định của Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở được bố trí thành Tổ bảo vệ an ninh, trật tự.",
+      "b": "Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở được bố trí thành Tổ An ninh, trật tự.",
+      "c": "Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở được bố trí thành Tổ bảo đảm an ninh, trật tự.",
+      "d": "Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở được bố trí thành Cụm bảo vệ an ninh, trật tự."
+    },
+    "answer": "a"
+  },
+  {
+    "id": 39,
+    "question": "Đồng chí cho biết lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở được huấn luyện, bồi dưỡng về chính trị, pháp luật, nghiệp vụ, tham gia diễn tập, hội thi theo quy định của cơ quan nào?",
+    "options": {
+      "a": "Ủy ban nhân dân cấp xã.",
+      "b": "Ủy ban nhân dân cấp tỉnh.",
+      "c": "Mặt trận Tổ quốc Việt Nam.",
+      "d": "Bộ Công an."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 40,
+    "question": "Đồng chí cho biết quy định nào về trang phục, giấy chứng nhận, trang bị của lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở là chính xác?",
+    "options": {
+      "a": "Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở được trang bị, sử dụng trang phục, huy hiệu, phù hiệu, biển hiệu, giấy chứng nhận, phương tiện, thiết bị do Ủy ban nhân dân thiết kế.",
+      "b": "Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở được trang bị, sử dụng trang phục, huy hiệu, phù hiệu, biển hiệu, giấy chứng nhận, phương tiện, thiết bị cần thiết để thực hiện nhiệm vụ.",
+      "c": "Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở được trang bị, sử dụng trang phục, huy hiệu, phù hiệu, biển hiệu, giấy chứng nhận, phương tiện, thiết bị để tham gia các hoạt động xã hội.",
+      "d": "Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở được trang bị, sử dụng trang phục, huy hiệu, phù hiệu, biển hiệu, giấy chứng nhận, phương tiện, thiết bị theo nhu cầu cá nhân."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 41,
+    "question": "Đồng chí cho biết trường hợp nào cần điều chỉnh số lượng thành viên, số lượng Tổ bảo vệ an ninh, trật tự?",
+    "options": {
+      "a": "Do sáp nhập đơn vị hành chính cấp xã.",
+      "b": "Do yêu cầu bảo đảm an ninh, quốc phòng tại địa phương.",
+      "c": "Do yêu cầu bảo đảm an ninh, trật tự hoặc thành lập, giải thể, nhập, chia thôn, tổ dân phố.",
+      "d": "Do yêu cầu của Công an cấp xã."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 42,
+    "question": "Đồng chí cho biết đâu là thiết bị nằm trong danh mục phương tiện, thiết bị cho lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Giường cá nhân.",
+      "b": "Tủ đựng tài liệu, đựng công cụ hỗ trợ và phục vụ công việc.",
+      "c": "Bàn làm việc cá nhân.",
+      "d": "Cả 3 loại thiết bị trên."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 43,
+    "question": "Đồng chí cho biết người tham gia lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở chưa tham gia bảo hiểm y tế không được hưởng chi phí khám bệnh, chữa bệnh nếu bị ốm đau, bị tai nạn, bị thương thuộc trường hợp nào sau đây?",
+    "options": {
+      "a": "Bị ốm đau.",
+      "b": "Bị tai nạn.",
+      "c": "Tai nạn do sử dụng rượu, bia, sử dụng chất ma túy, chất hướng thần, tiền chất ma túy hoặc chất gây nghiện khác theo quy định của pháp luật.",
+      "d": "Bị thương."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 44,
+    "question": "Đồng chí cho biết công dân được xét tuyển để đề nghị công nhận là Tổ viên Tổ bảo vệ an ninh, trật tự khi được bao nhiêu phần trăm số thành viên Hội đồng xét tuyển có mặt dự họp biểu quyết hoặc bỏ phiếu kín nhất trí?",
+    "options": {
+      "a": "20%",
+      "b": "50%",
+      "c": "Trên 50%",
+      "d": "30%"
+    },
+    "answer": "c"
+  },
+  {
+    "id": 45,
+    "question": "Đồng chí cho biết lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở có bao nhiêu nhóm nhiệm vụ theo quy định tại Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở.",
+    "options": {
+      "a": "5 nhóm nhiệm vụ.",
+      "b": "6 nhóm nhiệm vụ.",
+      "c": "7 nhóm nhiệm vụ.",
+      "d": "8 nhóm nhiệm vụ."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 46,
+    "question": "Đồng chí cho biết lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở được sử dụng biển hiệu, giấy chứng nhận khi nào?",
+    "options": {
+      "a": "Khi tham gia lao động sản xuất.",
+      "b": "Khi thực hiện nhiệm vụ.",
+      "c": "Khi tham gia biểu diễn văn hóa, văn nghệ.",
+      "d": "Tất cả trường hợp trên."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 47,
+    "question": "Đồng chí cho biết áo giáp chống đâm có thể được trang bị theo tỷ lệ bao nhiêu phần trăm quân số của 01 tổ bảo vệ an ninh, trật tự?",
+    "options": {
+      "a": "100% quân số.",
+      "b": "70% quân số.",
+      "c": "50% quân số.",
+      "d": "30% quân số."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 48,
+    "question": "Đồng chí cho biết dùi cui kim loại có thể được trang bị theo tỷ lệ bao nhiêu phần trăm quân số của 01 tổ bảo vệ an ninh, trật tự?",
+    "options": {
+      "a": "90% quân số.",
+      "b": "70% quân số.",
+      "c": "50% quân số.",
+      "d": "30% quân số."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 49,
+    "question": "Đồng chí cho biết thẩm quyền cho thôi tham gia lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở là ai trong 4 người sau đây?",
+    "options": {
+      "a": "Bí thư Đảng ủy cấp xã.",
+      "b": "Trưởng Công an cấp xã.",
+      "c": "Chủ tịch Ủy ban nhân dân cấp xã.",
+      "d": "Giám đốc Công an cấp tỉnh."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 50,
+    "question": "Đồng chí cho biết nắm tình hình về an ninh, trật tự của lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở có vai trò nào sau đây?",
+    "options": {
+      "a": "Giúp chủ động phòng ngừa, phát hiện, hóa giải nguyên nhân, điều kiện nảy sinh tội phạm hoặc dấu hiệu phát sinh vụ việc phức tạp về an ninh, trật tự.",
+      "b": "Góp phần nâng cao hiệu quả nhiệm vụ bảo vệ an ninh, trật tự, giúp lực lượng tham gia bảo vệ an ninh, trật tự tham mưu cho Công an cấp xã có những nhận định, đánh giá, kết luận chính xác vốn có liên quan đến an ninh, trật tự.",
+      "c": "Cung cấp thông tin để Công an cấp xã tham mưu với cấp ủy, chính quyền triển khai thực hiện hiệu quả quan điểm, chủ trương của Đảng, chính sách, pháp luật của Nhà nước trên các lĩnh vực của đời sống xã hội.",
+      "d": "Cả 3 đáp án trên."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 51,
+    "question": "Đồng chí cho biết lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở hỗ trợ Công an cấp xã nắm tình hình vi phạm pháp luật về những nội dung gì là đầy đủ nhất theo quy định của Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Nắm tình hình vi phạm pháp luật về an ninh, trật tự, phòng cháy, chữa cháy.",
+      "b": "Nắm tình hình vi phạm pháp luật về thiên tai, dịch bệnh.",
+      "c": "Nắm tình hình vi phạm pháp luật về an ninh, trật tự, tệ nạn xã hội, bạo lực gia đình trên địa bàn phụ trách.",
+      "d": "Nắm tình hình vi phạm pháp luật về trật tự, an toàn giao thông."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 52,
+    "question": "Đồng chí cho biết khi phát hiện, tiếp nhận thông tin vi phạm pháp luật về an ninh, trật tự, tệ nạn xã hội, bạo lực gia đình trên địa bàn phụ trách, lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở cần phải làm gì?",
+    "options": {
+      "a": "Báo ngay cho Công an cấp xã; có mặt tại nơi xảy ra vụ việc để thực hiện nhiệm vụ theo yêu cầu, hướng dẫn của Công an cấp xã; kịp thời ngăn chặn hành vi xâm phạm, đe dọa xâm phạm tính mạng, sức khỏe, tài sản của cá nhân, tài sản của cơ quan, tổ chức trong điều kiện, khả năng cho phép và theo quy định pháp luật.",
+      "b": "Kêu gọi những người xung quanh hỗ trợ, giúp đỡ.",
+      "c": "Báo cáo Chủ tịch Uỷ ban nhân dân cấp xã để có hướng xử lý.",
+      "d": "Vận động quần chúng nhân dân tham gia giải quyết vụ việc."
+    },
+    "answer": "a"
+  },
+  {
+    "id": 53,
+    "question": "Đồng chí cho biết mục tiêu nắm tình hình an ninh, trật tự của lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở là?",
+    "options": {
+      "a": "Phát hiện và xử lý vi phạm hành chính.",
+      "b": "Kịp thời nắm bắt các thông tin, tài liệu có liên quan đến công tác bảo đảm an ninh, trật tự.",
+      "c": "Thu thập thông tin phục vụ phát triển kinh tế - xã hội.",
+      "d": "Quản lý nhân khẩu."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 54,
+    "question": "Đồng chí cho biết trong các yêu cầu sau, đâu là yêu cầu không đúng trong nắm tình hình về an ninh, trật tự của lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Chính xác, cụ thể.",
+      "b": "Thường xuyên, liên tục, kịp thời.",
+      "c": "Bí mật.",
+      "d": "Có trọng tâm, trọng điểm."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 55,
+    "question": "Đồng chí cho biết nguồn thông tin quan trọng, trực tiếp và thường xuyên nhất trong nắm tình hình an ninh, trật tự ở cơ sở là?",
+    "options": {
+      "a": "Báo chí.",
+      "b": "Nhân dân tại địa bàn.",
+      "c": "Internet.",
+      "d": "Hồ sơ lưu trữ."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 56,
+    "question": "Đồng chí cho biết lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở thu thập thông tin, nắm tình hình theo các nội dung trọng tâm nào sau đây?",
+    "options": {
+      "a": "Đặc điểm địa lý, dân cư trên địa bàn để hỗ trợ, phục vụ công tác bảo đảm an ninh, trật tự.",
+      "b": "Tình hình thực hiện phong trào toàn dân bảo vệ an ninh Tổ quốc trên địa bàn.",
+      "c": "Thông tin, tình hình phục vụ công tác quản lý hành chính về trật tự, xã hội trên địa bàn.",
+      "d": "Tất cả các nội dung trên."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 57,
+    "question": "Đồng chí cho biết trường hợp phát hiện vụ việc vi phạm pháp luật về an ninh, trật tự, lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở có mặt tại nơi xảy ra vụ việc để làm gì?",
+    "options": {
+      "a": "Để tiến hành điều tra, xác minh.",
+      "b": "Để giải thích cho người dân hiểu và tự giác chấp hành.",
+      "c": "Để đề nghị nhận lời khai ban đầu của nhân chứng.",
+      "d": "Để thực hiện nhiệm vụ theo yêu cầu, hướng dẫn của Công an cấp xã."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 58,
+    "question": "Đồng chí cho biết các yếu tố chính của phong trào toàn dân bảo vệ an ninh Tổ quốc?",
+    "options": {
+      "a": "Tự giác, tự nguyện trên cơ sở sự tham gia đông đảo của Nhân dân.",
+      "b": "Phát huy sự tự giác, tự nguyện của đông đảo Nhân dân.",
+      "c": "Tự giác, có tổ chức và sự tham gia đông đảo của Nhân dân.",
+      "d": "Sự tổ chức của các cơ quan chuyên môn quy tụ đông đảo của Nhân dân tham gia."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 59,
+    "question": "Đồng chí cho biết nội dung nào sau đây không thuộc nhiệm vụ tuyên truyền của lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Vận động giao nộp vũ khí, vật liệu nổ trái phép.",
+      "b": "Phổ biến kiến thức về phòng, chống bạo lực gia đình.",
+      "c": "Vận động người dân tham gia phòng cháy, chữa cháy.",
+      "d": "Tuyên truyền về việc lựa chọn ứng cử viên đại biểu Quốc hội."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 60,
+    "question": "Đồng chí cho biết công tác tuyên truyền “Gương người tốt, việc tốt” trong lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở có tác dụng gì?",
+    "options": {
+      "a": "Nhằm lan tỏa hành động tích cực, tạo động lực học tập, làm theo, nâng cao ý thức Nhân dân góp phần bảo đảm an ninh, trật tự.",
+      "b": "Để quảng bá thành tích cá nhân.",
+      "c": "Nhằm đánh giá, xếp loại kết quả hoạt động của tập thể, cá nhân.",
+      "d": "Để gây áp lực cho những người khác."
+    },
+    "answer": "a"
+  },
+  {
+    "id": 61,
+    "question": "Đồng chí cho biết phương châm nào sau đây là chính xác nhất khi tham gia thực hiện xây dựng phong trào toàn dân bảo vệ an ninh Tổ quốc?",
+    "options": {
+      "a": "Phương châm “Dân biết, dân bàn, dân làm, dân kiểm tra”.",
+      "b": "Phương châm “Dân biết, dân bàn, dân làm, dân kiểm tra, dân giám sát, dân thụ hưởng”.",
+      "c": "Phương châm “Dân biết, dân bàn, dân làm, dân kiểm tra, dân giám sát, dân hưởng thụ”.",
+      "d": "Phương châm “Lúc dân cần, lúc dân khó có Công an”."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 62,
+    "question": "Đồng chí cho biết đâu không phải là mô hình trong phong trào toàn dân bảo vệ an ninh Tổ quốc?",
+    "options": {
+      "a": "Xã không ma túy.",
+      "b": "Bản làng không ma túy.",
+      "c": "Xã không có tội phạm ma túy.",
+      "d": "Thế giới không ma túy."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 63,
+    "question": "Đồng chí cho biết lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở cần làm gì trong việc hỗ trợ xây dựng phong trào tại khu dân cư?",
+    "options": {
+      "a": "Đứng ra thành lập các hội, nhóm để người dân tham gia.",
+      "b": "Là lực lượng nòng cốt trong phong trào, trực tiếp tuyên truyền, vận động nhân dân chấp hành pháp luật và tham gia các hoạt động bảo vệ an ninh, trật tự.",
+      "c": "Chỉ tham gia khi có yêu cầu, kế hoạch của lực lượng Công an chính quy.",
+      "d": "Thay mặt chính quyền giải quyết các vụ án hình sự."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 64,
+    "question": "Đồng chí cho biết theo quy định, lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở hỗ trợ lực lượng nào trong công tác phòng cháy, chữa cháy và cứu nạn, cứu hộ?",
+    "options": {
+      "a": "Cảnh sát giao thông.",
+      "b": "Dân quân tự vệ.",
+      "c": "Lực lượng dân phòng.",
+      "d": "Bảo vệ dân phố."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 65,
+    "question": "Đồng chí cho biết khi có cháy xảy ra, lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở phải làm gì?",
+    "options": {
+      "a": "Chờ lực lượng chuyên nghiệp đến.",
+      "b": "Rời khỏi hiện trường.",
+      "c": "Triển khai chữa cháy theo phương án đã định.",
+      "d": "Báo chí đưa tin."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 66,
+    "question": "Đồng chí cho biết nguyên tắc quan trọng nhất trong hoạt động phòng cháy, chữa cháy và cứu nạn, cứu hộ là gì?",
+    "options": {
+      "a": "Chỉ tập trung chữa cháy khi có sự cố xảy ra.",
+      "b": "Lấy phòng ngừa là chính, chủ động hạn chế đám cháy và thiệt hại.",
+      "c": "Chỉ sử dụng lực lượng chuyên nghiệp để xử lý cháy.",
+      "d": "Không cần chuẩn bị phương tiện trước khi xảy ra cháy."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 67,
+    "question": "Đồng chí cho biết quy định nào chính xác nhất về địa bàn mà lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở hỗ trợ phòng cháy, chữa cháy, cứu nạn, cứu hộ?",
+    "options": {
+      "a": "Địa bàn là khu vực dân cư nơi cư trú.",
+      "b": "Địa bàn phụ trách hoặc địa bàn khác khi được điều động.",
+      "c": "Địa bàn theo hướng dẫn của Công an cấp xã.",
+      "d": "Địa bàn nào xảy ra cháy, nổ, sự cố, tai nạn."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 68,
+    "question": "Đồng chí cho biết nội dung hỗ trợ Công an cấp xã trong kiểm tra an toàn phòng cháy, chữa cháy tại thôn, tổ dân phố của lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở bao gồm những vấn đề gì?",
+    "options": {
+      "a": "Kiểm tra thu nhập hộ gia đình.",
+      "b": "Kiểm tra việc sử dụng điện, nguồn lửa.",
+      "c": "Kiểm tra nhân khẩu.",
+      "d": "Kiểm tra hộ khẩu."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 69,
+    "question": "Đồng chí cho biết trong các hoạt động sau, đâu là nhiệm vụ hỗ trợ Công an cấp xã quản lý hành chính về trật tự xã hội của lực lượng tham gia bảo vệ an ninh, trật tự?",
+    "options": {
+      "a": "Tự xử phạt hành chính người vi phạm.",
+      "b": "Hỗ trợ ghi chép thông tin theo giấy tờ do công dân cung cấp.",
+      "c": "Tự ý tạm giữ người không có giấy tờ.",
+      "d": "Ban hành quyết định xử lý vi phạm."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 70,
+    "question": "Đồng chí cho biết nếu công dân không chấp hành việc về trụ sở Công an để xác minh, lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở cần làm gì?",
+    "options": {
+      "a": "Để công dân rời đi.",
+      "b": "Tự ý áp dụng biện pháp cưỡng chế.",
+      "c": "Hỗ trợ cán bộ Công an cấp xã yêu cầu công dân về trụ sở để xác minh.",
+      "d": "Lập biên bản xử phạt ngay."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 71,
+    "question": "Đồng chí cho biết theo quy định của Luật Quản lý, sử dụng vũ khí, vật liệu nổ và công cụ hỗ trợ, có bao nhiêu nguyên tắc quản lý, sử dụng?",
+    "options": {
+      "a": "6 nguyên tắc.",
+      "b": "7 nguyên tắc.",
+      "c": "8 nguyên tắc.",
+      "d": "9 nguyên tắc."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 72,
+    "question": "Đồng chí cho biết loại nào sau đây không phải là công cụ hỗ trợ được trang bị cho lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở?",
+    "options": {
+      "a": "Dùi cui cao su.",
+      "b": "Dùi cui kim loại.",
+      "c": "Áo giáp chống đâm.",
+      "d": "Dùi cui điện."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 73,
+    "question": "Đồng chí cho biết người được giao sử dụng công cụ hỗ trợ cần đáp ứng yêu cầu nào về đào tạo?",
+    "options": {
+      "a": "Không cần đào tạo.",
+      "b": "Đã qua đào tạo, huấn luyện và được cấp chứng nhận.",
+      "c": "Tự học là đủ.",
+      "d": "Chỉ cần hướng dẫn miệng."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 74,
+    "question": "Đồng chí cho biết chức danh có thẩm quyền áp dụng biện pháp giáo dục tại xã, phường, đặc khu?",
+    "options": {
+      "a": "Cảnh sát khu vực.",
+      "b": "Trưởng Công an cấp xã.",
+      "c": "Chủ tịch Ủy ban nhân dân cấp xã.",
+      "d": "Giám đốc Công an cấp tỉnh."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 75,
+    "question": "Đồng chí cho biết quan hệ công tác của lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở trong hỗ trợ công tác vận động, giáo dục người đã có hành vi vi phạm pháp luật đang cư trú tại cơ sở được quy định như thế nào?",
+    "options": {
+      "a": "Chịu lãnh đạo toàn diện của đảng ủy cấp xã.",
+      "b": "Sự giám sát của hội đồng nhân dân cấp xã, sự quản lý, điều hành của Ủy ban nhân dân cấp xã.",
+      "c": "Sự chỉ đạo, hướng dẫn về chuyên môn nghiệp vụ của Công an cấp xã.",
+      "d": "Tất cả các đáp án trên."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 76,
+    "question": "Đồng chí cho biết lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở cần nắm những thông tin gì về người đã có hành vi vi phạm pháp luật đang cư trú ở cơ sở?",
+    "options": {
+      "a": "Số lượng, biến động tăng giảm.",
+      "b": "Biết mặt, biết tên, tuổi, đặc điểm tâm lý, hoàn cảnh cư trú.",
+      "c": "Số lượng, biến động tăng giảm; biết mặt, biết tên, tuổi, đặc điểm tâm lý, hoàn cảnh cư trú.",
+      "d": "Số lượng, biến động tăng giảm; biết mặt, biết tên, tuổi, đặc điểm tâm lý, hoàn cảnh cư trú, lai lịch nhân thân của từng người."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 77,
+    "question": "Đồng chí cho biết đối với trường hợp bạo lực gia đình thì lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở cần nắm những thông tin gì?",
+    "options": {
+      "a": "Thông tin về người có hành vi bạo lực gia đình, thông tin về nạn nhân của bạo lực gia đình.",
+      "b": "Các hành vi vi bạo lực gia đình mà đối tượng đã và đang thực hiện.",
+      "c": "Dư luận quần chúng trên địa bàn về vấn đề bạo lực gia đình.",
+      "d": "Tất cả các đáp án trên."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 78,
+    "question": "Đồng chí cho biết hoạt động hỗ trợ công tác nắm thông tin nhân khẩu của lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở thông qua các cách thức nào?",
+    "options": {
+      "a": "Hỗ trợ kiểm tra với Công an cấp xã.",
+      "b": "Thông qua các buổi sinh hoạt, họp thôn, tổ dân phố.",
+      "c": "Thông qua các công tác khác do Ủy ban nhân dân cấp xã yêu cầu.",
+      "d": "Tất cả các đáp án trên."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 79,
+    "question": "Đồng chí cho biết các hình thức tiến hành tuyên truyền, vận động của lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở đối với người đã có hành vi vi phạm pháp luật đang cư trú tại địa bàn?",
+    "options": {
+      "a": "Tuyên truyền, vận động cá biệt.",
+      "b": "Tuyên truyền, vận động tập trung.",
+      "c": "Tuyên truyền, vận động rộng rãi.",
+      "d": "Tất cả các đáp án trên."
+    },
+    "answer": "d"
+  },
+  {
+    "id": 80,
+    "question": "Đồng chí cho biết nhiệm vụ chính của lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở trong hỗ trợ bảo đảm trật tự, an toàn giao thông là gì?",
+    "options": {
+      "a": "Xử phạt vi phạm hành chính.",
+      "b": "Hỗ trợ tham gia bảo đảm TTATGT.",
+      "c": "Cấp giấy phép lái xe.",
+      "d": "Đăng kiểm phương tiện."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 81,
+    "question": "Đồng chí cho biết lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở khi phát hiện vụ tai nạn giao thông cần thực hiện bước nào trước tiên?",
+    "options": {
+      "a": "Lập biên bản hiện trường.",
+      "b": "Bảo vệ hiện trường và cấp cứu người bị nạn.",
+      "c": "Gọi báo chí.",
+      "d": "Tự di chuyển phương tiện bị nạn."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 82,
+    "question": "Đồng chí cho biết khi được giao nhiệm vụ hỗ trợ điều tiết giao thông, lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở cần tuân thủ nguyên tắc nào?",
+    "options": {
+      "a": "Tùy tình huống cá nhân.",
+      "b": "Thực hiện theo cảm tính.",
+      "c": "Theo hướng dẫn, phân công của lực lượng Công an.",
+      "d": "Theo yêu cầu người dân."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 83,
+    "question": "Đồng chí cho biết khi gặp ùn tắc giao thông xảy ra trên địa bàn, lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở cần làm gì?",
+    "options": {
+      "a": "Đứng nhìn.",
+      "b": "Tự ý phân luồng tùy ý.",
+      "c": "Hỗ trợ phân luồng theo hướng dẫn của lực lượng Công an.",
+      "d": "Rời khỏi hiện trường."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 84,
+    "question": "Đồng chí cho biết nên thực hiện điều gì trong quá trình hỗ trợ lực lượng Công an thực hiện nhiệm vụ bảo đảm trật tự, an toàn giao thông trên địa bàn, gặp trường hợp có người vi phạm giao thông?",
+    "options": {
+      "a": "Tự tiến hành xử phạt người vi phạm.",
+      "b": "Báo cho lực lượng Công an để xử lý.",
+      "c": "Bỏ qua.",
+      "d": "Gây tranh cãi."
+    },
+    "answer": "b"
+  },
+  {
+    "id": 85,
+    "question": "Đồng chí cho biết khi làm nhiệm vụ hỗ trợ bảo đảm trật tự, an toàn giao thông, lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở không được làm gì?",
+    "options": {
+      "a": "Hỗ trợ điều tiết giao thông.",
+      "b": "Báo cáo lực lượng chức năng.",
+      "c": "Tự ý dừng xe và kiểm tra giấy tờ liên quan đến phương tiện vi phạm.",
+      "d": "Hướng dẫn người tham gia giao thông."
+    },
+    "answer": "c"
+  },
+  {
+    "id": 86,
+    "question": "Đồng chí cho biết lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở cần làm gì khi chứng kiến vụ va chạm giao thông giữa 02 phương tiện?",
+    "options": {
+      "a": "Mặc kệ để các bên tự giải quyết.",
+      "b": "Hỗ trợ các bên hòa giải nhanh chóng tránh gây ùn tắc giao thông và báo ngay Công an cấp xã.",
+      "c": "Bỏ đi.",
+      "d": "Ghi chụp lại hình ảnh."
+    },
+    "answer": "b"
+  }
+]

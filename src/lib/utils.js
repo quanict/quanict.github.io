@@ -1,5 +1,7 @@
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+// import { type ClassValue, clsx } from "clsx";
+// import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -66,3 +68,9 @@ export function markdownParser(markdown) {
 
   return html.trim()
 }
+
+
+
+// export function cn(...inputs: ClassValue[]) {
+//   return twMerge(clsx(inputs));
+// }
