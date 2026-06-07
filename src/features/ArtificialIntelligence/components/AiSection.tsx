@@ -36,10 +36,19 @@ export default function AiSection() {
                                           return <div key={index} className="border border-gray-400 p-3 bg-gray-500">
                                                 <h4>{item.name}</h4>
                                                 <div>{item.type}</div>
-                                                {item.tags && item.tags.map((tag, i) => <PillBorderedBadge key={`${index}-${i}`}>{tag}</PillBorderedBadge>)}
+
+
+                                                {/* {"tags" in item &&
+                                                      item.tags?.map((tag, i) => (
+                                                            <PillBorderedBadge key={`${index}-${i}`}>
+                                                                  {tag}
+                                                            </PillBorderedBadge>
+                                                      ))} */}
+                                                {"url" in item  && 
                                                 <div>
                                                       {item.url && <a href={item.url}>{item.url}</a>}
                                                 </div>
+                                          }
                                                 <div>{item.short_desc}</div>
                                           </div>
                                     })}
