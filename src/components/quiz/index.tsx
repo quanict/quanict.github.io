@@ -1,6 +1,12 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type KeyboardEvent,
+} from 'react';
 import { Button } from './components/button';
 import { Card, CardContent } from './components/card';
 import { Badge } from './components/badge';
@@ -15,13 +21,54 @@ type Question = {
 
 interface QuizProps {
   questions: Question[];
-showCorrectAnswers?: boolean;
+  showCorrectAnswers?: boolean;
+}
 
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function highlightText(text: string, query: string) {
+  const trimmed = query.trim();
+  if (!trimmed) return text;
+
+  const parts = text.split(
+    new RegExp(`(${escapeRegExp(trimmed)})`, 'gi')
+  );
+
+  return parts.map((part, i) =>
+    i % 2 === 1 ? (
+      <mark
+        key={i}
+        className="rounded bg-yellow-200 px-0.5 text-inherit"
+      >
+        {part}
+      </mark>
+    ) : (
+      <span key={i}>{part}</span>
+    )
+  );
+}
+
+function matchesSearch(
+  question: Question,
+  query: string
+) {
+  const normalized = query.trim().toLowerCase();
+  if (!normalized) return true;
+
+  if (question.question.toLowerCase().includes(normalized)) {
+    return true;
+  }
+
+  return Object.values(question.options).some((option) =>
+    option.toLowerCase().includes(normalized)
+  );
 }
 
 export default function Quiz({
   questions,
-showCorrectAnswers = false,
+  showCorrectAnswers = false,
 }: QuizProps) {
   const [answers, setAnswers] = useState<
     Record<number, string>
@@ -29,6 +76,33 @@ showCorrectAnswers = false,
 
   const [submitted, setSubmitted] =
     useState(false);
+
+  const [search, setSearch] = useState('');
+  const searchInputRef =
+    useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    searchInputRef.current?.focus();
+  }, []);
+
+  const filteredQuestions = useMemo(
+    () =>
+      questions
+        .map((q, index) => ({ q, index }))
+        .filter(({ q }) =>
+          matchesSearch(q, search)
+        ),
+    [questions, search]
+  );
+
+  const handleSearchKeyDown = (
+    event: KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key === 'Escape') {
+      setSearch('');
+      searchInputRef.current?.focus();
+    }
+  };
 
   const answeredCount =
     Object.keys(answers).length;
@@ -73,7 +147,41 @@ showCorrectAnswers = false,
         <div className="space-y-6">
           <Card>
             <CardContent className="p-6">
-              <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div className="relative">
+                <input
+                  ref={searchInputRef}
+                  type="search"
+                  value={search}
+                  onChange={(event) =>
+                    setSearch(event.target.value)
+                  }
+                  onKeyDown={handleSearchKeyDown}
+                  placeholder="Tìm kiếm câu hỏi hoặc đáp án..."
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pr-10 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                />
+                {search && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearch('');
+                      searchInputRef.current?.focus();
+                    }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-600"
+                    aria-label="Xóa tìm kiếm"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
+              {search.trim() && (
+                <p className="mt-2 text-sm text-slate-500">
+                  Tìm thấy {filteredQuestions.length}/
+                  {questions.length} câu
+                </p>
+              )}
+
+              <div className="mt-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
                   <h1 className="text-2xl font-bold">
                     Bài kiểm tra
@@ -98,7 +206,15 @@ showCorrectAnswers = false,
             </CardContent>
           </Card>
 
-          {questions.map((q, index) => {
+          {filteredQuestions.length === 0 ? (
+            <Card>
+              <CardContent className="p-6 text-center text-slate-500">
+                Không tìm thấy câu hỏi nào phù hợp với &quot;
+                {search.trim()}&quot;
+              </CardContent>
+            </Card>
+          ) : (
+            filteredQuestions.map(({ q, index }) => {
             const selected = answers[q.id];
 
             return (
@@ -114,7 +230,7 @@ showCorrectAnswers = false,
                     </h2>
 
                     <p className="mt-2 text-base">
-                      {q.question}
+                      {highlightText(q.question, search)}
                     </p>
                   </div>
 
@@ -188,7 +304,7 @@ showCorrectAnswers = false,
                               </div>
 
                               <span>
-                                {value}
+                                {highlightText(value, search)}
                               </span>
                             </div>
 
@@ -242,7 +358,8 @@ showCorrectAnswers = false,
                 </CardContent>
               </Card>
             );
-          })}
+          })
+          )}
 
           {!revealAnswers && (
             <Button
@@ -266,8 +383,8 @@ showCorrectAnswers = false,
               </h3>
 
               <div className="grid grid-cols-5 gap-2">
-                {questions.map(
-                  (q, index) => {
+                {filteredQuestions.map(
+                  ({ q, index }) => {
                     const answered =
                       answers[q.id] !==
                       undefined;

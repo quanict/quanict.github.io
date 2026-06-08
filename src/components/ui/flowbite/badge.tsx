@@ -1,7 +1,12 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-const PillBorderedBadge = React.forwardRef(
+interface PillBorderedBadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+  className?: string;
+  children?: React.ReactNode;
+}
+
+const PillBorderedBadge = React.forwardRef<HTMLSpanElement, PillBorderedBadgeProps>(
   ({ className, children, ...props }, ref) => {
     return (
       <span

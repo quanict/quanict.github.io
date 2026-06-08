@@ -38,12 +38,12 @@ export default function AiSection() {
                                                 <div>{item.type}</div>
 
 
-                                                {/* {"tags" in item &&
+                                                {"tags" in item &&
                                                       item.tags?.map((tag, i) => (
                                                             <PillBorderedBadge key={`${index}-${i}`}>
                                                                   {tag}
                                                             </PillBorderedBadge>
-                                                      ))} */}
+                                                      ))}
                                                 {"url" in item  && 
                                                 <div>
                                                       {item.url && <a href={item.url}>{item.url}</a>}
