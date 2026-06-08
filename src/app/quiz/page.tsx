@@ -6,8 +6,8 @@ export async function generateMetadata() {
   const t = await getTranslations("seo")
 
   return {
-    title: t('home'),
-    description: t('home_description'),
+    title: "Quiz - tìm hiểu pháp luật",
+    description: "Cuộc thi tìm hiểu Pháp luật của lực lượng tham gia bảo vệ an ninh trật tự cơ sở",
   }
 }
 
